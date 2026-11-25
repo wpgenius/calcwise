@@ -41,6 +41,7 @@ class CalculatorDefinitionsTest extends TestCase {
 			'sip'     => array( 'sip', array( 'monthlyAmount', 'annualRate', 'years' ), array( 'invested', 'returns', 'total' ) ),
 			'lumpsum' => array( 'lumpsum', array( 'amount', 'annualRate', 'years' ), array( 'invested', 'returns', 'total' ) ),
 			'swp'     => array( 'swp', array( 'investment', 'monthlyWithdrawal', 'annualRate', 'years' ), array( 'investment', 'totalWithdrawn', 'finalBalance' ) ),
+			'goal'    => array( 'goal', array( 'presentCost', 'currentSavings', 'inflationRate', 'annualRate', 'years' ), array( 'targetYear', 'futureCost', 'savingsFutureValue', 'monthlyInvestment' ) ),
 		);
 	}
 

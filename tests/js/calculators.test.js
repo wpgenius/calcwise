@@ -159,3 +159,80 @@ describe( 'depletedMessage', () => {
 		expect( depletedMessage( null, 'x' ) ).toBe( '' );
 	} );
 } );
+
+describe( 'Goal', () => {
+	const settings = { messages: { covered: 'Covered.' } };
+
+	it( 'matches the original calculator', async () => {
+		const spec = await specFor( 'goal', settings );
+		const result = spec.calculate(
+			{
+				presentCost: 1000000,
+				currentSavings: 0,
+				inflationRate: 6,
+				annualRate: 9,
+				years: 3,
+			},
+			calc
+		);
+		const shown = spec.results( result );
+
+		// Ara: ₹10,00,000 at 6% inflation for 3 years costs ₹11,91,016.
+		expect( Math.round( shown.futureCost ) ).toBe( 1191016 );
+		expect( shown.monthlyInvestment ).toBeGreaterThan( 0 );
+		expect( shown.targetYear ).toBe( new Date().getFullYear() + 3 );
+		expect( spec.message( result ) ).toBe( '' );
+	} );
+
+	it( 'accepts no savings at all', async () => {
+		const spec = await specFor( 'goal', settings );
+		const result = spec.calculate(
+			{
+				presentCost: 500000,
+				currentSavings: 0,
+				inflationRate: 0,
+				annualRate: 10,
+				years: 5,
+			},
+			calc
+		);
+
+		expect( result.savingsFutureValue ).toBe( 0 );
+		expect( result.monthlyInvestment ).toBeGreaterThan( 0 );
+	} );
+
+	it( 'never asks for a negative amount when savings cover the goal', async () => {
+		const spec = await specFor( 'goal', settings );
+		const result = spec.calculate(
+			{
+				presentCost: 100000,
+				currentSavings: 500000,
+				inflationRate: 6,
+				annualRate: 10,
+				years: 5,
+			},
+			calc
+		);
+
+		expect( spec.results( result ).monthlyInvestment ).toBe( 0 );
+		expect( spec.message( result ) ).toBe( 'Covered.' );
+	} );
+
+	it( 'charts the goal cost against what you will have', async () => {
+		const spec = await specFor( 'goal', settings );
+		const chart = spec.chart(
+			calc.goal( {
+				presentCost: 1000000,
+				currentSavings: 100000,
+				inflationRate: 6,
+				annualRate: 10,
+				years: 5,
+			} )
+		);
+
+		expect( chart.series ).toEqual( [ 'goalCost', 'total' ] );
+		expect( chart.fill ).toBe( false );
+		const last = chart.points.at( -1 );
+		expect( Math.round( last.total ) ).toBe( Math.round( last.goalCost ) );
+	} );
+} );
