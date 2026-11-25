@@ -60,6 +60,7 @@ final class Plugin {
 		// Everywhere: front end, admin, AJAX, REST, cron.
 		$parts = array(
 			Installer::class,
+			Assets::class,
 			Blocks\Blocks::class,
 		);
 
