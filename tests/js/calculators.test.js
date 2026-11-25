@@ -60,3 +60,31 @@ describe( 'SIP', () => {
 		);
 	} );
 } );
+
+describe( 'Lump sum', () => {
+	it( 'matches the reference values (yearly compounding)', async () => {
+		const spec = await specFor( 'lumpsum' );
+		const shown = spec.results(
+			spec.calculate( { amount: 25000, annualRate: 12, years: 10 }, calc )
+		);
+
+		expect( shown.invested ).toBe( 25000 );
+		expect( Math.round( shown.total ) ).toBe( 77646 );
+		expect( Math.round( shown.returns ) ).toBe( 52646 );
+	} );
+
+	it( 'charts every year, with distinct year labels for half years', async () => {
+		const spec = await specFor( 'lumpsum' );
+		const chart = spec.chart(
+			spec.calculate( { amount: 1000, annualRate: 1, years: 10.5 }, calc )
+		);
+		const { yearLabel } = await import( '../../src/runtime/mount' );
+		const labels = chart.points.map( ( point ) =>
+			yearLabel( point, 2026 )
+		);
+
+		expect( chart.series ).toEqual( [ 'invested', 'total' ] );
+		expect( new Set( labels ).size ).toBe( labels.length );
+		expect( labels.at( -1 ) ).toBe( '2037' );
+	} );
+} );

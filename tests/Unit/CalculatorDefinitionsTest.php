@@ -38,7 +38,8 @@ class CalculatorDefinitionsTest extends TestCase {
 	 */
 	public static function calculators() {
 		return array(
-			'sip' => array( 'sip', array( 'monthlyAmount', 'annualRate', 'years' ), array( 'invested', 'returns', 'total' ) ),
+			'sip'     => array( 'sip', array( 'monthlyAmount', 'annualRate', 'years' ), array( 'invested', 'returns', 'total' ) ),
+			'lumpsum' => array( 'lumpsum', array( 'amount', 'annualRate', 'years' ), array( 'invested', 'returns', 'total' ) ),
 		);
 	}
 
