@@ -2,12 +2,17 @@
  * CalcWise shared runtime.
  *
  * Loaded once per page (handle `calcwise-runtime`) before any calculator
- * script. It bundles Chart.js, so CalcWise never clashes with another plugin's
- * copy of Chart.js, and keeps a registry of calculator types.
+ * script. It bundles Chart.js (so CalcWise never clashes with another plugin's
+ * copy) and the financial-calculators library (formulas, number formatting,
+ * amounts in words: src/vendor/financial-calculators), and keeps a registry of
+ * calculator types.
  *
  * A calculator script (handle `calcwise-<type>`) registers itself:
  *
- *     window.calcwise.register( 'sip', ( element, settings, runtime ) => { … } );
+ *     window.calcwise.register( 'sip', ( element, settings, runtime ) => {
+ *         const result = runtime.calc.sip( { monthlyAmount: 25000, annualRate: 12, years: 10 } );
+ *         runtime.calc.formatCurrency( result.total ); // "₹58,08,477"
+ *     } );
  *
  * Every element `.calcwise-calculator[data-calcwise-type="sip"]` on the page is
  * then started once, with the settings from its own `data-calcwise-settings`
@@ -32,6 +37,7 @@ import {
 	PointElement,
 	Tooltip,
 } from 'chart.js';
+import * as calc from '../vendor/financial-calculators/financial-calculators.esm.js';
 
 Chart.register(
 	ArcElement,
@@ -100,6 +106,6 @@ function register( type, start ) {
 	}
 }
 
-const runtime = Object.freeze( { Chart, init, register } );
+const runtime = Object.freeze( { Chart, calc, init, register } );
 
 window.calcwise = runtime;
