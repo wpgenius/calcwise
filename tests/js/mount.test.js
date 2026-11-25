@@ -243,3 +243,57 @@ describe( 'formatting', () => {
 		expect( yearLabel( { month: 126 }, 2026 ) ).toBe( '2037' );
 	} );
 } );
+
+describe( 'separate table', () => {
+	it( 'uses spec.table and its column labels when given', () => {
+		const element = markup( 'a' );
+		const settings = JSON.parse( element.dataset.calcwiseSettings );
+		settings.table = { balance: 'Balance left' };
+		mount(
+			element,
+			settings,
+			{ calc, Chart: FakeChart },
+			{
+				...spec,
+				table: () => ( {
+					points: [
+						{ month: 0, balance: 900 },
+						{ month: 12, balance: 0 },
+					],
+					series: [ 'balance' ],
+				} ),
+			}
+		);
+
+		const headers = [ ...element.querySelectorAll( 'thead th' ) ].map(
+			( th ) => th.textContent
+		);
+		expect( headers ).toEqual( [ 'Year', 'Balance left' ] );
+		expect( element.querySelectorAll( 'tbody tr' ) ).toHaveLength( 2 );
+	} );
+
+	it( 'passes half-doughnut options to the chart', () => {
+		const element = markup( 'a' );
+		mount(
+			element,
+			JSON.parse( element.dataset.calcwiseSettings ),
+			{ calc, Chart: FakeChart },
+			{
+				...spec,
+				chart: () => ( {
+					type: 'doughnut',
+					series: [ 'invested', 'total' ],
+					values: [ 1, 2 ],
+					circumference: 180,
+					rotation: -90,
+				} ),
+			}
+		);
+
+		const chart = charts.at( -1 );
+		expect( chart.config.type ).toBe( 'doughnut' );
+		expect( chart.config.options.circumference ).toBe( 180 );
+		expect( chart.config.options.rotation ).toBe( -90 );
+		expect( chart.data.datasets[ 0 ].data ).toEqual( [ 1, 2 ] );
+	} );
+} );

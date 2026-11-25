@@ -15,6 +15,9 @@
  *             } ),
  *             // Optional: a note under the results, e.g. a warning.
  *             message: ( result, format ) => '',
+ *             // Optional: table rows when they differ from the chart (e.g. a
+ *             // repayment schedule): { points, series }. Defaults to the chart.
+ *             table: ( result ) => ( { points: [], series: [] } ),
  *         } )
  *     );
  *
@@ -290,21 +293,23 @@ export function mount( element, settings, runtime, spec ) {
 		} );
 	};
 
+	const columnLabel = ( key ) =>
+		settings?.table?.[ key ] || settings?.series?.[ key ] || key;
+
 	const renderTable = ( config ) => {
 		if ( ! table || ! config || config.type === 'doughnut' ) {
 			return;
 		}
 		const keys = config.series || [];
 		const head = document.createElement( 'tr' );
-		[
-			i18n.year || 'Year',
-			...keys.map( ( key ) => settings?.series?.[ key ] || key ),
-		].forEach( ( text ) => {
-			const th = document.createElement( 'th' );
-			th.scope = 'col';
-			th.textContent = text;
-			head.appendChild( th );
-		} );
+		[ i18n.year || 'Year', ...keys.map( columnLabel ) ].forEach(
+			( text ) => {
+				const th = document.createElement( 'th' );
+				th.scope = 'col';
+				th.textContent = text;
+				head.appendChild( th );
+			}
+		);
 		table.tHead.replaceChildren( head );
 		table.tBodies[ 0 ].replaceChildren(
 			...( config.points || [] ).map( ( point ) => {
@@ -336,7 +341,7 @@ export function mount( element, settings, runtime, spec ) {
 		renderResults( spec.results ? spec.results( result, format ) : {} );
 		const config = spec.chart ? spec.chart( result ) : null;
 		renderChart( config );
-		renderTable( config );
+		renderTable( spec.table ? spec.table( result ) : config );
 	};
 
 	const schedule = () => {
