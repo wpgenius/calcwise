@@ -14,13 +14,17 @@ Financial calculators for SIP, FD interest and more, with animated charts.
 
 CalcWise adds financial calculators to your site. Visitors fill in a short form, such as the monthly amount, interest rate and duration, and the result appears as an animated chart.
 
-Planned calculators:
+Calculators:
 
-* **SIP calculator**: what a monthly investment grows to.
-* **FD calculator**: the maturity amount and interest earned on a fixed deposit.
-* More calculators to follow.
+* **SIP**: what a monthly investment grows to. `[calcwise type="sip"]`
+* **Lump sum**: what a one-time investment grows to. `[calcwise type="lumpsum"]`
+* **SWP**: what is left after fixed monthly withdrawals, and when the money runs out. `[calcwise type="swp"]`
+* **Goal**: the monthly investment needed to reach a goal, after inflation. `[calcwise type="goal"]`
+* **EMI**: the monthly instalment of a loan, with a yearly repayment schedule. `[calcwise type="emi"]`
 
-CalcWise is in early development. This version has the settings page; the calculators arrive in the next release.
+Set any starting value or limit in the shortcode, e.g. `[calcwise type="emi" principal="2500000" years="15" years_max="25"]`: use the field name for its starting value and add `_min`, `_max` or `_step` for its limits.
+
+Several calculators can be placed on one page.
 
 == Installation ==
 
