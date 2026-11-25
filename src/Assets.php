@@ -5,7 +5,7 @@
  * - calcwise-runtime: shared runtime (Chart.js and the calculator registry),
  *   from build/runtime/index.js.
  * - calcwise-<type>:  one per calculator, from build/calculators/<type>/view.js
- *   (+ view.css), depending on calcwise-runtime.
+ *   (+ its CSS), depending on calcwise-runtime.
  *
  * Nothing is enqueued here: a calculator's render function calls
  * Assets::enqueue( $type ), so a page loads only the calculators it shows.
@@ -125,9 +125,29 @@ class Assets extends Api {
 			)
 		);
 
-		if ( is_readable( CALCWISE_DIR_PATH . 'build/' . $entry . '.css' ) ) {
-			wp_register_style( $handle, self::asset_url( 'build/' . $entry . '.css' ), array(), $version );
+		$css = self::css_file( $entry );
+		if ( '' !== $css ) {
+			wp_register_style( $handle, self::asset_url( 'build/' . $css ), array(), $version );
 			wp_style_add_data( $handle, 'rtl', 'replace' );
 		}
+	}
+
+	/**
+	 * The CSS file built for an entry, relative to build/. A `style.css`
+	 * imported by the entry is built as style-<entry>.css, any other CSS as
+	 * <entry>.css.
+	 *
+	 * @param string $entry Entry path inside build/, without extension.
+	 * @return string Empty when the entry has no CSS.
+	 */
+	private static function css_file( $entry ) {
+		$dir  = dirname( $entry );
+		$name = basename( $entry );
+		foreach ( array( $dir . '/style-' . $name . '.css', $entry . '.css' ) as $file ) {
+			if ( is_readable( CALCWISE_DIR_PATH . 'build/' . $file ) ) {
+				return $file;
+			}
+		}
+		return '';
 	}
 }

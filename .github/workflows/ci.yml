@@ -82,7 +82,7 @@ jobs:
       - run: composer phpstan -- --no-progress --error-format=github
 
   js-css-lint:
-    name: JS/CSS lint and block build
+    name: JS/CSS lint, JS tests and block build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -95,6 +95,8 @@ jobs:
       - run: npm ci
 
       - run: npm run lint
+
+      - run: npm run test:js
 
       - run: npm run build
 

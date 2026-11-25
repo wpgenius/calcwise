@@ -11,12 +11,13 @@
 		"build": "wp-scripts build --webpack-src-dir=blocks --output-path=build --webpack-copy-php",
 		"start": "wp-scripts start --webpack-src-dir=blocks --output-path=build --webpack-copy-php",
 		"lint": "npm run lint:js && npm run lint:css",
-		"lint:js": "wp-scripts lint-js assets/js src webpack.config.js --ignore-pattern \"src/vendor/**\"",
+		"lint:js": "wp-scripts lint-js assets/js src tests/js webpack.config.js --ignore-pattern \"src/vendor/**\"",
 		"lint:css": "wp-scripts lint-style \"assets/css/**/*.css\" \"src/**/*.css\" --allow-empty-input",
-		"format": "wp-scripts format assets src webpack.config.js",
+		"format": "wp-scripts format assets src tests/js webpack.config.js",
 		"env": "wp-env",
 		"test:integration": "wp-env run cli --env-cwd=wp-content/plugins/$(basename \"$PWD\") vendor/bin/phpunit -- -c phpunit-integration.xml.dist",
-		"test:integration:multisite": "wp-env run cli --env-cwd=wp-content/plugins/$(basename \"$PWD\") env WP_MULTISITE=1 vendor/bin/phpunit -- -c phpunit-integration.xml.dist"
+		"test:integration:multisite": "wp-env run cli --env-cwd=wp-content/plugins/$(basename \"$PWD\") env WP_MULTISITE=1 vendor/bin/phpunit -- -c phpunit-integration.xml.dist",
+		"test:js": "wp-scripts test-unit-js"
 	},
 	"devDependencies": {
 		"@wordpress/block-editor": "^20.0.0",
@@ -26,6 +27,9 @@
 		"@wordpress/i18n": "^7.1.0",
 		"@wordpress/scripts": "^37.1.0",
 		"@wordpress/server-side-render": "^7.1.0",
-		"chart.js": "^4.6.2"
+		"chart.js": "^4.6.2",
+		"happy-dom": "^21.0.4",
+		"vite": "^8.3.8",
+		"vitest": "^5.1.2"
 	}
 }

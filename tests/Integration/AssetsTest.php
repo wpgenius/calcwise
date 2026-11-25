@@ -21,6 +21,7 @@ class AssetsTest extends \WP_UnitTestCase {
 		$script = wp_scripts()->registered[ Assets::RUNTIME ];
 		$this->assertStringStartsWith( CALCWISE_VERSION . '-', (string) $script->ver );
 		$this->assertStringContainsString( 'build/runtime/index.js', $script->src );
+		$this->assertTrue( wp_style_is( Assets::RUNTIME, 'registered' ), 'Runtime styles are registered too.' );
 	}
 
 	public function test_unknown_calculator_is_not_enqueued() {
