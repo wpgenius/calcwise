@@ -1,0 +1,246 @@
+name: CI
+
+# Checks every pull request (and pushes to main): PHPStan static analysis,
+# PHP syntax and unit tests on
+# each supported PHP version, WordPress Coding Standards, JS/CSS lint, and that
+# the committed block build in build/ matches the sources in blocks/, and the
+# official WordPress Plugin Check on the plugin as it ships (the release zip),
+# and integration tests in a real WordPress (the lowest supported and the latest).
+# In the boilerplate itself it also renames a copy and tests the result.
+#
+# The last job, "CI", passes only when every other job passed. It is the one
+# check the "Protect main" ruleset requires (bin/setup-github.sh), so jobs can
+# be added or renamed here without touching the ruleset.
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  php-lint:
+    name: PHP ${{ matrix.php }} syntax and tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Keep the lowest version in sync with "Requires PHP" in the plugin header.
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer
+
+      - run: composer install --no-interaction --no-progress
+
+      - run: composer lint
+
+      - run: composer test
+
+  phpcs:
+    name: Coding standards (PHPCS)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer, cs2pr
+
+      - run: composer install --no-interaction --no-progress
+
+      - name: Run PHPCS (annotates the PR diff)
+        run: vendor/bin/phpcs -q --report-full --report-checkstyle=./phpcs-report.xml || (cs2pr ./phpcs-report.xml && exit 1)
+
+  phpstan:
+    name: Static analysis (PHPStan)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer
+
+      - run: composer install --no-interaction --no-progress
+
+      - run: composer phpstan -- --no-progress --error-format=github
+
+  js-css-lint:
+    name: JS/CSS lint and block build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm run build
+
+      - name: Check that build/ is committed and up to date
+        run: |
+          if [ -n "$(git status --porcelain -- build)" ]; then
+            git status --short -- build
+            echo "::error::build/ is out of date. Run 'npm run build' and commit build/."
+            exit 1
+          fi
+
+  plugin-check:
+    name: Plugin Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Build the plugin as it ships
+        id: package
+        run: |
+          set -euo pipefail
+          . .github/scripts/lib.sh
+          slug="${{ vars.PLUGIN_SLUG }}"
+          slug="${slug:-${GITHUB_REPOSITORY#*/}}"
+          build_package "$RUNNER_TEMP/package/$slug"
+          echo "dir=$RUNNER_TEMP/package/$slug" >> "$GITHUB_OUTPUT"
+          echo "slug=$slug" >> "$GITHUB_OUTPUT"
+
+      # The checks WordPress.org runs when reviewing a plugin. Errors fail the
+      # job; warnings are shown as annotations on the PR.
+      - uses: WordPress/plugin-check-action@10857da14b6c2246d15402b3e69f777edcf8c12e # v1.1.9
+        with:
+          build-dir: ${{ steps.package.outputs.dir }}
+          slug: ${{ steps.package.outputs.slug }}
+
+  rename:
+    name: Rename script
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer
+
+      # Only the boilerplate has calcwise.php; a plugin made from it skips this.
+      # Two copies are renamed and checked: one with every example, one --minimal.
+      - name: Rename to "Acme Events" (full and minimal) and test both
+        run: |
+          set -euo pipefail
+          if [ ! -f calcwise.php ]; then
+            echo "Already renamed; nothing to check."
+            exit 0
+          fi
+          check() {
+            test -f acme-events.php
+            if grep -rIn --exclude-dir={.git,vendor,node_modules} --exclude={README.md,rename.sh,composer.lock,package-lock.json} -ie calcwise .; then
+              echo "::error::bin/rename.sh left the names above behind."
+              exit 1
+            fi
+            composer install --no-interaction --no-progress
+            composer lint
+            composer test
+            vendor/bin/phpcs -q
+            composer phpstan -- --no-progress
+          }
+          cp -R . "$RUNNER_TEMP/minimal"
+
+          echo "::group::Full"
+          bin/rename.sh "Acme Events" --vendor Acme --author "Acme Inc" --yes
+          check
+          echo "::endgroup::"
+
+          echo "::group::Minimal"
+          cd "$RUNNER_TEMP/minimal"
+          bin/rename.sh "Acme Events" --vendor Acme --author "Acme Inc" --minimal --yes
+          if grep -rIn --exclude-dir={.git,.github,vendor,node_modules,build,languages} --exclude={README.md,rename.sh,phpcs.xml.dist} \
+            -e 'Example: ' -e 'Cron::' -e 'Ajax::' -e 'PluginInfo' -e 'DB_VERSION' .; then
+            echo "::error::--minimal left parts of the removed examples behind (lines above)."
+            exit 1
+          fi
+          check
+          echo "::endgroup::"
+
+  integration:
+    name: Integration tests (WordPress ${{ matrix.wp.name }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # The lowest WordPress the plugin supports and the latest release.
+        # Keep the lowest in sync with "Requires at least" in the plugin header.
+        wp:
+          - { name: 'latest', core: '' }
+          - { name: '6.5', core: 'WordPress/WordPress#6.5-branch' }
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: composer install --no-interaction --no-progress
+
+      - run: npm ci
+
+      # wp-env runs WordPress in Docker, with the plugin mounted and the
+      # WordPress test suite installed.
+      - name: Start WordPress
+        env:
+          CORE: ${{ matrix.wp.core }}
+        run: |
+          if [ -n "$CORE" ]; then export WP_ENV_CORE="$CORE"; fi
+          npm run env -- start
+
+      - name: Integration tests (single site)
+        run: npm run test:integration
+
+      - name: Integration tests (multisite)
+        run: npm run test:integration:multisite
+
+  ci:
+    name: CI
+    # Runs even when a job above failed, so the required check always reports.
+    if: always()
+    needs: [php-lint, phpcs, phpstan, js-css-lint, plugin-check, rename, integration]
+    runs-on: ubuntu-latest
+    steps:
+      - name: All jobs passed
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "Job results: $RESULTS"
+          for result in $RESULTS; do
+            if [ "$result" != success ]; then
+              echo "::error::A CI job did not pass ($result)."
+              exit 1
+            fi
+          done
