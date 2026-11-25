@@ -40,3 +40,7 @@ Only if "Delete data on uninstall" is ticked in the settings.
 
 == Changelog ==
 
+= 1.0.0 =
+
+* Initial release.
+
