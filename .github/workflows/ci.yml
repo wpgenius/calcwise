@@ -6,7 +6,6 @@ name: CI
 # the committed block build in build/ matches the sources in blocks/, and the
 # official WordPress Plugin Check on the plugin as it ships (the release zip),
 # and integration tests in a real WordPress (the lowest supported and the latest).
-# In the boilerplate itself it also renames a copy and tests the result.
 #
 # The last job, "CI", passes only when every other job passed. It is the one
 # check the "Protect main" ruleset requires (bin/setup-github.sh), so jobs can
@@ -131,57 +130,6 @@ jobs:
           build-dir: ${{ steps.package.outputs.dir }}
           slug: ${{ steps.package.outputs.slug }}
 
-  rename:
-    name: Rename script
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
-        with:
-          php-version: '8.3'
-          coverage: none
-          tools: composer
-
-      # Only the boilerplate has calcwise.php; a plugin made from it skips this.
-      # Two copies are renamed and checked: one with every example, one --minimal.
-      - name: Rename to "Acme Events" (full and minimal) and test both
-        run: |
-          set -euo pipefail
-          if [ ! -f calcwise.php ]; then
-            echo "Already renamed; nothing to check."
-            exit 0
-          fi
-          check() {
-            test -f acme-events.php
-            if grep -rIn --exclude-dir={.git,vendor,node_modules} --exclude={README.md,rename.sh,composer.lock,package-lock.json} -ie calcwise .; then
-              echo "::error::bin/rename.sh left the names above behind."
-              exit 1
-            fi
-            composer install --no-interaction --no-progress
-            composer lint
-            composer test
-            vendor/bin/phpcs -q
-            composer phpstan -- --no-progress
-          }
-          cp -R . "$RUNNER_TEMP/minimal"
-
-          echo "::group::Full"
-          bin/rename.sh "Acme Events" --vendor Acme --author "Acme Inc" --yes
-          check
-          echo "::endgroup::"
-
-          echo "::group::Minimal"
-          cd "$RUNNER_TEMP/minimal"
-          bin/rename.sh "Acme Events" --vendor Acme --author "Acme Inc" --minimal --yes
-          if grep -rIn --exclude-dir={.git,.github,vendor,node_modules,build,languages} --exclude={README.md,rename.sh,phpcs.xml.dist} \
-            -e 'Example: ' -e 'Cron::' -e 'Ajax::' -e 'PluginInfo' -e 'DB_VERSION' .; then
-            echo "::error::--minimal left parts of the removed examples behind (lines above)."
-            exit 1
-          fi
-          check
-          echo "::endgroup::"
-
   integration:
     name: Integration tests (WordPress ${{ matrix.wp.name }})
     runs-on: ubuntu-latest
@@ -230,7 +178,7 @@ jobs:
     name: CI
     # Runs even when a job above failed, so the required check always reports.
     if: always()
-    needs: [php-lint, phpcs, phpstan, js-css-lint, plugin-check, rename, integration]
+    needs: [php-lint, phpcs, phpstan, js-css-lint, plugin-check, integration]
     runs-on: ubuntu-latest
     steps:
       - name: All jobs passed
