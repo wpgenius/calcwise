@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-25T19:46:08+00:00\n"
+"POT-Creation-Date: 2026-11-25T19:57:49+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: calcwise\n"
@@ -102,6 +102,69 @@ msgstr ""
 msgid "Show the values as a table"
 msgstr ""
 
+#: src/calculators/goal/definition.php:14
+msgid "Goal calculator"
+msgstr ""
+
+#: src/calculators/goal/definition.php:15
+msgid "The monthly investment needed to reach a goal by a chosen year."
+msgstr ""
+
+#: src/calculators/goal/definition.php:18
+msgid "Cost of the goal today"
+msgstr ""
+
+#: src/calculators/goal/definition.php:26
+msgid "Savings already put aside"
+msgstr ""
+
+#: src/calculators/goal/definition.php:34
+msgid "Inflation (per year)"
+msgstr ""
+
+#: src/calculators/goal/definition.php:42
+#: src/calculators/lumpsum/definition.php:26
+#: src/calculators/sip/definition.php:25
+#: src/calculators/swp/definition.php:35
+msgid "Expected return rate (per year)"
+msgstr ""
+
+#: src/calculators/goal/definition.php:50
+msgid "Years to reach the goal"
+msgstr ""
+
+#: src/calculators/goal/definition.php:60
+msgid "Goal year"
+msgstr ""
+
+#: src/calculators/goal/definition.php:64
+msgid "Cost of the goal in that year"
+msgstr ""
+
+#: src/calculators/goal/definition.php:68
+msgid "Your savings will grow to"
+msgstr ""
+
+#: src/calculators/goal/definition.php:71
+msgid "Invest every month"
+msgstr ""
+
+#: src/calculators/goal/definition.php:77
+msgid "Cost of the goal and what you will have, by year"
+msgstr ""
+
+#: src/calculators/goal/definition.php:79
+msgid "Cost of the goal"
+msgstr ""
+
+#: src/calculators/goal/definition.php:80
+msgid "Savings and investments"
+msgstr ""
+
+#: src/calculators/goal/definition.php:84
+msgid "Your savings already cover this goal. No monthly investment is needed."
+msgstr ""
+
 #: src/calculators/lumpsum/definition.php:14
 msgid "Lump-sum calculator"
 msgstr ""
@@ -112,12 +175,6 @@ msgstr ""
 
 #: src/calculators/lumpsum/definition.php:18
 msgid "Investment amount"
-msgstr ""
-
-#: src/calculators/lumpsum/definition.php:26
-#: src/calculators/sip/definition.php:25
-#: src/calculators/swp/definition.php:35
-msgid "Expected return rate (per year)"
 msgstr ""
 
 #: src/calculators/lumpsum/definition.php:34
