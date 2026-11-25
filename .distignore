@@ -91,3 +91,4 @@ SECURITY.md
 # Project-specific
 # --------------------------------------------------
 /webpack.config.js
+/.prettierignore
