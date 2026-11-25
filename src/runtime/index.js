@@ -9,10 +9,15 @@
  *
  * A calculator script (handle `calcwise-<type>`) registers itself:
  *
- *     window.calcwise.register( 'sip', ( element, settings, runtime ) => {
- *         const result = runtime.calc.sip( { monthlyAmount: 25000, annualRate: 12, years: 10 } );
- *         runtime.calc.formatCurrency( result.total ); // "₹58,08,477"
- *     } );
+ *     window.calcwise.register( 'sip', ( element, settings, runtime ) =>
+ *         runtime.mount( element, settings, {
+ *             calculate: ( values, calc ) => calc.sip( values ),
+ *             results: ( result ) => ( { total: result.total } ),
+ *         } )
+ *     );
+ *
+ * `runtime.calc` is the financial-calculators library, e.g.
+ * `runtime.calc.formatCurrency( 5808477 )` → "₹58,08,477".
  *
  * Every element `.calcwise-calculator[data-calcwise-type="sip"]` on the page is
  * then started once, with the settings from its own `data-calcwise-settings`
@@ -38,6 +43,8 @@ import {
 	Tooltip,
 } from 'chart.js';
 import * as calc from '../vendor/financial-calculators/financial-calculators.esm.js';
+import { mount as mountCalculator } from './mount';
+import './style.css';
 
 Chart.register(
 	ArcElement,
@@ -106,6 +113,18 @@ function register( type, start ) {
 	}
 }
 
-const runtime = Object.freeze( { Chart, calc, init, register } );
+/**
+ * Give a calculator the shared behaviour (inputs, results, chart, table).
+ *
+ * @param {HTMLElement} element  Calculator element.
+ * @param {Object}      settings Instance settings.
+ * @param {Object}      spec     How to calculate and what to show (see mount.js).
+ * @return {Object} { update, values, destroy }
+ */
+function mount( element, settings, spec ) {
+	return mountCalculator( element, settings, runtime, spec );
+}
+
+const runtime = Object.freeze( { Chart, calc, init, mount, register } );
 
 window.calcwise = runtime;
