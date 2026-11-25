@@ -62,6 +62,7 @@ final class Plugin {
 			Installer::class,
 			Assets::class,
 			Blocks\Blocks::class,
+			Shortcode::class,
 		);
 
 		// wp-admin only.
