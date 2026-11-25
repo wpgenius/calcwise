@@ -94,7 +94,7 @@ class Api {
 	 * Full path of a template. A theme can override any file in templates/ by
 	 * copying it to <theme>/calcwise/<same name>.
 	 *
-	 * @param string $name Template file, e.g. 'items-list.php'.
+	 * @param string $name Template file, e.g. 'calculator.php'.
 	 * @return string Empty if not found.
 	 */
 	public static function locate_template( $name ) {
@@ -116,7 +116,7 @@ class Api {
 	/**
 	 * Render a template and return its HTML. Each key of $args becomes a variable in the template.
 	 *
-	 * @param string               $name Template file, e.g. 'items-list.php'.
+	 * @param string               $name Template file, e.g. 'calculator.php'.
 	 * @param array<string, mixed> $args Variables for the template.
 	 * @return string
 	 */

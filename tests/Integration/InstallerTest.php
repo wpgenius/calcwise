@@ -20,15 +20,15 @@ class InstallerTest extends \WP_UnitTestCase {
 
 		Installer::activate();
 
-		$this->assertSame( 6, Api::get_setting( 'items_per_page' ) );
+		$this->assertSame( '#2271b1', Api::get_setting( 'accent_color' ) );
 	}
 
 
 	public function test_activation_keeps_existing_settings() {
-		update_option( Api::OPTION, array( 'items_per_page' => 12 ) );
+		update_option( Api::OPTION, array( 'accent_color' => '#000000' ) );
 
 		Installer::activate();
 
-		$this->assertSame( 12, Api::get_setting( 'items_per_page' ) );
+		$this->assertSame( '#000000', Api::get_setting( 'accent_color' ) );
 	}
 }

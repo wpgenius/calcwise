@@ -49,34 +49,12 @@ class Settings extends Api {
 		$sections = array(
 			'general'  => array(
 				'title'       => __( 'General', 'calcwise' ),
-				'description' => __( 'How items are listed by the shortcode and the block.', 'calcwise' ),
+				'description' => __( 'How the calculators look.', 'calcwise' ),
 				'fields'      => array(
-					'items_per_page' => array(
-						'type'    => 'number',
-						'label'   => __( 'Items per page', 'calcwise' ),
-						'default' => 6,
-						'min'     => 1,
-						'max'     => 50,
-					),
-					'layout'         => array(
-						'type'    => 'select',
-						'label'   => __( 'Layout', 'calcwise' ),
-						'default' => 'grid',
-						'options' => array(
-							'grid' => __( 'Grid', 'calcwise' ),
-							'list' => __( 'List', 'calcwise' ),
-						),
-					),
-					'accent_color'   => array(
+					'accent_color' => array(
 						'type'    => 'color',
 						'label'   => __( 'Accent colour', 'calcwise' ),
 						'default' => '#2271b1',
-					),
-					'show_load_more' => array(
-						'type'        => 'checkbox',
-						'label'       => __( 'Load more button', 'calcwise' ),
-						'description' => __( 'Show a button that loads the next page without reloading (REST API).', 'calcwise' ),
-						'default'     => 1,
 					),
 				),
 			),
@@ -86,7 +64,7 @@ class Settings extends Api {
 					'delete_data' => array(
 						'type'        => 'checkbox',
 						'label'       => __( 'Delete data on uninstall', 'calcwise' ),
-						'description' => __( 'When the plugin is deleted, also delete its settings, items and database table.', 'calcwise' ),
+						'description' => __( 'When the plugin is deleted, also delete its settings.', 'calcwise' ),
 						'default'     => 0,
 					),
 				),

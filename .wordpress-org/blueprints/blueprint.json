@@ -2,10 +2,10 @@
 	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
 	"meta": {
 		"title": "CalcWise demo",
-		"description": "Installs the latest release with sample items and a demo page.",
+		"description": "Installs the latest release and opens the CalcWise settings. The calculator demo page comes with v1.1.0 (#21).",
 		"author": "wpgenius"
 	},
-	"landingPage": "/plugin-demo/",
+	"landingPage": "/wp-admin/options-general.php?page=calcwise_settings",
 	"preferredVersions": {
 		"php": "8.3",
 		"wp": "latest"
@@ -31,10 +31,6 @@
 				"blogname": "CalcWise demo",
 				"permalink_structure": "/%postname%/"
 			}
-		},
-		{
-			"step": "runPHP",
-			"code": "<?php require_once '/wordpress/wp-load.php'; for ( $i = 1; $i <= 8; $i++ ) { wp_insert_post( array( 'post_type' => 'calcwise_item', 'post_status' => 'publish', 'post_title' => 'Sample item ' . $i, 'post_excerpt' => 'A short description of sample item ' . $i . '.', 'post_content' => 'Content of sample item ' . $i . '.' ) ); } wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_name' => 'plugin-demo', 'post_title' => 'Plugin demo', 'post_content' => \"<!-- wp:paragraph --><p>The <code>[[calcwise_items]]</code> shortcode, with a Load more button that reads a REST API route:</p><!-- /wp:paragraph -->\\n<!-- wp:shortcode -->[calcwise_items per_page=\\\"3\\\"]<!-- /wp:shortcode -->\\n<!-- wp:paragraph --><p>The Latest items block:</p><!-- /wp:paragraph -->\\n<!-- wp:calcwise/example {\\\"count\\\":4} /-->\\n<!-- wp:paragraph --><p>The Items with live filter block (Interactivity API): type to filter.</p><!-- /wp:paragraph -->\\n<!-- wp:calcwise/interactive /-->\\n<!-- wp:paragraph --><p>Settings: Settings → CalcWise. Items: Items in the admin menu.</p><!-- /wp:paragraph -->\" ) ); flush_rewrite_rules();"
 		}
 	]
 }
