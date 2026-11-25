@@ -1,0 +1,139 @@
+<?php
+/**
+ * Example post type "Item" with a category taxonomy and a thumbnail column.
+ *
+ * @package WPGenius\CalcWise
+ */
+
+namespace WPGenius\CalcWise\PostTypes;
+
+use WPGenius\CalcWise\Api;
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Item post type.
+ */
+class Example extends Api {
+
+	/**
+	 * Post type name (max 20 characters, lowercase, no spaces).
+	 */
+	const NAME = 'calcwise_item';
+
+	/**
+	 * Taxonomy name (max 32 characters).
+	 */
+	const TAXONOMY = 'calcwise_item_category';
+
+	/**
+	 * Most items one request may ask for (shortcode, blocks and REST route).
+	 */
+	const MAX_PER_PAGE = 50;
+
+	/**
+	 * Admin list hooks.
+	 */
+	public function __construct() {
+		add_filter( 'manage_' . self::NAME . '_posts_columns', array( $this, 'add_columns' ) );
+		add_action( 'manage_' . self::NAME . '_posts_custom_column', array( $this, 'render_column' ), 10, 2 );
+	}
+
+	/**
+	 * Register the post type and its taxonomy.
+	 *
+	 * @return void
+	 */
+	public static function register() {
+		register_post_type(
+			self::NAME,
+			array(
+				'labels'       => array(
+					'name'          => __( 'Items', 'calcwise' ),
+					'singular_name' => __( 'Item', 'calcwise' ),
+					'add_new_item'  => __( 'Add new item', 'calcwise' ),
+					'edit_item'     => __( 'Edit item', 'calcwise' ),
+					'all_items'     => __( 'All items', 'calcwise' ),
+					'search_items'  => __( 'Search items', 'calcwise' ),
+					'not_found'     => __( 'No items found.', 'calcwise' ),
+				),
+				'public'       => true,
+				'has_archive'  => true,
+				'show_in_rest' => true, // Needed for the block editor.
+				'menu_icon'    => 'dashicons-portfolio',
+				'supports'     => array( 'title', 'editor', 'excerpt', 'thumbnail' ),
+				'rewrite'      => array( 'slug' => 'calcwise-items' ), // Prefixed, so it can't clash with another plugin.
+			)
+		);
+
+		register_taxonomy(
+			self::TAXONOMY,
+			self::NAME,
+			array(
+				'labels'            => array(
+					'name'          => __( 'Item categories', 'calcwise' ),
+					'singular_name' => __( 'Item category', 'calcwise' ),
+				),
+				'hierarchical'      => true,
+				'show_admin_column' => true,
+				'show_in_rest'      => true,
+				'rewrite'           => array( 'slug' => 'calcwise-item-category' ),
+			)
+		);
+	}
+
+	/**
+	 * Keep a requested number of items between 1 and MAX_PER_PAGE.
+	 *
+	 * @param mixed $per_page Requested number, e.g. a shortcode attribute.
+	 * @return int
+	 */
+	public static function per_page( $per_page ) {
+		return min( self::MAX_PER_PAGE, max( 1, (int) $per_page ) );
+	}
+
+	/**
+	 * Latest published items, used by the shortcode, the block and the REST route (Load more).
+	 *
+	 * @param int $per_page Items per page.
+	 * @param int $page     Page number, from 1.
+	 * @return \WP_Query
+	 */
+	public static function query( $per_page, $page = 1 ) {
+		return new \WP_Query(
+			array(
+				'post_type'           => self::NAME,
+				'post_status'         => 'publish',
+				'posts_per_page'      => self::per_page( $per_page ),
+				'paged'               => max( 1, (int) $page ),
+				'ignore_sticky_posts' => true,
+			)
+		);
+	}
+
+	/**
+	 * Add a thumbnail column after the checkbox.
+	 *
+	 * @param string[] $columns Column titles by key.
+	 * @return string[]
+	 */
+	public function add_columns( $columns ) {
+		return array_slice( $columns, 0, 1, true )
+			+ array( 'calcwise_thumbnail' => __( 'Image', 'calcwise' ) )
+			+ array_slice( $columns, 1, null, true );
+	}
+
+	/**
+	 * Output a custom column cell.
+	 *
+	 * @param string $column  Column key.
+	 * @param int    $post_id Post ID.
+	 * @return void
+	 */
+	public function render_column( $column, $post_id ) {
+		if ( 'calcwise_thumbnail' === $column ) {
+			$image = get_the_post_thumbnail( $post_id, array( 48, 48 ) );
+			echo $image ? $image : '&mdash;'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Core markup.
+		}
+	}
+}

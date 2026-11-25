@@ -1,0 +1,31 @@
+{
+	"name": "calcwise",
+	"version": "1.0.0",
+	"private": true,
+	"description": "WordPress plugin boilerplate: a starter kit for building plugins.",
+	"license": "GPL-3.0-or-later",
+	"engines": {
+		"node": "^20.19.0 || >=22.12.0"
+	},
+	"scripts": {
+		"build": "wp-scripts build --webpack-src-dir=blocks --output-path=build --webpack-copy-php --experimental-modules",
+		"start": "wp-scripts start --webpack-src-dir=blocks --output-path=build --webpack-copy-php --experimental-modules",
+		"lint": "npm run lint:js && npm run lint:css",
+		"lint:js": "wp-scripts lint-js assets/js blocks",
+		"lint:css": "wp-scripts lint-style \"assets/css/**/*.css\" \"blocks/**/*.css\"",
+		"format": "wp-scripts format assets blocks",
+		"env": "wp-env",
+		"test:integration": "wp-env run cli --env-cwd=wp-content/plugins/$(basename \"$PWD\") vendor/bin/phpunit -- -c phpunit-integration.xml.dist",
+		"test:integration:multisite": "wp-env run cli --env-cwd=wp-content/plugins/$(basename \"$PWD\") env WP_MULTISITE=1 vendor/bin/phpunit -- -c phpunit-integration.xml.dist"
+	},
+	"devDependencies": {
+		"@wordpress/block-editor": "^20.0.0",
+		"@wordpress/blocks": "^17.1.0",
+		"@wordpress/components": "^44.0.0",
+		"@wordpress/env": "^12.1.0",
+		"@wordpress/i18n": "^7.1.0",
+		"@wordpress/interactivity": "^8.1.0",
+		"@wordpress/scripts": "^37.1.0",
+		"@wordpress/server-side-render": "^7.1.0"
+	}
+}
