@@ -1,7 +1,7 @@
 /**
  * wp-admin scripts for the plugin's screens.
  */
-/* global jQuery, ajaxurl */
+/* global jQuery */
 jQuery( function ( $ ) {
 	$( '.calcwise-color-field' ).wpColorPicker();
 } );

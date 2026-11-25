@@ -14,14 +14,9 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div { ...useBlockProps() }>
 			<InspectorControls>
-				<PanelBody
-					title={ __( 'Settings', 'calcwise' ) }
-				>
+				<PanelBody title={ __( 'Settings', 'calcwise' ) }>
 					<RangeControl
-						label={ __(
-							'Number of items',
-							'calcwise'
-						) }
+						label={ __( 'Number of items', 'calcwise' ) }
 						value={ count }
 						onChange={ ( value ) =>
 							setAttributes( { count: value } )
@@ -34,17 +29,11 @@ export default function Edit( { attributes, setAttributes } ) {
 						value={ layout }
 						options={ [
 							{
-								label: __(
-									'Grid',
-									'calcwise'
-								),
+								label: __( 'Grid', 'calcwise' ),
 								value: 'grid',
 							},
 							{
-								label: __(
-									'List',
-									'calcwise'
-								),
+								label: __( 'List', 'calcwise' ),
 								value: 'list',
 							},
 						] }

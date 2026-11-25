@@ -13,14 +13,9 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div { ...useBlockProps() }>
 			<InspectorControls>
-				<PanelBody
-					title={ __( 'Settings', 'calcwise' ) }
-				>
+				<PanelBody title={ __( 'Settings', 'calcwise' ) }>
 					<RangeControl
-						label={ __(
-							'Number of items',
-							'calcwise'
-						) }
+						label={ __( 'Number of items', 'calcwise' ) }
 						value={ attributes.count }
 						onChange={ ( value ) =>
 							setAttributes( { count: value } )
