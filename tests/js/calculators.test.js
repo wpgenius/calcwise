@@ -4,23 +4,20 @@ import * as calc from '../../src/vendor/financial-calculators/financial-calculat
 /**
  * Load a calculator's view.js and return the spec it passes to mount().
  *
- * @param {string} type Calculator type (folder name).
+ * @param {string} type       Calculator type (folder name).
+ * @param {Object} [settings] Instance settings passed to the calculator.
  * @return {Promise<Object>} The spec.
  */
-async function specFor( type ) {
+async function specFor( type, settings = {} ) {
 	let spec = null;
 	window.calcwise = {
 		register: ( registered, start ) => {
 			expect( registered ).toBe( type );
-			start(
-				document.createElement( 'div' ),
-				{},
-				{
-					mount: ( element, settings, given ) => {
-						spec = given;
-					},
-				}
-			);
+			start( document.createElement( 'div' ), settings, {
+				mount: ( element, instanceSettings, given ) => {
+					spec = given;
+				},
+			} );
 		},
 	};
 	vi.resetModules();
@@ -86,5 +83,79 @@ describe( 'Lump sum', () => {
 		expect( chart.series ).toEqual( [ 'invested', 'total' ] );
 		expect( new Set( labels ).size ).toBe( labels.length );
 		expect( labels.at( -1 ) ).toBe( '2037' );
+	} );
+} );
+
+describe( 'SWP', () => {
+	const settings = {
+		messages: { depleted: 'Runs out in year {year}, month {month}.' },
+	};
+
+	it( 'matches the original calculator when the money lasts', async () => {
+		const spec = await specFor( 'swp', settings );
+		const result = spec.calculate(
+			{
+				investment: 1000000,
+				monthlyWithdrawal: 10000,
+				annualRate: 10,
+				years: 3,
+			},
+			calc
+		);
+		const shown = spec.results( result );
+
+		expect( shown.investment ).toBe( 1000000 );
+		expect( shown.totalWithdrawn ).toBe( 360000 );
+		expect( shown.finalBalance ).toBeGreaterThan( 0 );
+		expect( spec.message( result ) ).toBe( '' );
+	} );
+
+	it( 'stops at zero and says when the money runs out', async () => {
+		const spec = await specFor( 'swp', settings );
+		const result = spec.calculate(
+			{
+				investment: 100000,
+				monthlyWithdrawal: 10000,
+				annualRate: 1,
+				years: 5,
+			},
+			calc
+		);
+
+		expect( result.finalBalance ).toBe( 0 );
+		expect(
+			Math.min( ...result.series.map( ( p ) => p.balance ) )
+		).toBeGreaterThanOrEqual( 0 );
+		expect( spec.message( result ) ).toMatch(
+			/^Runs out in year 1, month \d+\.$/
+		);
+	} );
+
+	it( 'draws plain lines for balance and withdrawals', async () => {
+		const spec = await specFor( 'swp', settings );
+		const chart = spec.chart(
+			calc.swp( {
+				investment: 1000000,
+				monthlyWithdrawal: 10000,
+				annualRate: 10,
+				years: 10,
+			} )
+		);
+
+		expect( chart.series ).toEqual( [ 'balance', 'withdrawn' ] );
+		expect( chart.fill ).toBe( false );
+	} );
+} );
+
+describe( 'depletedMessage', () => {
+	it( 'turns a month number into year and month', async () => {
+		await specFor( 'swp' );
+		const { depletedMessage } =
+			await import( '../../src/calculators/swp/view.js' );
+
+		expect( depletedMessage( 1, 'y{year} m{month}' ) ).toBe( 'y1 m1' );
+		expect( depletedMessage( 12, 'y{year} m{month}' ) ).toBe( 'y1 m12' );
+		expect( depletedMessage( 13, 'y{year} m{month}' ) ).toBe( 'y2 m1' );
+		expect( depletedMessage( null, 'x' ) ).toBe( '' );
 	} );
 } );

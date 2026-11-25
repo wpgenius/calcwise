@@ -11,7 +11,10 @@
  *                 type: 'line',
  *                 points: result.series,
  *                 series: [ 'invested', 'total' ],
+ *                 // fill: false draws plain lines instead of stacked areas.
  *             } ),
+ *             // Optional: a note under the results, e.g. a warning.
+ *             message: ( result, format ) => '',
  *         } )
  *     );
  *
@@ -197,7 +200,10 @@ export function mount( element, settings, runtime, spec ) {
 			data: ( config.points || [] ).map( ( point ) => point[ key ] ),
 			borderColor: colours[ index % colours.length ],
 			backgroundColor: translucent( colours[ index % colours.length ] ),
-			fill: config.type === 'line' ? fillFor( index ) : false,
+			fill:
+				config.type === 'line' && config.fill !== false
+					? fillFor( index )
+					: false,
 			tension: 0.3,
 			pointRadius: 0,
 		} ) );

@@ -52,15 +52,16 @@ class Renderer {
 		$format   = self::format();
 		$id       = 'calcwise-' . ( ++self::$count );
 		$settings = array(
-			'fields' => array_map(
+			'fields'   => array_map(
 				static function ( $field ) {
 					return array_intersect_key( $field, array_flip( array( 'min', 'max', 'step', 'default' ) ) );
 				},
 				$fields
 			),
-			'format' => $format,
-			'series' => $definition['chart']['series'],
-			'i18n'   => array(
+			'format'   => $format,
+			'series'   => $definition['chart']['series'],
+			'messages' => $definition['messages'],
+			'i18n'     => array(
 				'year'  => __( 'Year', 'calcwise' ),
 				'error' => __( 'Please check the values entered.', 'calcwise' ),
 			),

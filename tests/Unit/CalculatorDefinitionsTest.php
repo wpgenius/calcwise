@@ -40,6 +40,7 @@ class CalculatorDefinitionsTest extends TestCase {
 		return array(
 			'sip'     => array( 'sip', array( 'monthlyAmount', 'annualRate', 'years' ), array( 'invested', 'returns', 'total' ) ),
 			'lumpsum' => array( 'lumpsum', array( 'amount', 'annualRate', 'years' ), array( 'invested', 'returns', 'total' ) ),
+			'swp'     => array( 'swp', array( 'investment', 'monthlyWithdrawal', 'annualRate', 'years' ), array( 'investment', 'totalWithdrawn', 'finalBalance' ) ),
 		);
 	}
 
