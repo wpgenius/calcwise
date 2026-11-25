@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-25T13:24:50+00:00\n"
+"POT-Creation-Date: 2026-11-25T17:29:40+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: calcwise\n"
@@ -39,26 +39,7 @@ msgstr ""
 msgid "https://wpgenius.in"
 msgstr ""
 
-#: blocks/interactive/render.php:47
-#: templates/items-list.php:20
-msgid "No items yet."
-msgstr ""
-
-#: blocks/interactive/render.php:50
-msgid "Filter items"
-msgstr ""
-
-#: blocks/interactive/render.php:51
-msgid "Type to filter…"
-msgstr ""
-
-#: blocks/interactive/render.php:66
-msgid "No items match."
-msgstr ""
-
-#: src/Admin/Admin.php:56
-#: blocks/example/edit.js:18
-#: blocks/interactive/edit.js:17
+#: src/Admin/Admin.php:51
 msgid "Settings"
 msgstr ""
 
@@ -67,172 +48,30 @@ msgid "General"
 msgstr ""
 
 #: src/Admin/Settings.php:52
-msgid "How items are listed by the shortcode and the block."
+msgid "How the calculators look."
 msgstr ""
 
 #: src/Admin/Settings.php:56
-msgid "Items per page"
-msgstr ""
-
-#: src/Admin/Settings.php:63
-#: blocks/example/edit.js:33
-msgid "Layout"
-msgstr ""
-
-#: src/Admin/Settings.php:66
-#: blocks/example/edit.js:37
-msgid "Grid"
-msgstr ""
-
-#: src/Admin/Settings.php:67
-#: blocks/example/edit.js:44
-msgid "List"
-msgstr ""
-
-#: src/Admin/Settings.php:72
 msgid "Accent colour"
 msgstr ""
 
-#: src/Admin/Settings.php:77
-msgid "Load more button"
-msgstr ""
-
-#: src/Admin/Settings.php:78
-msgid "Show a button that loads the next page without reloading (REST API)."
-msgstr ""
-
-#: src/Admin/Settings.php:84
+#: src/Admin/Settings.php:62
 msgid "Advanced"
 msgstr ""
 
-#: src/Admin/Settings.php:88
+#: src/Admin/Settings.php:66
 msgid "Delete data on uninstall"
 msgstr ""
 
-#: src/Admin/Settings.php:89
-msgid "When the plugin is deleted, also delete its settings, items and database table."
+#: src/Admin/Settings.php:67
+msgid "When the plugin is deleted, also delete its settings."
 msgstr ""
 
-#: src/Admin/Settings.php:140
-#: src/Admin/Settings.php:141
+#: src/Admin/Settings.php:118
+#: src/Admin/Settings.php:119
 msgid "CalcWise"
 msgstr ""
 
-#: src/Admin/Settings.php:403
+#: src/Admin/Settings.php:381
 msgid "You can use:"
-msgstr ""
-
-#: src/Frontend/Frontend.php:56
-msgid "Loading…"
-msgstr ""
-
-#: src/Frontend/Frontend.php:57
-msgid "Something went wrong. Please try again."
-msgstr ""
-
-#: src/PostTypes/Example.php:52
-msgid "Items"
-msgstr ""
-
-#: src/PostTypes/Example.php:53
-msgid "Item"
-msgstr ""
-
-#: src/PostTypes/Example.php:54
-msgid "Add new item"
-msgstr ""
-
-#: src/PostTypes/Example.php:55
-msgid "Edit item"
-msgstr ""
-
-#: src/PostTypes/Example.php:56
-msgid "All items"
-msgstr ""
-
-#: src/PostTypes/Example.php:57
-msgid "Search items"
-msgstr ""
-
-#: src/PostTypes/Example.php:58
-msgid "No items found."
-msgstr ""
-
-#: src/PostTypes/Example.php:74
-msgid "Item categories"
-msgstr ""
-
-#: src/PostTypes/Example.php:75
-msgid "Item category"
-msgstr ""
-
-#: src/PostTypes/Example.php:122
-msgid "Image"
-msgstr ""
-
-#: src/Rest.php:66
-msgid "Page number."
-msgstr ""
-
-#: src/Rest.php:72
-msgid "Items per page."
-msgstr ""
-
-#: src/Rest.php:153
-msgid "The items rendered with templates/item.php."
-msgstr ""
-
-#: templates/items-list.php:37
-msgid "Load more"
-msgstr ""
-
-#: blocks/example/edit.js:21
-#: blocks/interactive/edit.js:20
-msgid "Number of items"
-msgstr ""
-
-#: blocks/example/block.json
-msgctxt "block title"
-msgid "Latest items"
-msgstr ""
-
-#: blocks/example/block.json
-msgctxt "block description"
-msgid "Shows the latest items. Rendered in PHP (render.php), so it always shows current content."
-msgstr ""
-
-#: blocks/example/block.json
-#: blocks/interactive/block.json
-msgctxt "block keyword"
-msgid "items"
-msgstr ""
-
-#: blocks/example/block.json
-msgctxt "block keyword"
-msgid "list"
-msgstr ""
-
-#: blocks/interactive/block.json
-msgctxt "block title"
-msgid "Items with live filter"
-msgstr ""
-
-#: blocks/interactive/block.json
-msgctxt "block description"
-msgid "Lists the latest items with a search box that filters them as you type. Uses the Interactivity API: rendered in PHP, made interactive with data-wp-* directives."
-msgstr ""
-
-#: blocks/interactive/block.json
-msgctxt "block keyword"
-msgid "filter"
-msgstr ""
-
-#: blocks/interactive/block.json
-msgctxt "block keyword"
-msgid "search"
-msgstr ""
-
-#: blocks/interactive/block.json
-msgctxt "block keyword"
-msgid "interactivity"
 msgstr ""

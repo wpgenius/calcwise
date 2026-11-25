@@ -8,7 +8,6 @@
 namespace WPGenius\CalcWise\Admin;
 
 use WPGenius\CalcWise\Api;
-use WPGenius\CalcWise\PostTypes\Example;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -32,11 +31,7 @@ class Admin extends Api {
 	 * @return void
 	 */
 	public function enqueue_assets( $hook_suffix ) {
-		$screen  = get_current_screen();
-		$is_ours = 'settings_page_' . Settings::PAGE === $hook_suffix
-			|| ( $screen && Example::NAME === $screen->post_type );
-
-		if ( ! $is_ours ) {
+		if ( 'settings_page_' . Settings::PAGE !== $hook_suffix ) {
 			return;
 		}
 

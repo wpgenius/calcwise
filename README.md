@@ -3,10 +3,11 @@
 Financial calculators for SIP, FD interest and more, with animated charts. A visitor
 fills in a short form, and the result appears as an animated chart.
 
-**Status:** early development. Version 1.0.0 is the plugin's starting structure
-(settings page, shortcode, blocks, REST route), built from
+**Status:** early development, built from
 [wordpress-plugin-boilerplate](https://github.com/wpgenius/wordpress-plugin-boilerplate).
-The calculators come next.
+Work is planned in [milestones](https://github.com/wpgenius/calcwise/milestones): v1.1.0 brings
+the calculators as a block and a shortcode. Formulas come from
+[financial-calculators-js](https://github.com/wpgenius/financial-calculators-js).
 
 - Slug and text domain: `calcwise`
 - PHP namespace: `WPGenius\CalcWise`, prefix `calcwise_`, constants `CALCWISE_*`
@@ -50,7 +51,7 @@ composer install
 | `composer phpcs` / `composer phpcbf` | WordPress Coding Standards (check / auto-fix) |
 | `composer phpstan` | Static analysis: wrong types, missing methods, unchecked `false`/`WP_Error` (level in `phpstan.neon.dist`) |
 | `composer test` | Unit tests (PHPUnit + Brain Monkey, no WordPress needed) |
-| `npm run env -- start` then `npm run test:integration` | Integration tests in a real WordPress (wp-env, needs Docker): activation, uninstall, REST, AJAX permissions. `npm run test:integration:multisite` runs them as a network. `npm run env -- stop` when done |
+| `npm run env -- start` then `npm run test:integration` | Integration tests in a real WordPress (wp-env, needs Docker): activation, settings and uninstall. `npm run test:integration:multisite` runs them as a network. `npm run env -- stop` when done |
 | `composer make-pot` | Regenerate `languages/*.pot` |
 | `npm ci` | Install the JS tools |
 | `npm run build` / `npm start` | Build the blocks into `build/` (once / watch) |

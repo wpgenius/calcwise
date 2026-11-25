@@ -60,11 +60,7 @@ final class Plugin {
 		// Everywhere: front end, admin, AJAX, REST, cron.
 		$parts = array(
 			Installer::class,
-			PostTypes\PostTypes::class,
 			Blocks\Blocks::class,
-			Rest::class,
-			Frontend\Frontend::class,
-			Frontend\Shortcodes::class,
 		);
 
 		// wp-admin only.

@@ -20,7 +20,7 @@ Planned calculators:
 * **FD calculator**: the maturity amount and interest earned on a fixed deposit.
 * More calculators to follow.
 
-CalcWise is in early development. This first version is the plugin's starting structure: a settings page, a shortcode, blocks and a REST API route that the calculators will build on.
+CalcWise is in early development. This version has the settings page; the calculators arrive in the next release.
 
 == Installation ==
 

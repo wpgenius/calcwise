@@ -1,6 +1,6 @@
 {
 	"name": "wpgenius/calcwise",
-	"description": "WordPress plugin boilerplate: a starter kit for building plugins.",
+	"description": "CalcWise – Financial Calculators: SIP, FD interest and more, with animated charts.",
 	"type": "wordpress-plugin",
 	"license": "GPL-3.0-or-later",
 	"homepage": "https://github.com/wpgenius/calcwise",

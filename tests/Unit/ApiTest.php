@@ -34,10 +34,10 @@ class ApiTest extends TestCase {
 
 	public function test_get_setting_falls_back_to_defaults() {
 		Functions\when( 'apply_filters' )->returnArg( 2 );
-		Functions\when( 'get_option' )->justReturn( array( 'layout' => 'list' ) );
+		Functions\when( 'get_option' )->justReturn( array( 'accent_color' => '#000000' ) );
 
-		$this->assertSame( 'list', Api::get_setting( 'layout' ) ); // Saved value.
-		$this->assertSame( 6, Api::get_setting( 'items_per_page' ) ); // Default.
+		$this->assertSame( '#000000', Api::get_setting( 'accent_color' ) ); // Saved value.
+		$this->assertSame( 0, Api::get_setting( 'delete_data' ) ); // Default.
 		$this->assertSame( 'none', Api::get_setting( 'missing', 'none' ) ); // Unknown key.
 	}
 }
