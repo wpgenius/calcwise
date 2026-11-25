@@ -24,6 +24,8 @@
  *             'label'  => __( 'Growth of the investment by year', 'calcwise' ),
  *             'series' => array( 'invested' => __( 'Amount invested', 'calcwise' ) ),
  *         ),
+ *         // Optional texts the script shows, e.g. warnings with {placeholders}.
+ *         'messages'    => array( 'depleted' => __( 'The money runs out in year {year}.', 'calcwise' ) ),
  *     )
  *
  * Units: money, percent, years, months, number.
@@ -161,6 +163,7 @@ class Registry {
 				'label'  => isset( $chart['label'] ) ? (string) $chart['label'] : '',
 				'series' => isset( $chart['series'] ) ? array_map( 'strval', (array) $chart['series'] ) : array(),
 			),
+			'messages'    => isset( $definition['messages'] ) ? array_map( 'strval', (array) $definition['messages'] ) : array(),
 		);
 	}
 }
