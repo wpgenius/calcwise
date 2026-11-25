@@ -1,0 +1,1 @@
+window.calcwise.register("lumpsum",(e,t,s)=>s.mount(e,t,{calculate:(e,t)=>t.lumpsum({...e,compoundingPerYear:1}),results:e=>({invested:e.invested,returns:e.returns,total:e.total}),chart:e=>({type:"line",points:e.series,series:["invested","total"]})}));
