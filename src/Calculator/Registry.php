@@ -24,6 +24,12 @@
  *             'label'  => __( 'Growth of the investment by year', 'calcwise' ),
  *             'series' => array( 'invested' => __( 'Amount invested', 'calcwise' ) ),
  *         ),
+ *         // Optional: a table that differs from the chart (e.g. a repayment
+ *         // schedule). Without it, the table shows the chart's values.
+ *         'table'       => array(
+ *             'label'   => __( 'Yearly repayment schedule', 'calcwise' ),
+ *             'columns' => array( 'balance' => __( 'Balance', 'calcwise' ) ),
+ *         ),
  *         // Optional texts the script shows, e.g. warnings with {placeholders}.
  *         'messages'    => array( 'depleted' => __( 'The money runs out in year {year}.', 'calcwise' ) ),
  *     )
@@ -153,6 +159,7 @@ class Registry {
 		}
 
 		$chart = isset( $definition['chart'] ) ? (array) $definition['chart'] : array();
+		$table = isset( $definition['table'] ) ? (array) $definition['table'] : array();
 
 		return array(
 			'title'       => isset( $definition['title'] ) ? (string) $definition['title'] : '',
@@ -162,6 +169,10 @@ class Registry {
 			'chart'       => array(
 				'label'  => isset( $chart['label'] ) ? (string) $chart['label'] : '',
 				'series' => isset( $chart['series'] ) ? array_map( 'strval', (array) $chart['series'] ) : array(),
+			),
+			'table'       => array(
+				'label'   => isset( $table['label'] ) ? (string) $table['label'] : '',
+				'columns' => isset( $table['columns'] ) ? array_map( 'strval', (array) $table['columns'] ) : array(),
 			),
 			'messages'    => isset( $definition['messages'] ) ? array_map( 'strval', (array) $definition['messages'] ) : array(),
 		);

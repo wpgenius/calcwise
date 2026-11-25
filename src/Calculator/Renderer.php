@@ -60,6 +60,7 @@ class Renderer {
 			),
 			'format'   => $format,
 			'series'   => $definition['chart']['series'],
+			'table'    => $definition['table']['columns'],
 			'messages' => $definition['messages'],
 			'i18n'     => array(
 				'year'  => __( 'Year', 'calcwise' ),
@@ -87,7 +88,7 @@ class Renderer {
 		$html .= '<div class="calcwise-calculator__output">';
 		$html .= self::results( $definition['results'], $format );
 		$html .= '<p class="calcwise-message" role="alert" hidden></p>';
-		$html .= self::chart( $id, $definition['chart']['label'] );
+		$html .= self::chart( $id, $definition['chart']['label'], $definition['table']['label'] );
 		$html .= '</div>';
 		$html .= '</div>';
 
@@ -231,18 +232,21 @@ class Renderer {
 	/**
 	 * Chart canvas plus a table of the same values as a text alternative.
 	 *
-	 * @param string $id    Instance ID.
-	 * @param string $label What the chart shows.
+	 * @param string $id          Instance ID.
+	 * @param string $label       What the chart shows.
+	 * @param string $table_label What the table shows, when it differs from the chart.
 	 * @return string
 	 */
-	private static function chart( $id, $label ) {
-		$html  = '<figure class="calcwise-chart">';
-		$html .= '<div class="calcwise-chart__canvas"><canvas role="img" aria-label="' . esc_attr( $label ) . '" aria-describedby="' . esc_attr( $id ) . '-table"></canvas></div>';
-		$html .= '<details class="calcwise-table">';
-		$html .= '<summary>' . esc_html__( 'Show the values as a table', 'calcwise' ) . '</summary>';
-		$html .= '<div class="calcwise-table__scroll"><table id="' . esc_attr( $id ) . '-table"><caption>' . esc_html( $label ) . '</caption><thead></thead><tbody></tbody></table></div>';
-		$html .= '</details>';
-		$html .= '</figure>';
+	private static function chart( $id, $label, $table_label = '' ) {
+		$caption = '' !== $table_label ? $table_label : $label;
+		$summary = '' !== $table_label ? $table_label : __( 'Show the values as a table', 'calcwise' );
+		$html    = '<figure class="calcwise-chart">';
+		$html   .= '<div class="calcwise-chart__canvas"><canvas role="img" aria-label="' . esc_attr( $label ) . '" aria-describedby="' . esc_attr( $id ) . '-table"></canvas></div>';
+		$html   .= '<details class="calcwise-table">';
+		$html   .= '<summary>' . esc_html( $summary ) . '</summary>';
+		$html   .= '<div class="calcwise-table__scroll"><table id="' . esc_attr( $id ) . '-table"><caption>' . esc_html( $caption ) . '</caption><thead></thead><tbody></tbody></table></div>';
+		$html   .= '</details>';
+		$html   .= '</figure>';
 		return $html;
 	}
 

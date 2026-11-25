@@ -236,3 +236,55 @@ describe( 'Goal', () => {
 		expect( Math.round( last.total ) ).toBe( Math.round( last.goalCost ) );
 	} );
 } );
+
+describe( 'EMI', () => {
+	it( 'matches the reference values', async () => {
+		const spec = await specFor( 'emi' );
+		const shown = spec.results(
+			spec.calculate(
+				{ principal: 100000, annualRate: 7, years: 1 },
+				calc
+			)
+		);
+
+		expect( Math.round( shown.emi ) ).toBe( 8653 );
+		expect( shown.principal ).toBe( 100000 );
+		expect( Math.round( shown.totalInterest ) ).toBe( 3832 );
+		expect( Math.round( shown.totalPayment ) ).toBe( 103832 );
+	} );
+
+	it( 'draws a half doughnut of principal and interest', async () => {
+		const spec = await specFor( 'emi' );
+		const result = calc.emi( {
+			principal: 1000000,
+			annualRate: 9,
+			years: 20,
+		} );
+		const chart = spec.chart( result );
+
+		expect( chart.type ).toBe( 'doughnut' );
+		expect( chart.circumference ).toBe( 180 );
+		expect( chart.rotation ).toBe( -90 );
+		expect( chart.values ).toEqual( [
+			result.principal,
+			result.totalInterest,
+		] );
+	} );
+
+	it( 'shows a yearly repayment schedule that ends at zero', async () => {
+		const spec = await specFor( 'emi' );
+		const table = spec.table(
+			calc.emi( { principal: 1000000, annualRate: 9, years: 20 } )
+		);
+
+		expect( table.series ).toEqual( [
+			'principalPaid',
+			'interestPaid',
+			'balance',
+		] );
+		expect( table.points ).toHaveLength( 20 );
+		expect( table.points[ 0 ].month ).toBe( 0 );
+		expect( table.points[ 1 ].month ).toBe( 12 );
+		expect( Math.round( table.points.at( -1 ).balance ) ).toBe( 0 );
+	} );
+} );
