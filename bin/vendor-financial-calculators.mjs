@@ -36,6 +36,16 @@ if ( ! existsSync( target ) || ! readFileSync( source ).equals( readFileSync( ta
 	}
 }
 
+// The library's own licence file, shipped next to it.
+const licence = join( pkgDir, 'LICENSE' );
+const licenceTarget = join( root, 'src/vendor/financial-calculators/LICENSE' );
+if ( ! existsSync( licenceTarget ) || ! readFileSync( licence ).equals( readFileSync( licenceTarget ) ) ) {
+	problems.push( 'src/vendor/financial-calculators/LICENSE differs from the npm package' );
+	if ( ! check ) {
+		copyFileSync( licence, licenceTarget );
+	}
+}
+
 // Where the version is quoted: file, pattern, replacement.
 const mentions = [
 	[ 'src/vendor/financial-calculators/README.md', /^Version: .*$/m, `Version: ${ version }` ],

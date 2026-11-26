@@ -9,6 +9,7 @@
 	},
 	"scripts": {
 		"build": "wp-scripts build --webpack-src-dir=blocks --output-path=build --webpack-copy-php",
+		"postbuild": "node bin/asset-guard.js",
 		"start": "wp-scripts start --webpack-src-dir=blocks --output-path=build --webpack-copy-php",
 		"lint": "npm run lint:js && npm run lint:css",
 		"lint:js": "wp-scripts lint-js assets/js blocks src tests/js webpack.config.js --ignore-pattern \"src/vendor/**\"",
