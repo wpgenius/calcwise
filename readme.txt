@@ -117,7 +117,6 @@ Only if "Delete data on uninstall" is ticked in the settings. On a multisite net
 = 1.1.0 =
 
 * Formulas, number formatting and amounts in words from the financial-calculators library (#4)
-* Removed leftover example code (#5)
 * Charts and calculations bundled and served from your site, without jQuery (#6)
 * Several calculators can share one page (#7)
 * SIP calculator (#8)
@@ -133,7 +132,6 @@ Only if "Delete data on uninstall" is ticked in the settings. On a multisite net
 * Optional data removal on uninstall, multisite-aware (#20)
 * Readme, screenshots and Playground demo (#21)
 * Plugin Check clean and guideline review (#22)
-* Development: linked-issue check supports milestone branches (#44)
 * financial-calculators library updated to 1.1.1 (#57)
 * Calculator output escaped where it is printed (#65)
 * Plugin description matches what the plugin does (#66)
