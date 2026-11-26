@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       CalcWise – Financial Calculators
  * Plugin URI:        https://github.com/wpgenius/calcwise
- * Description:       Financial calculators for SIP, FD interest and more, with animated charts.
+ * Description:       SIP, lump sum, SWP, goal and EMI calculators with live results and charts. Add them with a block or a shortcode.
  * Version:           1.0.0
  * Requires at least: 6.6
  * Requires PHP:      7.4

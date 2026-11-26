@@ -17,9 +17,8 @@ $calcwise_html = '' === $calcwise_type ? '' : WPGenius\CalcWise\Calculator\Rende
 );
 
 if ( '' !== $calcwise_html ) {
-	printf(
-		'<div %1$s>%2$s</div>',
-		get_block_wrapper_attributes(), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped by WordPress.
-		$calcwise_html // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped by the renderer.
+	echo wp_kses(
+		'<div ' . get_block_wrapper_attributes() . '>' . $calcwise_html . '</div>',
+		WPGenius\CalcWise\Calculator\Renderer::allowed_html()
 	);
 }

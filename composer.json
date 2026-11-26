@@ -1,6 +1,6 @@
 {
 	"name": "wpgenius/calcwise",
-	"description": "CalcWise – Financial Calculators: SIP, FD interest and more, with animated charts.",
+	"description": "CalcWise – Financial Calculators: SIP, lump sum, SWP, goal and EMI calculators with live results and charts.",
 	"type": "wordpress-plugin",
 	"license": "GPL-3.0-or-later",
 	"homepage": "https://github.com/wpgenius/calcwise",
