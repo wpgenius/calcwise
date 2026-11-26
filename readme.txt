@@ -1,7 +1,7 @@
 === CalcWise – Financial Calculators ===
 Contributors: mkrndmane
 Tags: calculator, sip calculator, fd calculator, interest calculator, financial calculator
-Requires at least: 6.5
+Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.0.0

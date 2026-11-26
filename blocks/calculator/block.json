@@ -1,0 +1,35 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "calcwise/calculator",
+	"title": "CalcWise Calculator",
+	"category": "widgets",
+	"icon": "calculator",
+	"description": "A financial calculator with an animated chart: SIP, lump sum, SWP, goal or EMI.",
+	"keywords": [ "calculator", "sip", "emi", "investment", "loan" ],
+	"textdomain": "calcwise",
+	"attributes": {
+		"type": {
+			"type": "string",
+			"default": ""
+		},
+		"fields": {
+			"type": "object",
+			"default": {}
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ],
+		"spacing": {
+			"margin": true
+		}
+	},
+	"example": {
+		"attributes": {
+			"type": "sip"
+		}
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
