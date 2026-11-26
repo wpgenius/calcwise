@@ -22,7 +22,7 @@
 		"vendor:financial-calculators:check": "node bin/vendor-financial-calculators.mjs --check"
 	},
 	"dependencies": {
-		"@wpgenius/financial-calculators": "^1.1.1"
+		"@wpgenius/financial-calculators": "^1.2.0"
 	},
 	"devDependencies": {
 		"@wordpress/block-editor": "^20.1.0",
