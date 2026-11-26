@@ -25,7 +25,10 @@
  * calculators work on one page.
  *
  * Content added later (popups, tabs, page builders) is started with
- * `window.calcwise.init( container )`.
+ * `window.calcwise.init( container )`; `window.calcwise.destroy( container )`
+ * stops the calculators in it (charts included) before it is removed or
+ * re-rendered. Instances whose markup has left the page are destroyed on the
+ * next init() anyway (e.g. the block editor's preview refreshes).
  *
  * `window.calcwise` is the only global CalcWise defines.
  */
@@ -61,6 +64,25 @@ Chart.register(
 
 const SELECTOR = '.calcwise-calculator[data-calcwise-type]';
 const types = new Map();
+const instances = new Map(); // Element → what start() returned ({ destroy }).
+
+/**
+ * Stop one instance and forget it.
+ *
+ * @param {HTMLElement} element Calculator element.
+ * @return {void}
+ */
+function stop( element ) {
+	const instance = instances.get( element );
+	instances.delete( element );
+	delete element.dataset.calcwiseReady;
+	try {
+		instance?.destroy?.();
+	} catch ( error ) {
+		// eslint-disable-next-line no-console
+		console.error( 'CalcWise: could not stop a calculator.', error );
+	}
+}
 
 /**
  * Read an instance's settings from its data attribute.
@@ -84,6 +106,13 @@ function readSettings( element ) {
  * @return {void}
  */
 function init( root = document ) {
+	// Instances whose markup was removed or replaced: free their charts.
+	instances.forEach( ( instance, element ) => {
+		if ( ! element.isConnected ) {
+			stop( element );
+		}
+	} );
+
 	root.querySelectorAll( SELECTOR ).forEach( ( element ) => {
 		if ( element.dataset.calcwiseReady ) {
 			return;
@@ -93,7 +122,31 @@ function init( root = document ) {
 			return; // Its script hasn't loaded yet; register() starts it.
 		}
 		element.dataset.calcwiseReady = '1';
-		start( element, readSettings( element ), runtime );
+		// One broken calculator must not keep the others from starting.
+		try {
+			instances.set(
+				element,
+				start( element, readSettings( element ), runtime )
+			);
+		} catch ( error ) {
+			// eslint-disable-next-line no-console
+			console.error( 'CalcWise: a calculator could not start.', error );
+		}
+	} );
+}
+
+/**
+ * Stop the calculators in a container (charts included), e.g. before a page
+ * builder re-renders it. They can be started again with init().
+ *
+ * @param {Document|Element} [root=document] Where to look.
+ * @return {void}
+ */
+function destroy( root = document ) {
+	instances.forEach( ( instance, element ) => {
+		if ( root === element || root.contains( element ) ) {
+			stop( element );
+		}
 	} );
 }
 
@@ -125,6 +178,13 @@ function mount( element, settings, spec ) {
 	return mountCalculator( element, settings, runtime, spec );
 }
 
-const runtime = Object.freeze( { Chart, calc, init, mount, register } );
+const runtime = Object.freeze( {
+	Chart,
+	calc,
+	destroy,
+	init,
+	mount,
+	register,
+} );
 
 window.calcwise = runtime;

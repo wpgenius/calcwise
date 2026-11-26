@@ -26,6 +26,48 @@
 import { isUsable, limitsFor, resolveValue } from './fields';
 
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
+const ID_ATTRIBUTES = [ 'id', 'for', 'aria-describedby', 'aria-labelledby' ];
+let renamed = 0;
+
+/**
+ * Give an instance new IDs when its own are already used on the page.
+ *
+ * IDs come from a per-request counter, so markup from separate requests (the
+ * block editor renders each block's preview on its own, AJAX, cached
+ * fragments) can repeat them; labels and the chart's table link would then
+ * point at another calculator. Every ID inside the instance starts with the
+ * element's own ID, so they are all moved to a new prefix together.
+ *
+ * @param {HTMLElement} element Calculator element.
+ * @return {void}
+ */
+export function ensureUniqueIds( element ) {
+	const id = element.id;
+	const doc = element.ownerDocument;
+	if ( ! id || ! doc || doc.getElementById( id ) === element ) {
+		return;
+	}
+	let prefix;
+	do {
+		prefix = `${ id }-r${ ++renamed }`;
+	} while ( doc.getElementById( prefix ) );
+
+	const rename = ( token ) =>
+		token === id || token.startsWith( `${ id }-` )
+			? prefix + token.slice( id.length )
+			: token;
+	[ element, ...element.querySelectorAll( '*' ) ].forEach( ( node ) => {
+		ID_ATTRIBUTES.forEach( ( name ) => {
+			const value = node.getAttribute( name );
+			if ( value ) {
+				node.setAttribute(
+					name,
+					value.split( /\s+/ ).map( rename ).join( ' ' )
+				);
+			}
+		} );
+	} );
+}
 
 /**
  * Number formatting for one instance.
@@ -112,6 +154,7 @@ export function yearLabel( point, startYear ) {
  */
 export function mount( element, settings, runtime, spec ) {
 	const { calc, Chart } = runtime;
+	ensureUniqueIds( element );
 	const format = createFormat( calc, settings );
 	const i18n = settings?.i18n || {};
 	const startYear = new Date().getFullYear();
@@ -345,20 +388,39 @@ export function mount( element, settings, runtime, spec ) {
 		);
 	};
 
+	// A failed calculation must not leave the last answer on screen.
+	const showError = () => {
+		window.clearTimeout( statusTimer );
+		showMessage( i18n.error || 'Please check the values entered.' );
+		element
+			.querySelectorAll( '.calcwise-result__value' )
+			.forEach( ( node ) => ( node.textContent = '–' ) );
+		element
+			.querySelectorAll( '.calcwise-result__words' )
+			.forEach( ( node ) => ( node.textContent = '' ) );
+		if ( table ) {
+			table.tHead?.replaceChildren();
+			table.tBodies[ 0 ]?.replaceChildren();
+		}
+		chart?.destroy();
+		chart = null;
+	};
+
 	const update = () => {
 		frame = 0;
-		let result;
 		try {
-			result = spec.calculate( values(), calc );
+			const result = spec.calculate( values(), calc );
+			showMessage( spec.message ? spec.message( result, format ) : '' );
+			renderResults( spec.results ? spec.results( result, format ) : {} );
+			const config = spec.chart ? spec.chart( result ) : null;
+			renderChart( config );
+			renderTable( spec.table ? spec.table( result ) : config );
 		} catch {
-			showMessage( i18n.error || 'Please check the values entered.' );
-			return;
+			// The library throws RangeError/TypeError on values it can't use
+			// (e.g. limits set beyond its range); formatting non-finite
+			// results throws too.
+			showError();
 		}
-		showMessage( spec.message ? spec.message( result, format ) : '' );
-		renderResults( spec.results ? spec.results( result, format ) : {} );
-		const config = spec.chart ? spec.chart( result ) : null;
-		renderChart( config );
-		renderTable( spec.table ? spec.table( result ) : config );
 	};
 
 	const schedule = () => {
