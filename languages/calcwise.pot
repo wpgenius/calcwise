@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-25T20:27:44+00:00\n"
+"POT-Creation-Date: 2026-11-26T07:51:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: calcwise\n"
@@ -332,4 +332,82 @@ msgstr ""
 #: src/Shortcode.php:111
 #, php-format
 msgid "CalcWise: there is no \"%1$s\" calculator. Types: %2$s."
+msgstr ""
+
+#: blocks/calculator/edit.js:59
+msgid "Choose a calculator"
+msgstr ""
+
+#: blocks/calculator/edit.js:74
+#: blocks/calculator/edit.js:103
+msgid "Calculator"
+msgstr ""
+
+#: blocks/calculator/edit.js:120
+msgid "Leave a box empty to use the calculator’s own value."
+msgstr ""
+
+#: blocks/calculator/edit.js:128
+msgid "Starting value"
+msgstr ""
+
+#: blocks/calculator/edit.js:134
+msgid "Lowest value"
+msgstr ""
+
+#: blocks/calculator/edit.js:140
+msgid "Highest value"
+msgstr ""
+
+#: blocks/calculator/edit.js:146
+msgid "Step"
+msgstr ""
+
+#: blocks/calculator/edit.js:165
+msgid "CalcWise Calculator"
+msgstr ""
+
+#. translators: %s: calculator type.
+#: blocks/calculator/edit.js:170
+#, js-format
+msgid "The \"%s\" calculator is not available. Choose another one."
+msgstr ""
+
+#: blocks/calculator/edit.js:176
+msgid "Choose which calculator to show."
+msgstr ""
+
+#: blocks/calculator/block.json
+msgctxt "block title"
+msgid "CalcWise Calculator"
+msgstr ""
+
+#: blocks/calculator/block.json
+msgctxt "block description"
+msgid "A financial calculator with an animated chart: SIP, lump sum, SWP, goal or EMI."
+msgstr ""
+
+#: blocks/calculator/block.json
+msgctxt "block keyword"
+msgid "calculator"
+msgstr ""
+
+#: blocks/calculator/block.json
+msgctxt "block keyword"
+msgid "sip"
+msgstr ""
+
+#: blocks/calculator/block.json
+msgctxt "block keyword"
+msgid "emi"
+msgstr ""
+
+#: blocks/calculator/block.json
+msgctxt "block keyword"
+msgid "investment"
+msgstr ""
+
+#: blocks/calculator/block.json
+msgctxt "block keyword"
+msgid "loan"
 msgstr ""

@@ -19,7 +19,7 @@ the calculators as a block and a shortcode. Formulas come from
 
 ## Requirements
 
-- **To run the plugin:** WordPress 6.5 or later and PHP 7.4 or later.
+- **To run the plugin:** WordPress 6.6 or later and PHP 7.4 or later.
 - **For development (optional):** Composer for the PHP checks and tests,
   Node 20.19+ or 22.12+ (`.nvmrc`) for the block build and JS/CSS lint, and
   Docker for the local WordPress site and the integration tests.

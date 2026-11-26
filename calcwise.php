@@ -4,7 +4,7 @@
  * Plugin URI:        https://github.com/wpgenius/calcwise
  * Description:       Financial calculators for SIP, FD interest and more, with animated charts.
  * Version:           1.0.0
- * Requires at least: 6.5
+ * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            Team WPGenius
  * Author URI:        https://wpgenius.in

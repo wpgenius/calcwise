@@ -142,7 +142,7 @@ jobs:
         # Keep the lowest in sync with "Requires at least" in the plugin header.
         wp:
           - { name: 'latest', core: '' }
-          - { name: '6.5', core: 'WordPress/WordPress#6.5-branch' }
+          - { name: '6.6', core: 'WordPress/WordPress#6.6-branch' }
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
