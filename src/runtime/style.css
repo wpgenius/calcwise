@@ -141,6 +141,7 @@
 
 .calcwise-result__value {
 	font-size: 1.375em;
+	overflow-wrap: anywhere;
 	font-variant-numeric: tabular-nums;
 	font-weight: 700;
 	margin: 0;
@@ -251,9 +252,18 @@
 	width: 1px;
 }
 
-@container (min-width: 720px) {
+/*
+ * Results side by side only when the output column itself is wide (the
+ * calculator spans a very wide area); next to the inputs they stack, so long
+ * amounts and their words have room.
+ */
+.calcwise-calculator__output {
+	container-type: inline-size;
+}
+
+@container (min-width: 48rem) {
 
 	.calcwise-results {
-		grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
 	}
 }

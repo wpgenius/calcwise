@@ -14,3 +14,8 @@
 .calcwise-limits input.small-text {
 	width: 8em;
 }
+
+.calcwise-limits th,
+.calcwise-limits td {
+	padding: 0.5em 0.75em;
+}
