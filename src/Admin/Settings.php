@@ -11,7 +11,8 @@
  * shown under email fields).
  *
  * Types: text, textarea, editor, number, checkbox, select, radio, email,
- * url, color, time, password.
+ * url, color, time, password, and limits (a calculator's starting values and
+ * limits: 'calculator' => type).
  *
  * @package WPGenius\CalcWise
  */
@@ -19,6 +20,7 @@
 namespace WPGenius\CalcWise\Admin;
 
 use WPGenius\CalcWise\Api;
+use WPGenius\CalcWise\Calculator\Registry;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -47,48 +49,98 @@ class Settings extends Api {
 	 */
 	public static function fields() {
 		$sections = array(
-			'general'  => array(
-				'title'       => __( 'General', 'calcwise' ),
-				'description' => __( 'How items are listed by the shortcode and the block.', 'calcwise' ),
+			'numbers'    => array(
+				'title'       => __( 'Numbers and currency', 'calcwise' ),
+				'description' => __( 'How amounts are written in every calculator.', 'calcwise' ),
 				'fields'      => array(
-					'items_per_page' => array(
-						'type'    => 'number',
-						'label'   => __( 'Items per page', 'calcwise' ),
-						'default' => 6,
-						'min'     => 1,
-						'max'     => 50,
+					'currency_symbol'   => array(
+						'type'    => 'text',
+						'label'   => __( 'Currency symbol', 'calcwise' ),
+						'default' => '₹',
 					),
-					'layout'         => array(
+					'currency_position' => array(
 						'type'    => 'select',
-						'label'   => __( 'Layout', 'calcwise' ),
-						'default' => 'grid',
+						'label'   => __( 'Symbol position', 'calcwise' ),
+						'default' => 'before',
 						'options' => array(
-							'grid' => __( 'Grid', 'calcwise' ),
-							'list' => __( 'List', 'calcwise' ),
+							'before' => __( 'Before the amount (₹1,500)', 'calcwise' ),
+							'after'  => __( 'After the amount (1,500 €)', 'calcwise' ),
 						),
 					),
-					'accent_color'   => array(
-						'type'    => 'color',
-						'label'   => __( 'Accent colour', 'calcwise' ),
-						'default' => '#2271b1',
+					'number_system'     => array(
+						'type'    => 'select',
+						'label'   => __( 'Digit grouping', 'calcwise' ),
+						'default' => 'indian',
+						'options' => array(
+							'indian'        => __( 'Indian: 12,34,567 (lakh, crore)', 'calcwise' ),
+							'international' => __( 'International: 1,234,567 (million, billion)', 'calcwise' ),
+						),
 					),
-					'show_load_more' => array(
+					'amount_in_words'   => array(
 						'type'        => 'checkbox',
-						'label'       => __( 'Load more button', 'calcwise' ),
-						'description' => __( 'Show a button that loads the next page without reloading (REST API).', 'calcwise' ),
+						'label'       => __( 'Amounts in words', 'calcwise' ),
+						'description' => __( 'Show results in words too, e.g. "Two Lakh Fifty Thousand" or "Two Hundred and Fifty Thousand".', 'calcwise' ),
 						'default'     => 1,
 					),
 				),
 			),
-			'advanced' => array(
-				'title'  => __( 'Advanced', 'calcwise' ),
+			'look'       => array(
+				'title'  => __( 'Colours', 'calcwise' ),
 				'fields' => array(
-					'delete_data' => array(
-						'type'        => 'checkbox',
-						'label'       => __( 'Delete data on uninstall', 'calcwise' ),
-						'description' => __( 'When the plugin is deleted, also delete its settings, items and database table.', 'calcwise' ),
-						'default'     => 0,
+					'accent_color'   => array(
+						'type'        => 'color',
+						'label'       => __( 'Main colour', 'calcwise' ),
+						'description' => __( 'Highlighted result, sliders and the first chart series.', 'calcwise' ),
+						'default'     => '#2271b1',
 					),
+					'accent_color_2' => array(
+						'type'        => 'color',
+						'label'       => __( 'Second colour', 'calcwise' ),
+						'description' => __( 'The second chart series.', 'calcwise' ),
+						'default'     => '#b3501d',
+					),
+				),
+			),
+			'disclaimer' => array(
+				'title'  => __( 'Disclaimer', 'calcwise' ),
+				'fields' => array(
+					'disclaimer' => array(
+						'type'        => 'textarea',
+						'label'       => __( 'Text under every calculator', 'calcwise' ),
+						'description' => __( 'Leave empty to show no disclaimer.', 'calcwise' ),
+						'default'     => __( 'Results are estimates based on the values you enter. They are not financial advice.', 'calcwise' ),
+					),
+				),
+			),
+		);
+
+		foreach ( Registry::all() as $type => $definition ) {
+			$sections[ 'calculator_' . $type ] = array(
+				'title'       => $definition['title'],
+				'description' => sprintf(
+					/* translators: %s: shortcode, e.g. [calcwise type="sip"]. */
+					__( 'Starting values and limits for this calculator everywhere (%s and the block). Leave a box empty to keep the built-in value shown in it. A block or shortcode can still change them.', 'calcwise' ),
+					'[calcwise type="' . $type . '"]'
+				),
+				'fields'      => array(
+					'limits_' . $type => array(
+						'type'       => 'limits',
+						'label'      => __( 'Values', 'calcwise' ),
+						'calculator' => $type,
+						'default'    => array(),
+					),
+				),
+			);
+		}
+
+		$sections['advanced'] = array(
+			'title'  => __( 'Advanced', 'calcwise' ),
+			'fields' => array(
+				'delete_data' => array(
+					'type'        => 'checkbox',
+					'label'       => __( 'Delete data on uninstall', 'calcwise' ),
+					'description' => __( 'When the plugin is deleted, also delete its settings.', 'calcwise' ),
+					'default'     => 0,
 				),
 			),
 		);
@@ -220,7 +272,10 @@ class Settings extends Api {
 	 */
 	public static function sanitize_value( array $field, $value ) {
 		$default = isset( $field['default'] ) ? $field['default'] : '';
-		$value   = is_scalar( $value ) ? (string) $value : '';
+		if ( 'limits' === $field['type'] ) {
+			return self::sanitize_limits( $field, $value );
+		}
+		$value = is_scalar( $value ) ? (string) $value : '';
 
 		switch ( $field['type'] ) {
 			case 'checkbox':
@@ -265,6 +320,35 @@ class Settings extends Api {
 			default: // text, password.
 				return sanitize_text_field( $value );
 		}
+	}
+
+	/**
+	 * Sanitise a calculator's starting values and limits: only its own fields,
+	 * only numbers, empty boxes dropped. The renderer checks min < max and
+	 * keeps the starting value within the limits.
+	 *
+	 * @param array<string, mixed> $field Field definition with 'calculator'.
+	 * @param mixed                $value Submitted values: field => prop => number.
+	 * @return array<string, array<string, float>>
+	 */
+	public static function sanitize_limits( array $field, $value ) {
+		$definition = isset( $field['calculator'] ) ? Registry::get( (string) $field['calculator'] ) : null;
+		if ( null === $definition || ! is_array( $value ) ) {
+			return array();
+		}
+		$clean = array();
+		foreach ( array_keys( $definition['fields'] ) as $key ) {
+			if ( ! isset( $value[ $key ] ) || ! is_array( $value[ $key ] ) ) {
+				continue;
+			}
+			foreach ( array( 'default', 'min', 'max', 'step' ) as $prop ) {
+				$raw = isset( $value[ $key ][ $prop ] ) && is_scalar( $value[ $key ][ $prop ] ) ? trim( (string) $value[ $key ][ $prop ] ) : '';
+				if ( '' !== $raw && is_numeric( $raw ) ) {
+					$clean[ $key ][ $prop ] = (float) $raw;
+				}
+			}
+		}
+		return $clean;
 	}
 
 	/**
@@ -373,6 +457,10 @@ class Settings extends Api {
 				);
 				break;
 
+			case 'limits':
+				self::render_limits( $field, $id, $name, is_array( $value ) ? $value : array() );
+				break;
+
 			case 'color':
 				printf(
 					'<input type="text" id="%s" name="%s" value="%s" class="calcwise-color-field" data-default-color="%s">',
@@ -402,5 +490,51 @@ class Settings extends Api {
 		if ( ! empty( $field['vars'] ) ) {
 			echo '<p class="description">' . esc_html__( 'You can use:', 'calcwise' ) . ' <code>' . implode( '</code> <code>', array_map( 'esc_html', $field['vars'] ) ) . '</code></p>';
 		}
+	}
+
+	/**
+	 * A calculator's starting values and limits as a small table: one row per
+	 * field, empty boxes show the built-in value.
+	 *
+	 * @param array<string, mixed>                $field Field definition with 'calculator'.
+	 * @param string                              $id    Field ID.
+	 * @param string                              $name  Input name prefix.
+	 * @param array<string, array<string, float>> $value Saved values.
+	 * @return void
+	 */
+	private static function render_limits( array $field, $id, $name, array $value ) {
+		$definition = Registry::get( (string) $field['calculator'] );
+		if ( null === $definition ) {
+			return;
+		}
+		$columns = array(
+			'default' => __( 'Starting value', 'calcwise' ),
+			'min'     => __( 'Lowest', 'calcwise' ),
+			'max'     => __( 'Highest', 'calcwise' ),
+			'step'    => __( 'Step', 'calcwise' ),
+		);
+
+		printf( '<table class="calcwise-limits widefat striped" id="%s"><thead><tr><th scope="col">%s</th>', esc_attr( $id ), esc_html__( 'Field', 'calcwise' ) );
+		foreach ( $columns as $label ) {
+			echo '<th scope="col">' . esc_html( $label ) . '</th>';
+		}
+		echo '</tr></thead><tbody>';
+
+		foreach ( $definition['fields'] as $key => $def ) {
+			echo '<tr><th scope="row">' . esc_html( $def['label'] ) . '</th>';
+			foreach ( $columns as $prop => $label ) {
+				$saved = isset( $value[ $key ][ $prop ] ) ? (string) ( 0 + $value[ $key ][ $prop ] ) : '';
+				printf(
+					'<td><input type="number" step="any" class="small-text" name="%1$s" value="%2$s" placeholder="%3$s" aria-label="%4$s"></td>',
+					esc_attr( $name . '[' . $key . '][' . $prop . ']' ),
+					esc_attr( $saved ),
+					esc_attr( (string) ( 0 + $def[ $prop ] ) ),
+					/* translators: 1: field name, e.g. "Monthly investment"; 2: column, e.g. "Lowest". */
+					esc_attr( sprintf( __( '%1$s: %2$s', 'calcwise' ), $def['label'], $label ) )
+				);
+			}
+			echo '</tr>';
+		}
+		echo '</tbody></table>';
 	}
 }

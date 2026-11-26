@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-25T13:24:50+00:00\n"
+"POT-Creation-Date: 2026-11-26T11:15:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: calcwise\n"
@@ -26,7 +26,7 @@ msgstr ""
 
 #. Description of the plugin
 #: calcwise.php:5
-msgid "Financial calculators for SIP, FD interest and more, with animated charts."
+msgid "SIP, lump sum, SWP, goal and EMI calculators with live results and charts. Add them with a block or a shortcode."
 msgstr ""
 
 #. Author of the plugin
@@ -39,200 +39,729 @@ msgstr ""
 msgid "https://wpgenius.in"
 msgstr ""
 
-#: blocks/interactive/render.php:47
-#: templates/items-list.php:20
-msgid "No items yet."
-msgstr ""
-
-#: blocks/interactive/render.php:50
-msgid "Filter items"
-msgstr ""
-
-#: blocks/interactive/render.php:51
-msgid "Type to filter…"
-msgstr ""
-
-#: blocks/interactive/render.php:66
-msgid "No items match."
-msgstr ""
-
-#: src/Admin/Admin.php:56
-#: blocks/example/edit.js:18
-#: blocks/interactive/edit.js:17
+#: src/Admin/Admin.php:51
 msgid "Settings"
 msgstr ""
 
-#: src/Admin/Settings.php:51
-msgid "General"
+#: src/Admin/Settings.php:53
+msgid "Numbers and currency"
 msgstr ""
 
-#: src/Admin/Settings.php:52
-msgid "How items are listed by the shortcode and the block."
+#: src/Admin/Settings.php:54
+msgid "How amounts are written in every calculator."
 msgstr ""
 
-#: src/Admin/Settings.php:56
-msgid "Items per page"
+#: src/Admin/Settings.php:58
+msgid "Currency symbol"
 msgstr ""
 
 #: src/Admin/Settings.php:63
-#: blocks/example/edit.js:33
-msgid "Layout"
+msgid "Symbol position"
 msgstr ""
 
 #: src/Admin/Settings.php:66
-#: blocks/example/edit.js:37
-msgid "Grid"
+msgid "Before the amount (₹1,500)"
 msgstr ""
 
 #: src/Admin/Settings.php:67
-#: blocks/example/edit.js:44
-msgid "List"
+msgid "After the amount (1,500 €)"
 msgstr ""
 
 #: src/Admin/Settings.php:72
-msgid "Accent colour"
+msgid "Digit grouping"
 msgstr ""
 
-#: src/Admin/Settings.php:77
-msgid "Load more button"
+#: src/Admin/Settings.php:75
+msgid "Indian: 12,34,567 (lakh, crore)"
 msgstr ""
 
-#: src/Admin/Settings.php:78
-msgid "Show a button that loads the next page without reloading (REST API)."
+#: src/Admin/Settings.php:76
+msgid "International: 1,234,567 (million, billion)"
 msgstr ""
 
-#: src/Admin/Settings.php:84
-msgid "Advanced"
+#: src/Admin/Settings.php:81
+msgid "Amounts in words"
+msgstr ""
+
+#: src/Admin/Settings.php:82
+msgid "Show results in words too, e.g. \"Two Lakh Fifty Thousand\" or \"Two Hundred and Fifty Thousand\"."
 msgstr ""
 
 #: src/Admin/Settings.php:88
+msgid "Colours"
+msgstr ""
+
+#: src/Admin/Settings.php:92
+msgid "Main colour"
+msgstr ""
+
+#: src/Admin/Settings.php:93
+msgid "Highlighted result, sliders and the first chart series."
+msgstr ""
+
+#: src/Admin/Settings.php:98
+msgid "Second colour"
+msgstr ""
+
+#: src/Admin/Settings.php:99
+msgid "The second chart series."
+msgstr ""
+
+#: src/Admin/Settings.php:105
+msgid "Disclaimer"
+msgstr ""
+
+#: src/Admin/Settings.php:109
+msgid "Text under every calculator"
+msgstr ""
+
+#: src/Admin/Settings.php:110
+msgid "Leave empty to show no disclaimer."
+msgstr ""
+
+#: src/Admin/Settings.php:111
+#: src/Calculator/Renderer.php:111
+msgid "Results are estimates based on the values you enter. They are not financial advice."
+msgstr ""
+
+#. translators: %s: shortcode, e.g. [calcwise type="sip"].
+#: src/Admin/Settings.php:122
+#, php-format
+msgid "Starting values and limits for this calculator everywhere (%s and the block). Leave a box empty to keep the built-in value shown in it. A block or shortcode can still change them."
+msgstr ""
+
+#: src/Admin/Settings.php:128
+msgid "Values"
+msgstr ""
+
+#: src/Admin/Settings.php:137
+msgid "Advanced"
+msgstr ""
+
+#: src/Admin/Settings.php:141
 msgid "Delete data on uninstall"
 msgstr ""
 
-#: src/Admin/Settings.php:89
-msgid "When the plugin is deleted, also delete its settings, items and database table."
+#: src/Admin/Settings.php:142
+msgid "When the plugin is deleted, also delete its settings."
 msgstr ""
 
-#: src/Admin/Settings.php:140
-#: src/Admin/Settings.php:141
+#: src/Admin/Settings.php:192
+#: src/Admin/Settings.php:193
 msgid "CalcWise"
 msgstr ""
 
-#: src/Admin/Settings.php:403
+#: src/Admin/Settings.php:491
 msgid "You can use:"
 msgstr ""
 
-#: src/Frontend/Frontend.php:56
-msgid "Loading…"
+#: src/Admin/Settings.php:511
+#: build/calculator/index.js:1
+msgid "Starting value"
 msgstr ""
 
-#: src/Frontend/Frontend.php:57
-msgid "Something went wrong. Please try again."
+#: src/Admin/Settings.php:512
+msgid "Lowest"
 msgstr ""
 
-#: src/PostTypes/Example.php:52
-msgid "Items"
+#: src/Admin/Settings.php:513
+msgid "Highest"
 msgstr ""
 
-#: src/PostTypes/Example.php:53
-msgid "Item"
+#: src/Admin/Settings.php:514
+#: build/calculator/index.js:1
+msgid "Step"
 msgstr ""
 
-#: src/PostTypes/Example.php:54
-msgid "Add new item"
+#: src/Admin/Settings.php:517
+msgid "Field"
 msgstr ""
 
-#: src/PostTypes/Example.php:55
-msgid "Edit item"
+#. translators: 1: field name, e.g. "Monthly investment"; 2: column, e.g. "Lowest".
+#: src/Admin/Settings.php:533
+#, php-format
+msgid "%1$s: %2$s"
 msgstr ""
 
-#: src/PostTypes/Example.php:56
-msgid "All items"
+#: src/Calculator/Renderer.php:66
+msgid "Year"
 msgstr ""
 
-#: src/PostTypes/Example.php:57
-msgid "Search items"
+#: src/Calculator/Renderer.php:67
+msgid "Please check the values entered."
 msgstr ""
 
-#: src/PostTypes/Example.php:58
-msgid "No items found."
+#: src/Calculator/Renderer.php:265
+msgctxt "years, short unit after a number"
+msgid "yr"
 msgstr ""
 
-#: src/PostTypes/Example.php:74
-msgid "Item categories"
+#: src/Calculator/Renderer.php:266
+msgid "years"
 msgstr ""
 
-#: src/PostTypes/Example.php:75
-msgid "Item category"
+#: src/Calculator/Renderer.php:269
+msgctxt "months, short unit after a number"
+msgid "mo"
 msgstr ""
 
-#: src/PostTypes/Example.php:122
-msgid "Image"
+#: src/Calculator/Renderer.php:270
+msgid "months"
 msgstr ""
 
-#: src/Rest.php:66
-msgid "Page number."
+#: src/Calculator/Renderer.php:337
+msgid "Show the values as a table"
 msgstr ""
 
-#: src/Rest.php:72
-msgid "Items per page."
+#: src/Calculator/Words.php:61
+msgctxt "number in words"
+msgid "One"
 msgstr ""
 
-#: src/Rest.php:153
-msgid "The items rendered with templates/item.php."
+#: src/Calculator/Words.php:62
+msgctxt "number in words"
+msgid "Two"
 msgstr ""
 
-#: templates/items-list.php:37
-msgid "Load more"
+#: src/Calculator/Words.php:63
+msgctxt "number in words"
+msgid "Three"
 msgstr ""
 
-#: blocks/example/edit.js:21
-#: blocks/interactive/edit.js:20
-msgid "Number of items"
+#: src/Calculator/Words.php:64
+msgctxt "number in words"
+msgid "Four"
 msgstr ""
 
-#: blocks/example/block.json
+#: src/Calculator/Words.php:65
+msgctxt "number in words"
+msgid "Five"
+msgstr ""
+
+#: src/Calculator/Words.php:66
+msgctxt "number in words"
+msgid "Six"
+msgstr ""
+
+#: src/Calculator/Words.php:67
+msgctxt "number in words"
+msgid "Seven"
+msgstr ""
+
+#: src/Calculator/Words.php:68
+msgctxt "number in words"
+msgid "Eight"
+msgstr ""
+
+#: src/Calculator/Words.php:69
+msgctxt "number in words"
+msgid "Nine"
+msgstr ""
+
+#: src/Calculator/Words.php:70
+msgctxt "number in words"
+msgid "Ten"
+msgstr ""
+
+#: src/Calculator/Words.php:71
+msgctxt "number in words"
+msgid "Eleven"
+msgstr ""
+
+#: src/Calculator/Words.php:72
+msgctxt "number in words"
+msgid "Twelve"
+msgstr ""
+
+#: src/Calculator/Words.php:73
+msgctxt "number in words"
+msgid "Thirteen"
+msgstr ""
+
+#: src/Calculator/Words.php:74
+msgctxt "number in words"
+msgid "Fourteen"
+msgstr ""
+
+#: src/Calculator/Words.php:75
+msgctxt "number in words"
+msgid "Fifteen"
+msgstr ""
+
+#: src/Calculator/Words.php:76
+msgctxt "number in words"
+msgid "Sixteen"
+msgstr ""
+
+#: src/Calculator/Words.php:77
+msgctxt "number in words"
+msgid "Seventeen"
+msgstr ""
+
+#: src/Calculator/Words.php:78
+msgctxt "number in words"
+msgid "Eighteen"
+msgstr ""
+
+#: src/Calculator/Words.php:79
+msgctxt "number in words"
+msgid "Nineteen"
+msgstr ""
+
+#: src/Calculator/Words.php:84
+msgctxt "number in words"
+msgid "Twenty"
+msgstr ""
+
+#: src/Calculator/Words.php:85
+msgctxt "number in words"
+msgid "Thirty"
+msgstr ""
+
+#: src/Calculator/Words.php:86
+msgctxt "number in words"
+msgid "Forty"
+msgstr ""
+
+#: src/Calculator/Words.php:87
+msgctxt "number in words"
+msgid "Fifty"
+msgstr ""
+
+#: src/Calculator/Words.php:88
+msgctxt "number in words"
+msgid "Sixty"
+msgstr ""
+
+#: src/Calculator/Words.php:89
+msgctxt "number in words"
+msgid "Seventy"
+msgstr ""
+
+#: src/Calculator/Words.php:90
+msgctxt "number in words"
+msgid "Eighty"
+msgstr ""
+
+#: src/Calculator/Words.php:91
+msgctxt "number in words"
+msgid "Ninety"
+msgstr ""
+
+#: src/Calculator/Words.php:93
+msgctxt "number in words"
+msgid "Hundred"
+msgstr ""
+
+#. translators: Joins hundreds and the rest, as in "One Hundred and Five". Translate as a single space if your language has no such word.
+#: src/Calculator/Words.php:95
+msgctxt "number in words"
+msgid "and"
+msgstr ""
+
+#: src/Calculator/Words.php:96
+msgctxt "number in words"
+msgid "Zero"
+msgstr ""
+
+#: src/Calculator/Words.php:97
+msgctxt "number in words"
+msgid "Minus"
+msgstr ""
+
+#: src/Calculator/Words.php:99
+#: src/Calculator/Words.php:105
+msgctxt "number in words"
+msgid "Thousand"
+msgstr ""
+
+#: src/Calculator/Words.php:100
+msgctxt "number in words, 1,00,000"
+msgid "Lakh"
+msgstr ""
+
+#: src/Calculator/Words.php:101
+msgctxt "number in words, 1,00,00,000"
+msgid "Crore"
+msgstr ""
+
+#: src/Calculator/Words.php:106
+msgctxt "number in words"
+msgid "Million"
+msgstr ""
+
+#: src/Calculator/Words.php:107
+msgctxt "number in words"
+msgid "Billion"
+msgstr ""
+
+#: src/Calculator/Words.php:108
+msgctxt "number in words"
+msgid "Trillion"
+msgstr ""
+
+#: src/Calculator/Words.php:109
+msgctxt "number in words"
+msgid "Quadrillion"
+msgstr ""
+
+#: src/Calculator/Words.php:110
+msgctxt "number in words"
+msgid "Quintillion"
+msgstr ""
+
+#: src/Calculator/Words.php:111
+msgctxt "number in words"
+msgid "Sextillion"
+msgstr ""
+
+#: src/Calculator/Words.php:112
+msgctxt "number in words"
+msgid "Septillion"
+msgstr ""
+
+#: src/Calculator/Words.php:113
+msgctxt "number in words"
+msgid "Octillion"
+msgstr ""
+
+#: src/Calculator/Words.php:114
+msgctxt "number in words"
+msgid "Nonillion"
+msgstr ""
+
+#: src/Calculator/Words.php:115
+msgctxt "number in words"
+msgid "Decillion"
+msgstr ""
+
+#: src/Calculator/Words.php:137
+msgctxt "short for thousand, after a number"
+msgid "K"
+msgstr ""
+
+#: src/Calculator/Words.php:138
+msgctxt "short for lakh, after a number"
+msgid "L"
+msgstr ""
+
+#: src/Calculator/Words.php:139
+msgctxt "short for crore, after a number"
+msgid "Cr"
+msgstr ""
+
+#: src/Calculator/Words.php:140
+msgctxt "short for million, after a number"
+msgid "M"
+msgstr ""
+
+#: src/Calculator/Words.php:141
+msgctxt "short for billion, after a number"
+msgid "B"
+msgstr ""
+
+#: src/Calculator/Words.php:142
+msgctxt "short for trillion, after a number"
+msgid "T"
+msgstr ""
+
+#: src/calculators/emi/definition.php:16
+msgid "EMI calculator"
+msgstr ""
+
+#: src/calculators/emi/definition.php:17
+msgid "The monthly instalment (EMI) of a loan, and how much of it is interest."
+msgstr ""
+
+#: src/calculators/emi/definition.php:20
+msgid "Loan amount"
+msgstr ""
+
+#: src/calculators/emi/definition.php:28
+msgid "Interest rate (per year)"
+msgstr ""
+
+#: src/calculators/emi/definition.php:36
+msgid "Loan tenure"
+msgstr ""
+
+#: src/calculators/emi/definition.php:46
+msgid "Monthly EMI"
+msgstr ""
+
+#: src/calculators/emi/definition.php:51
+msgid "Principal amount"
+msgstr ""
+
+#: src/calculators/emi/definition.php:54
+msgid "Total interest"
+msgstr ""
+
+#: src/calculators/emi/definition.php:58
+msgid "Total amount payable"
+msgstr ""
+
+#: src/calculators/emi/definition.php:63
+msgid "Principal and interest in the total amount payable"
+msgstr ""
+
+#: src/calculators/emi/definition.php:65
+msgid "Principal"
+msgstr ""
+
+#: src/calculators/emi/definition.php:66
+msgid "Interest"
+msgstr ""
+
+#: src/calculators/emi/definition.php:70
+msgid "Yearly repayment schedule"
+msgstr ""
+
+#: src/calculators/emi/definition.php:72
+msgid "Principal paid"
+msgstr ""
+
+#: src/calculators/emi/definition.php:73
+msgid "Interest paid"
+msgstr ""
+
+#: src/calculators/emi/definition.php:74
+msgid "Balance"
+msgstr ""
+
+#: src/calculators/goal/definition.php:15
+msgid "Goal calculator"
+msgstr ""
+
+#: src/calculators/goal/definition.php:16
+msgid "The monthly investment needed to reach a goal by a chosen year."
+msgstr ""
+
+#: src/calculators/goal/definition.php:19
+msgid "Cost of the goal today"
+msgstr ""
+
+#: src/calculators/goal/definition.php:27
+msgid "Savings already put aside"
+msgstr ""
+
+#: src/calculators/goal/definition.php:35
+msgid "Inflation (per year)"
+msgstr ""
+
+#: src/calculators/goal/definition.php:43
+#: src/calculators/lumpsum/definition.php:27
+#: src/calculators/sip/definition.php:26
+#: src/calculators/swp/definition.php:36
+msgid "Expected return rate (per year)"
+msgstr ""
+
+#: src/calculators/goal/definition.php:51
+msgid "Years to reach the goal"
+msgstr ""
+
+#: src/calculators/goal/definition.php:61
+msgid "Goal year"
+msgstr ""
+
+#: src/calculators/goal/definition.php:65
+msgid "Cost of the goal in that year"
+msgstr ""
+
+#: src/calculators/goal/definition.php:69
+msgid "Your savings will grow to"
+msgstr ""
+
+#: src/calculators/goal/definition.php:72
+msgid "Invest every month"
+msgstr ""
+
+#: src/calculators/goal/definition.php:78
+msgid "Cost of the goal and what you will have, by year"
+msgstr ""
+
+#: src/calculators/goal/definition.php:80
+msgid "Cost of the goal"
+msgstr ""
+
+#: src/calculators/goal/definition.php:81
+msgid "Savings and investments"
+msgstr ""
+
+#: src/calculators/goal/definition.php:85
+msgid "Your savings already cover this goal. No monthly investment is needed."
+msgstr ""
+
+#: src/calculators/lumpsum/definition.php:15
+msgid "Lump-sum calculator"
+msgstr ""
+
+#: src/calculators/lumpsum/definition.php:16
+msgid "What a one-time investment grows to."
+msgstr ""
+
+#: src/calculators/lumpsum/definition.php:19
+msgid "Investment amount"
+msgstr ""
+
+#: src/calculators/lumpsum/definition.php:35
+#: src/calculators/sip/definition.php:34
+#: src/calculators/swp/definition.php:44
+msgid "Time period"
+msgstr ""
+
+#: src/calculators/lumpsum/definition.php:45
+#: src/calculators/lumpsum/definition.php:61
+#: src/calculators/sip/definition.php:44
+#: src/calculators/sip/definition.php:60
+msgid "Amount invested"
+msgstr ""
+
+#: src/calculators/lumpsum/definition.php:49
+#: src/calculators/sip/definition.php:48
+msgid "Estimated returns"
+msgstr ""
+
+#: src/calculators/lumpsum/definition.php:53
+#: src/calculators/lumpsum/definition.php:62
+#: src/calculators/sip/definition.php:52
+#: src/calculators/sip/definition.php:61
+msgid "Total value"
+msgstr ""
+
+#: src/calculators/lumpsum/definition.php:59
+#: src/calculators/sip/definition.php:58
+msgid "Amount invested and total value by year"
+msgstr ""
+
+#: src/calculators/sip/definition.php:14
+msgid "SIP calculator"
+msgstr ""
+
+#: src/calculators/sip/definition.php:15
+msgid "What a fixed monthly investment (SIP) grows to."
+msgstr ""
+
+#: src/calculators/sip/definition.php:18
+msgid "Monthly investment"
+msgstr ""
+
+#: src/calculators/swp/definition.php:16
+msgid "SWP calculator"
+msgstr ""
+
+#: src/calculators/swp/definition.php:17
+msgid "What is left after fixed monthly withdrawals (systematic withdrawal plan)."
+msgstr ""
+
+#: src/calculators/swp/definition.php:20
+#: src/calculators/swp/definition.php:54
+msgid "Total investment"
+msgstr ""
+
+#: src/calculators/swp/definition.php:28
+msgid "Monthly withdrawal"
+msgstr ""
+
+#: src/calculators/swp/definition.php:58
+#: src/calculators/swp/definition.php:71
+msgid "Total withdrawn"
+msgstr ""
+
+#: src/calculators/swp/definition.php:62
+msgid "Final value"
+msgstr ""
+
+#: src/calculators/swp/definition.php:68
+msgid "Remaining balance and total withdrawn by year"
+msgstr ""
+
+#: src/calculators/swp/definition.php:70
+msgid "Remaining balance"
+msgstr ""
+
+#. translators: {year} and {month} are numbers, e.g. "year 8, month 3". Keep the braces.
+#: src/calculators/swp/definition.php:76
+msgid "The money runs out in year {year}, month {month}. Lower the monthly withdrawal to make it last longer."
+msgstr ""
+
+#. translators: %s: list of calculator types, e.g. "sip, lumpsum, emi".
+#: src/Shortcode.php:110
+#, php-format
+msgid "CalcWise: add a calculator type, e.g. [calcwise type=\"sip\"]. Types: %s."
+msgstr ""
+
+#. translators: 1: the type that was asked for, 2: list of calculator types.
+#: src/Shortcode.php:112
+#, php-format
+msgid "CalcWise: there is no \"%1$s\" calculator. Types: %2$s."
+msgstr ""
+
+#: build/calculator/index.js:1
+msgid "Choose a calculator"
+msgstr ""
+
+#: build/calculator/index.js:1
+msgid "Calculator"
+msgstr ""
+
+#: build/calculator/index.js:1
+msgid "Leave a box empty to use the calculator’s own value."
+msgstr ""
+
+#: build/calculator/index.js:1
+msgid "Lowest value"
+msgstr ""
+
+#: build/calculator/index.js:1
+msgid "Highest value"
+msgstr ""
+
+#: build/calculator/index.js:1
+msgid "CalcWise Calculator"
+msgstr ""
+
+#. translators: %s: calculator type.
+#: build/calculator/index.js:2
+#, js-format
+msgid "The \"%s\" calculator is not available. Choose another one."
+msgstr ""
+
+#: build/calculator/index.js:2
+msgid "Choose which calculator to show."
+msgstr ""
+
+#: build/calculator/block.json
 msgctxt "block title"
-msgid "Latest items"
+msgid "CalcWise Calculator"
 msgstr ""
 
-#: blocks/example/block.json
+#: build/calculator/block.json
 msgctxt "block description"
-msgid "Shows the latest items. Rendered in PHP (render.php), so it always shows current content."
+msgid "A financial calculator with an animated chart: SIP, lump sum, SWP, goal or EMI."
 msgstr ""
 
-#: blocks/example/block.json
-#: blocks/interactive/block.json
+#: build/calculator/block.json
 msgctxt "block keyword"
-msgid "items"
+msgid "calculator"
 msgstr ""
 
-#: blocks/example/block.json
+#: build/calculator/block.json
 msgctxt "block keyword"
-msgid "list"
+msgid "sip"
 msgstr ""
 
-#: blocks/interactive/block.json
-msgctxt "block title"
-msgid "Items with live filter"
-msgstr ""
-
-#: blocks/interactive/block.json
-msgctxt "block description"
-msgid "Lists the latest items with a search box that filters them as you type. Uses the Interactivity API: rendered in PHP, made interactive with data-wp-* directives."
-msgstr ""
-
-#: blocks/interactive/block.json
+#: build/calculator/block.json
 msgctxt "block keyword"
-msgid "filter"
+msgid "emi"
 msgstr ""
 
-#: blocks/interactive/block.json
+#: build/calculator/block.json
 msgctxt "block keyword"
-msgid "search"
+msgid "investment"
 msgstr ""
 
-#: blocks/interactive/block.json
+#: build/calculator/block.json
 msgctxt "block keyword"
-msgid "interactivity"
+msgid "loan"
 msgstr ""

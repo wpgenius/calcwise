@@ -25,12 +25,19 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		Monkey\setUp();
 		Monkey\Functions\stubTranslationFunctions();
 		Monkey\Functions\stubEscapeFunctions();
+		Monkey\Functions\when( 'sanitize_key' )->alias(
+			static function ( $key ) {
+				return preg_replace( '/[^a-z0-9_\-]/', '', strtolower( (string) $key ) );
+			}
+		);
+		\WPGenius\CalcWise\Calculator\Registry::reset();
 	}
 
 	/**
 	 * Stop Brain Monkey.
 	 */
 	protected function tearDown(): void {
+		\WPGenius\CalcWise\Calculator\Registry::reset();
 		Monkey\tearDown();
 		parent::tearDown();
 	}

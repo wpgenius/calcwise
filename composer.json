@@ -1,6 +1,6 @@
 {
 	"name": "wpgenius/calcwise",
-	"description": "WordPress plugin boilerplate: a starter kit for building plugins.",
+	"description": "CalcWise – Financial Calculators: SIP, lump sum, SWP, goal and EMI calculators with live results and charts.",
 	"type": "wordpress-plugin",
 	"license": "GPL-3.0-or-later",
 	"homepage": "https://github.com/wpgenius/calcwise",
@@ -34,7 +34,7 @@
 		"lint": "parallel-lint --exclude vendor --exclude node_modules .",
 		"phpcs": "phpcs",
 		"phpcbf": "phpcbf",
-		"make-pot": "wp i18n make-pot . languages/calcwise.pot --slug=calcwise --domain=calcwise --exclude=vendor,node_modules,build",
+		"make-pot": "wp i18n make-pot . languages/calcwise.pot --slug=calcwise --domain=calcwise --exclude=vendor,node_modules,blocks,tests,src/vendor",
 		"test": "phpunit",
 		"phpstan": "phpstan analyse --memory-limit=1G"
 	},

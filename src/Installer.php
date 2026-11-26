@@ -2,8 +2,8 @@
 /**
  * Activation, deactivation and multisite setup.
  *
- * - activate():   saves default settings and flushes rewrite rules.
- * - deactivate(): flushes rewrite rules (data is kept).
+ * - activate():   saves default settings.
+ * - deactivate(): nothing to clean up yet (data is kept).
  * - Multisite:    a network activation or deactivation runs on every site, and
  *                 a site added later is set up when the plugin is network active.
  *
@@ -101,7 +101,7 @@ class Installer extends Api {
 	 * @return void
 	 */
 	private static function deactivate_site() {
-		flush_rewrite_rules();
+		// Nothing to clean up yet: CalcWise adds no rewrite rules or scheduled jobs.
 	}
 
 	/**
@@ -111,8 +111,5 @@ class Installer extends Api {
 	 */
 	private static function activate_site() {
 		add_option( self::OPTION, Admin\Settings::defaults() ); // Does nothing if settings exist.
-
-		PostTypes\PostTypes::register_all();
-		flush_rewrite_rules();
 	}
 }

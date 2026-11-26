@@ -1,0 +1,8 @@
+/* EMI: a half doughnut needs less height than a line chart. */
+.calcwise-calculator--emi .calcwise-chart__canvas {
+	height: 220px;
+}
+
+.calcwise-calculator--emi .calcwise-table {
+	margin-top: 1rem;
+}

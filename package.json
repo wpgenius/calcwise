@@ -2,30 +2,35 @@
 	"name": "calcwise",
 	"version": "1.0.0",
 	"private": true,
-	"description": "WordPress plugin boilerplate: a starter kit for building plugins.",
+	"description": "CalcWise – Financial Calculators: SIP, lump sum, SWP, goal and EMI calculators with live results and charts.",
 	"license": "GPL-3.0-or-later",
 	"engines": {
 		"node": "^20.19.0 || >=22.12.0"
 	},
 	"scripts": {
-		"build": "wp-scripts build --webpack-src-dir=blocks --output-path=build --webpack-copy-php --experimental-modules",
-		"start": "wp-scripts start --webpack-src-dir=blocks --output-path=build --webpack-copy-php --experimental-modules",
+		"build": "wp-scripts build --webpack-src-dir=blocks --output-path=build --webpack-copy-php",
+		"start": "wp-scripts start --webpack-src-dir=blocks --output-path=build --webpack-copy-php",
 		"lint": "npm run lint:js && npm run lint:css",
-		"lint:js": "wp-scripts lint-js assets/js blocks",
-		"lint:css": "wp-scripts lint-style \"assets/css/**/*.css\" \"blocks/**/*.css\"",
-		"format": "wp-scripts format assets blocks",
+		"lint:js": "wp-scripts lint-js assets/js blocks src tests/js webpack.config.js --ignore-pattern \"src/vendor/**\"",
+		"lint:css": "wp-scripts lint-style \"assets/css/**/*.css\" \"blocks/**/*.css\" \"src/**/*.css\" --allow-empty-input",
+		"format": "wp-scripts format assets blocks src tests/js webpack.config.js",
 		"env": "wp-env",
 		"test:integration": "wp-env run cli --env-cwd=wp-content/plugins/$(basename \"$PWD\") vendor/bin/phpunit -- -c phpunit-integration.xml.dist",
-		"test:integration:multisite": "wp-env run cli --env-cwd=wp-content/plugins/$(basename \"$PWD\") env WP_MULTISITE=1 vendor/bin/phpunit -- -c phpunit-integration.xml.dist"
+		"test:integration:multisite": "wp-env run cli --env-cwd=wp-content/plugins/$(basename \"$PWD\") env WP_MULTISITE=1 vendor/bin/phpunit -- -c phpunit-integration.xml.dist",
+		"test:js": "wp-scripts test-unit-js"
 	},
 	"devDependencies": {
 		"@wordpress/block-editor": "^20.0.0",
 		"@wordpress/blocks": "^17.1.0",
 		"@wordpress/components": "^44.0.0",
+		"@wordpress/element": "^10.2.0",
 		"@wordpress/env": "^12.1.0",
 		"@wordpress/i18n": "^7.1.0",
-		"@wordpress/interactivity": "^8.1.0",
 		"@wordpress/scripts": "^37.1.0",
-		"@wordpress/server-side-render": "^7.1.0"
+		"@wordpress/server-side-render": "^7.1.0",
+		"chart.js": "^4.6.2",
+		"happy-dom": "^21.0.4",
+		"vite": "^8.3.8",
+		"vitest": "^5.1.2"
 	}
 }

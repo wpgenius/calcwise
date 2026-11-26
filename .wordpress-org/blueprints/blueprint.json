@@ -2,10 +2,10 @@
 	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
 	"meta": {
 		"title": "CalcWise demo",
-		"description": "Installs the latest release with sample items and a demo page.",
+		"description": "Installs the latest CalcWise release and opens a page with every calculator.",
 		"author": "wpgenius"
 	},
-	"landingPage": "/plugin-demo/",
+	"landingPage": "/",
 	"preferredVersions": {
 		"php": "8.3",
 		"wp": "latest"
@@ -34,7 +34,7 @@
 		},
 		{
 			"step": "runPHP",
-			"code": "<?php require_once '/wordpress/wp-load.php'; for ( $i = 1; $i <= 8; $i++ ) { wp_insert_post( array( 'post_type' => 'calcwise_item', 'post_status' => 'publish', 'post_title' => 'Sample item ' . $i, 'post_excerpt' => 'A short description of sample item ' . $i . '.', 'post_content' => 'Content of sample item ' . $i . '.' ) ); } wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_name' => 'plugin-demo', 'post_title' => 'Plugin demo', 'post_content' => \"<!-- wp:paragraph --><p>The <code>[[calcwise_items]]</code> shortcode, with a Load more button that reads a REST API route:</p><!-- /wp:paragraph -->\\n<!-- wp:shortcode -->[calcwise_items per_page=\\\"3\\\"]<!-- /wp:shortcode -->\\n<!-- wp:paragraph --><p>The Latest items block:</p><!-- /wp:paragraph -->\\n<!-- wp:calcwise/example {\\\"count\\\":4} /-->\\n<!-- wp:paragraph --><p>The Items with live filter block (Interactivity API): type to filter.</p><!-- /wp:paragraph -->\\n<!-- wp:calcwise/interactive /-->\\n<!-- wp:paragraph --><p>Settings: Settings → CalcWise. Items: Items in the admin menu.</p><!-- /wp:paragraph -->\" ) ); flush_rewrite_rules();"
+			"code": "<?php require '/wordpress/wp-load.php'; $content = ''; foreach ( \\WPGenius\\CalcWise\\Calculator\\Registry::all() as $type => $calculator ) { $content .= '<!-- wp:heading {\"align\":\"wide\"} --><h2 class=\"wp-block-heading alignwide\">' . esc_html( $calculator['title'] ) . '</h2><!-- /wp:heading -->' . \"\\n\\n\" . '<!-- wp:calcwise/calculator {\"type\":\"' . $type . '\",\"align\":\"wide\"} /-->' . \"\\n\\n\"; } $id = wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_name' => 'calculators', 'post_title' => 'Calculators', 'post_content' => $content ) ); update_option( 'show_on_front', 'page' ); update_option( 'page_on_front', $id ); flush_rewrite_rules();"
 		}
 	]
 }

@@ -34,6 +34,10 @@ class AutoloadTest extends TestCase {
 			if ( 'php' !== $file->getExtension() || 'autoload.php' === $relative ) {
 				continue;
 			}
+			// Lowercase folders hold data files, not classes (e.g. calculators/sip/definition.php).
+			if ( false !== strpos( $relative, '/' ) && ctype_lower( $relative[0] ) ) {
+				continue;
+			}
 			$class              = 'WPGenius\\CalcWise\\' . str_replace( '/', '\\', substr( $relative, 0, -4 ) );
 			$cases[ $relative ] = array( $class, $file->getPathname() );
 		}

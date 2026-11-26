@@ -1,15 +1,21 @@
-/* wp-admin: the settings page and the Items screens. */
+/* wp-admin: the settings page. */
 .calcwise-settings .form-table td fieldset label {
 	margin-bottom: 0.25em;
 }
 
-.column-calcwise_thumbnail {
-	width: 60px;
+.calcwise-limits {
+	max-width: 760px;
 }
 
-.column-calcwise_thumbnail img {
-	border-radius: 2px;
-	height: 48px;
-	object-fit: cover;
-	width: 48px;
+.calcwise-limits th[scope="row"] {
+	width: 30%;
+}
+
+.calcwise-limits input.small-text {
+	width: 8em;
+}
+
+.calcwise-limits th,
+.calcwise-limits td {
+	padding: 0.5em 0.75em;
 }
