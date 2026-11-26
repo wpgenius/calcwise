@@ -237,6 +237,16 @@ describe( 'formatting', () => {
 		expect( after.money( 1500 ) ).toBe( '1,500 €' );
 	} );
 
+	it( 'rounds chart axis labels up to the next unit (library 1.1.1)', () => {
+		expect( createFormat( calc, {} ).compact( 999999 ) ).toBe( '10L' );
+		expect( createFormat( calc, {} ).compact( 9999999 ) ).toBe( '1Cr' );
+		expect(
+			createFormat( calc, {
+				format: { system: 'international' },
+			} ).compact( 999999 )
+		).toBe( '1M' );
+	} );
+
 	it( 'labels points with the calendar year they fall in', () => {
 		expect( yearLabel( { month: 0 }, 2026 ) ).toBe( '2026' );
 		expect( yearLabel( { month: 12 }, 2026 ) ).toBe( '2027' );
