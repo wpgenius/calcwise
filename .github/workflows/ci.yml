@@ -96,6 +96,9 @@ jobs:
 
       - run: npm run lint
 
+      # src/vendor must be the installed @wpgenius/financial-calculators.
+      - run: npm run vendor:financial-calculators:check
+
       - run: npm run test:js
 
       - run: npm run build

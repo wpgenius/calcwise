@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
-# Copies a release of wpgenius/financial-calculators-js into src/vendor/.
+# Updates the bundled @wpgenius/financial-calculators to a release.
 #
-#   bin/update-financial-calculators.sh v1.0.0
+#   bin/update-financial-calculators.sh v1.2.0
 #
-# The plugin pins one release: the ES module build is committed and bundled
-# into the runtime by `npm run build`. Needs the GitHub CLI (gh).
+# The library is an npm dependency (package.json), so GitHub's dependency graph
+# lists it. The zip ships no node_modules, so its readable ES module build is
+# copied into src/vendor/ and bundled into the runtime by `npm run build`.
+# CI runs `npm run vendor:financial-calculators:check` to keep the two in sync.
 set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
-TAG=${1:?Give the release tag, e.g. v1.0.0}
-REPO=wpgenius/financial-calculators-js
-DIR=src/vendor/financial-calculators
+TAG=${1:?Give the release tag, e.g. v1.2.0}
 
-gh release download "$TAG" --repo "$REPO" --pattern financial-calculators.esm.js --dir "$DIR" --clobber
-perl -pi -e "s/^Version: .*/Version: ${TAG#v}/" "$DIR/README.md"
-echo "Updated $DIR to $TAG. Run 'npm run build' and commit src/vendor and build/."
+npm install --save-exact=false "@wpgenius/financial-calculators@^${TAG#v}"
+npm run vendor:financial-calculators
+npm run build
+echo "Updated to ${TAG#v}. Commit package.json, package-lock.json, src/vendor, build/ and the docs."
