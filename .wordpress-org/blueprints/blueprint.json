@@ -2,10 +2,10 @@
 	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
 	"meta": {
 		"title": "CalcWise demo",
-		"description": "Installs the latest release and opens the CalcWise settings. The calculator demo page comes with v1.1.0 (#21).",
+		"description": "Installs the latest CalcWise release and opens a page with every calculator.",
 		"author": "wpgenius"
 	},
-	"landingPage": "/wp-admin/options-general.php?page=calcwise_settings",
+	"landingPage": "/",
 	"preferredVersions": {
 		"php": "8.3",
 		"wp": "latest"
@@ -31,6 +31,10 @@
 				"blogname": "CalcWise demo",
 				"permalink_structure": "/%postname%/"
 			}
+		},
+		{
+			"step": "runPHP",
+			"code": "<?php require '/wordpress/wp-load.php'; $content = ''; foreach ( \\WPGenius\\CalcWise\\Calculator\\Registry::all() as $type => $calculator ) { $content .= '<!-- wp:heading {\"align\":\"wide\"} --><h2 class=\"wp-block-heading alignwide\">' . esc_html( $calculator['title'] ) . '</h2><!-- /wp:heading -->' . \"\\n\\n\" . '<!-- wp:calcwise/calculator {\"type\":\"' . $type . '\",\"align\":\"wide\"} /-->' . \"\\n\\n\"; } $id = wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_name' => 'calculators', 'post_title' => 'Calculators', 'post_content' => $content ) ); update_option( 'show_on_front', 'page' ); update_option( 'page_on_front', $id ); flush_rewrite_rules();"
 		}
 	]
 }
