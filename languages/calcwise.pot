@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-26T08:11:44+00:00\n"
+"POT-Creation-Date: 2026-11-26T08:13:20+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: calcwise\n"
@@ -84,7 +84,7 @@ msgid "Amounts in words"
 msgstr ""
 
 #: src/Admin/Settings.php:82
-msgid "Show results in words too, e.g. \"Fifty Eight Lakh\"."
+msgid "Show results in words too, e.g. \"Two Lakh Fifty Thousand\" or \"Two Hundred and Fifty Thousand\"."
 msgstr ""
 
 #: src/Admin/Settings.php:88
@@ -205,223 +205,223 @@ msgstr ""
 msgid "Show the values as a table"
 msgstr ""
 
-#: src/calculators/emi/definition.php:15
+#: src/calculators/emi/definition.php:16
 msgid "EMI calculator"
 msgstr ""
 
-#: src/calculators/emi/definition.php:16
+#: src/calculators/emi/definition.php:17
 msgid "The monthly instalment (EMI) of a loan, and how much of it is interest."
 msgstr ""
 
-#: src/calculators/emi/definition.php:19
+#: src/calculators/emi/definition.php:20
 msgid "Loan amount"
 msgstr ""
 
-#: src/calculators/emi/definition.php:27
+#: src/calculators/emi/definition.php:28
 msgid "Interest rate (per year)"
 msgstr ""
 
-#: src/calculators/emi/definition.php:35
+#: src/calculators/emi/definition.php:36
 msgid "Loan tenure"
 msgstr ""
 
-#: src/calculators/emi/definition.php:45
+#: src/calculators/emi/definition.php:46
 msgid "Monthly EMI"
 msgstr ""
 
-#: src/calculators/emi/definition.php:50
+#: src/calculators/emi/definition.php:51
 msgid "Principal amount"
 msgstr ""
 
-#: src/calculators/emi/definition.php:53
+#: src/calculators/emi/definition.php:54
 msgid "Total interest"
 msgstr ""
 
-#: src/calculators/emi/definition.php:57
+#: src/calculators/emi/definition.php:58
 msgid "Total amount payable"
 msgstr ""
 
-#: src/calculators/emi/definition.php:62
+#: src/calculators/emi/definition.php:63
 msgid "Principal and interest in the total amount payable"
 msgstr ""
 
-#: src/calculators/emi/definition.php:64
+#: src/calculators/emi/definition.php:65
 msgid "Principal"
 msgstr ""
 
-#: src/calculators/emi/definition.php:65
+#: src/calculators/emi/definition.php:66
 msgid "Interest"
 msgstr ""
 
-#: src/calculators/emi/definition.php:69
+#: src/calculators/emi/definition.php:70
 msgid "Yearly repayment schedule"
 msgstr ""
 
-#: src/calculators/emi/definition.php:71
+#: src/calculators/emi/definition.php:72
 msgid "Principal paid"
 msgstr ""
 
-#: src/calculators/emi/definition.php:72
+#: src/calculators/emi/definition.php:73
 msgid "Interest paid"
 msgstr ""
 
-#: src/calculators/emi/definition.php:73
+#: src/calculators/emi/definition.php:74
 msgid "Balance"
 msgstr ""
 
-#: src/calculators/goal/definition.php:14
+#: src/calculators/goal/definition.php:15
 msgid "Goal calculator"
 msgstr ""
 
-#: src/calculators/goal/definition.php:15
+#: src/calculators/goal/definition.php:16
 msgid "The monthly investment needed to reach a goal by a chosen year."
 msgstr ""
 
-#: src/calculators/goal/definition.php:18
+#: src/calculators/goal/definition.php:19
 msgid "Cost of the goal today"
 msgstr ""
 
-#: src/calculators/goal/definition.php:26
+#: src/calculators/goal/definition.php:27
 msgid "Savings already put aside"
 msgstr ""
 
-#: src/calculators/goal/definition.php:34
+#: src/calculators/goal/definition.php:35
 msgid "Inflation (per year)"
 msgstr ""
 
-#: src/calculators/goal/definition.php:42
-#: src/calculators/lumpsum/definition.php:26
-#: src/calculators/sip/definition.php:25
-#: src/calculators/swp/definition.php:35
+#: src/calculators/goal/definition.php:43
+#: src/calculators/lumpsum/definition.php:27
+#: src/calculators/sip/definition.php:26
+#: src/calculators/swp/definition.php:36
 msgid "Expected return rate (per year)"
 msgstr ""
 
-#: src/calculators/goal/definition.php:50
+#: src/calculators/goal/definition.php:51
 msgid "Years to reach the goal"
 msgstr ""
 
-#: src/calculators/goal/definition.php:60
+#: src/calculators/goal/definition.php:61
 msgid "Goal year"
 msgstr ""
 
-#: src/calculators/goal/definition.php:64
+#: src/calculators/goal/definition.php:65
 msgid "Cost of the goal in that year"
 msgstr ""
 
-#: src/calculators/goal/definition.php:68
+#: src/calculators/goal/definition.php:69
 msgid "Your savings will grow to"
 msgstr ""
 
-#: src/calculators/goal/definition.php:71
+#: src/calculators/goal/definition.php:72
 msgid "Invest every month"
 msgstr ""
 
-#: src/calculators/goal/definition.php:77
+#: src/calculators/goal/definition.php:78
 msgid "Cost of the goal and what you will have, by year"
 msgstr ""
 
-#: src/calculators/goal/definition.php:79
+#: src/calculators/goal/definition.php:80
 msgid "Cost of the goal"
 msgstr ""
 
-#: src/calculators/goal/definition.php:80
+#: src/calculators/goal/definition.php:81
 msgid "Savings and investments"
 msgstr ""
 
-#: src/calculators/goal/definition.php:84
+#: src/calculators/goal/definition.php:85
 msgid "Your savings already cover this goal. No monthly investment is needed."
 msgstr ""
 
-#: src/calculators/lumpsum/definition.php:14
+#: src/calculators/lumpsum/definition.php:15
 msgid "Lump-sum calculator"
 msgstr ""
 
-#: src/calculators/lumpsum/definition.php:15
+#: src/calculators/lumpsum/definition.php:16
 msgid "What a one-time investment grows to."
 msgstr ""
 
-#: src/calculators/lumpsum/definition.php:18
+#: src/calculators/lumpsum/definition.php:19
 msgid "Investment amount"
 msgstr ""
 
-#: src/calculators/lumpsum/definition.php:34
-#: src/calculators/sip/definition.php:33
-#: src/calculators/swp/definition.php:43
+#: src/calculators/lumpsum/definition.php:35
+#: src/calculators/sip/definition.php:34
+#: src/calculators/swp/definition.php:44
 msgid "Time period"
 msgstr ""
 
-#: src/calculators/lumpsum/definition.php:44
-#: src/calculators/lumpsum/definition.php:60
-#: src/calculators/sip/definition.php:43
-#: src/calculators/sip/definition.php:59
+#: src/calculators/lumpsum/definition.php:45
+#: src/calculators/lumpsum/definition.php:61
+#: src/calculators/sip/definition.php:44
+#: src/calculators/sip/definition.php:60
 msgid "Amount invested"
 msgstr ""
 
-#: src/calculators/lumpsum/definition.php:48
-#: src/calculators/sip/definition.php:47
+#: src/calculators/lumpsum/definition.php:49
+#: src/calculators/sip/definition.php:48
 msgid "Estimated returns"
 msgstr ""
 
-#: src/calculators/lumpsum/definition.php:52
-#: src/calculators/lumpsum/definition.php:61
-#: src/calculators/sip/definition.php:51
-#: src/calculators/sip/definition.php:60
+#: src/calculators/lumpsum/definition.php:53
+#: src/calculators/lumpsum/definition.php:62
+#: src/calculators/sip/definition.php:52
+#: src/calculators/sip/definition.php:61
 msgid "Total value"
 msgstr ""
 
-#: src/calculators/lumpsum/definition.php:58
-#: src/calculators/sip/definition.php:57
+#: src/calculators/lumpsum/definition.php:59
+#: src/calculators/sip/definition.php:58
 msgid "Amount invested and total value by year"
 msgstr ""
 
-#: src/calculators/sip/definition.php:13
+#: src/calculators/sip/definition.php:14
 msgid "SIP calculator"
 msgstr ""
 
-#: src/calculators/sip/definition.php:14
+#: src/calculators/sip/definition.php:15
 msgid "What a fixed monthly investment (SIP) grows to."
 msgstr ""
 
-#: src/calculators/sip/definition.php:17
+#: src/calculators/sip/definition.php:18
 msgid "Monthly investment"
 msgstr ""
 
-#: src/calculators/swp/definition.php:15
+#: src/calculators/swp/definition.php:16
 msgid "SWP calculator"
 msgstr ""
 
-#: src/calculators/swp/definition.php:16
+#: src/calculators/swp/definition.php:17
 msgid "What is left after fixed monthly withdrawals (systematic withdrawal plan)."
 msgstr ""
 
-#: src/calculators/swp/definition.php:19
-#: src/calculators/swp/definition.php:53
+#: src/calculators/swp/definition.php:20
+#: src/calculators/swp/definition.php:54
 msgid "Total investment"
 msgstr ""
 
-#: src/calculators/swp/definition.php:27
+#: src/calculators/swp/definition.php:28
 msgid "Monthly withdrawal"
 msgstr ""
 
-#: src/calculators/swp/definition.php:57
-#: src/calculators/swp/definition.php:70
+#: src/calculators/swp/definition.php:58
+#: src/calculators/swp/definition.php:71
 msgid "Total withdrawn"
 msgstr ""
 
-#: src/calculators/swp/definition.php:61
+#: src/calculators/swp/definition.php:62
 msgid "Final value"
 msgstr ""
 
-#: src/calculators/swp/definition.php:67
+#: src/calculators/swp/definition.php:68
 msgid "Remaining balance and total withdrawn by year"
 msgstr ""
 
-#: src/calculators/swp/definition.php:69
+#: src/calculators/swp/definition.php:70
 msgid "Remaining balance"
 msgstr ""
 
 #. translators: {year} and {month} are numbers, e.g. "year 8, month 3". Keep the braces.
-#: src/calculators/swp/definition.php:75
+#: src/calculators/swp/definition.php:76
 msgid "The money runs out in year {year}, month {month}. Lower the monthly withdrawal to make it last longer."
 msgstr ""
 

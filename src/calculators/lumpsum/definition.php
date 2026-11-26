@@ -11,6 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 return array(
+	'order'       => 20,
 	'title'       => __( 'Lump-sum calculator', 'calcwise' ),
 	'description' => __( 'What a one-time investment grows to.', 'calcwise' ),
 	'fields'      => array(

@@ -79,7 +79,7 @@ class Settings extends Api {
 					'amount_in_words'   => array(
 						'type'        => 'checkbox',
 						'label'       => __( 'Amounts in words', 'calcwise' ),
-						'description' => __( 'Show results in words too, e.g. "Fifty Eight Lakh".', 'calcwise' ),
+						'description' => __( 'Show results in words too, e.g. "Two Lakh Fifty Thousand" or "Two Hundred and Fifty Thousand".', 'calcwise' ),
 						'default'     => 1,
 					),
 				),

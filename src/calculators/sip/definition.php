@@ -10,6 +10,7 @@
 defined( 'ABSPATH' ) || exit;
 
 return array(
+	'order'       => 10,
 	'title'       => __( 'SIP calculator', 'calcwise' ),
 	'description' => __( 'What a fixed monthly investment (SIP) grows to.', 'calcwise' ),
 	'fields'      => array(

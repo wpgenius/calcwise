@@ -12,6 +12,7 @@
 defined( 'ABSPATH' ) || exit;
 
 return array(
+	'order'       => 30,
 	'title'       => __( 'SWP calculator', 'calcwise' ),
 	'description' => __( 'What is left after fixed monthly withdrawals (systematic withdrawal plan).', 'calcwise' ),
 	'fields'      => array(

@@ -11,6 +11,7 @@
  * definition.php returns:
  *
  *     array(
+ *         'order'       => 10, // Position in lists (pickers, settings); lower first.
  *         'title'       => __( 'SIP calculator', 'calcwise' ),
  *         'description' => __( 'What a monthly investment grows to.', 'calcwise' ),
  *         'fields'      => array(
@@ -91,6 +92,13 @@ class Registry {
 					self::$definitions[ sanitize_key( $type ) ] = $definition;
 				}
 			}
+			uksort(
+				self::$definitions,
+				static function ( $a, $b ) {
+					$order = self::$definitions[ $a ]['order'] <=> self::$definitions[ $b ]['order'];
+					return 0 !== $order ? $order : strcmp( $a, $b );
+				}
+			);
 		}
 		return self::$definitions;
 	}
@@ -162,6 +170,7 @@ class Registry {
 		$table = isset( $definition['table'] ) ? (array) $definition['table'] : array();
 
 		return array(
+			'order'       => isset( $definition['order'] ) ? (int) $definition['order'] : 100,
 			'title'       => isset( $definition['title'] ) ? (string) $definition['title'] : '',
 			'description' => isset( $definition['description'] ) ? (string) $definition['description'] : '',
 			'fields'      => $fields,
