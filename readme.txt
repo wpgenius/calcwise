@@ -85,6 +85,8 @@ All bundled code is GPL-compatible, loaded from your own site (no CDN), with its
 * [financial-calculators](https://github.com/wpgenius/financial-calculators-js) 1.1.1 (GPL-3.0-or-later): formulas, number formatting and amounts in words. Source in `src/vendor/financial-calculators/`.
 * [Chart.js](https://www.chartjs.org/) 4.6 (MIT): the charts.
 
+Their licence notices are in `THIRD-PARTY-NOTICES.txt`.
+
 The plugin's own source, including the block, is on [GitHub](https://github.com/wpgenius/calcwise).
 
 = Is my data deleted when I delete the plugin? =

@@ -82,7 +82,7 @@ Thumbs.db
 *.sqlite
 
 # Documentation only needed on GitHub (readme.txt ships)
-README.md
+/README.md
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md
 SECURITY.md
