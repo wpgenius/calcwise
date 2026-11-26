@@ -130,6 +130,10 @@ class CalculatorRendererTest extends TestCase {
 		$this->assertStringContainsString( 'aria-live="polite"', $html );
 		$this->assertStringContainsString( 'calcwise-result__words', $html );
 		$this->assertStringContainsString( '<table', $html );
+		$this->assertStringContainsString( 'Amount<span class="calcwise-sr-only"> (₹)</span></label>', $html, 'The unit is spoken with the label.' );
+		$this->assertStringContainsString( 'type="range"', $html );
+		$this->assertMatchesRegularExpression( '/type="range"[^>]*tabindex="-1" aria-hidden="true"/', $html, 'The duplicate slider is skipped by keyboard and screen readers.' );
+		$this->assertMatchesRegularExpression( '/<canvas role="img" aria-label="Growth" aria-describedby="calcwise-\d+-table">/', $html, 'The chart has a name and points to its table.' );
 	}
 
 	public function test_each_instance_gets_its_own_ids() {

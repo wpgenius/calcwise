@@ -8,10 +8,11 @@
  */
 .calcwise-calculator {
 	--calcwise-accent: #2271b1;
-	--calcwise-accent-2: #f6957f;
+	--calcwise-accent-2: #b3501d;
 	--calcwise-text: inherit;
 	--calcwise-muted: #646970;
 	--calcwise-border: #dcdcde;
+	--calcwise-input-border: #8c8f94;
 	--calcwise-surface: #fff;
 	--calcwise-radius: 8px;
 	--calcwise-gap: 1.5rem;
@@ -70,7 +71,10 @@
 
 .calcwise-field__box {
 	align-items: center;
-	border: 1px solid var(--calcwise-border);
+
+	/* Input borders need 3:1 contrast (WCAG 1.4.11);
+	 * card borders are decorative. */
+	border: 1px solid var(--calcwise-input-border);
 	border-radius: calc(var(--calcwise-radius) / 2);
 	display: inline-flex;
 	gap: 0.25rem;
@@ -183,6 +187,20 @@
 .calcwise-table summary {
 	color: var(--calcwise-accent);
 	cursor: pointer;
+}
+
+.calcwise-table summary:focus-visible {
+	border-radius: 2px;
+	outline: 2px solid var(--calcwise-accent);
+	outline-offset: 2px;
+}
+
+/* Windows high contrast: keep the focus ring on the input box visible. */
+@media (forced-colors: active) {
+
+	.calcwise-field__box:focus-within {
+		outline: 2px solid CanvasText;
+	}
 }
 
 .calcwise-table__scroll {

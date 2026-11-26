@@ -97,7 +97,7 @@ class Settings extends Api {
 						'type'        => 'color',
 						'label'       => __( 'Second colour', 'calcwise' ),
 						'description' => __( 'The second chart series.', 'calcwise' ),
-						'default'     => '#f6957f',
+						'default'     => '#b3501d',
 					),
 				),
 			),

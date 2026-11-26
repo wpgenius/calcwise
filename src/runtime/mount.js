@@ -191,7 +191,7 @@ export function mount( element, settings, runtime, spec ) {
 
 	const datasetsFor = ( config ) => {
 		const accent = cssVar( element, '--calcwise-accent', '#2271b1' );
-		const second = cssVar( element, '--calcwise-accent-2', '#f6957f' );
+		const second = cssVar( element, '--calcwise-accent-2', '#b3501d' );
 		const colours = [ accent, second, '#8c8f94', '#00a32a' ];
 		// Each area fills down to the series before it (the first to zero).
 		const fillFor = ( index ) => ( index === 0 ? 'origin' : '-1' );
@@ -222,7 +222,7 @@ export function mount( element, settings, runtime, spec ) {
 		let data;
 		if ( config.type === 'doughnut' ) {
 			const accent = cssVar( element, '--calcwise-accent', '#2271b1' );
-			const second = cssVar( element, '--calcwise-accent-2', '#f6957f' );
+			const second = cssVar( element, '--calcwise-accent-2', '#b3501d' );
 			data = {
 				labels: config.series.map(
 					( key ) => settings?.series?.[ key ] || key

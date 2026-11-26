@@ -180,6 +180,7 @@ class Renderer {
 		$input_id = $id . '-' . $key;
 		$prefix   = '';
 		$suffix   = '';
+		$spoken   = ''; // The unit for screen readers (the visible one is hidden from them).
 		switch ( $field['unit'] ) {
 			case 'money':
 				if ( 'after' === $format['position'] ) {
@@ -187,15 +188,19 @@ class Renderer {
 				} else {
 					$prefix = $format['symbol'];
 				}
+				$spoken = $format['symbol'];
 				break;
 			case 'percent':
 				$suffix = '%';
+				$spoken = '%';
 				break;
 			case 'years':
 				$suffix = _x( 'yr', 'years, short unit after a number', 'calcwise' );
+				$spoken = __( 'years', 'calcwise' );
 				break;
 			case 'months':
 				$suffix = _x( 'mo', 'months, short unit after a number', 'calcwise' );
+				$spoken = __( 'months', 'calcwise' );
 				break;
 		}
 
@@ -208,7 +213,11 @@ class Renderer {
 		);
 
 		$html  = '<div class="calcwise-field calcwise-field--' . esc_attr( $field['unit'] ) . '" data-field="' . esc_attr( $key ) . '">';
-		$html .= '<label class="calcwise-field__label" for="' . esc_attr( $input_id ) . '">' . esc_html( $field['label'] ) . '</label>';
+		$html .= '<label class="calcwise-field__label" for="' . esc_attr( $input_id ) . '">' . esc_html( $field['label'] );
+		if ( '' !== $spoken ) {
+			$html .= '<span class="calcwise-sr-only"> (' . esc_html( $spoken ) . ')</span>';
+		}
+		$html .= '</label>';
 		$html .= '<div class="calcwise-field__box">';
 		if ( '' !== $prefix ) {
 			$html .= '<span class="calcwise-field__unit" aria-hidden="true">' . esc_html( $prefix ) . '</span>';
