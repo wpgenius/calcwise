@@ -1,107 +1,146 @@
 <?php
 /**
- * Pre-submission check, step 2: on a clean site with WP_DEBUG, render the
- * blocks and the shortcode, open the settings page, look at an admin screen
- * that isn't the plugin's, deactivate, uninstall, and count PHP notices.
- * Appends to /sp/runtime-<php>.txt.
+ * Pre-submission check, step 2, the same for every plugin: on a clean site with
+ * WP_DEBUG it renders what plugin.php lists, opens the settings page, looks at
+ * the Dashboard (not the plugin's screen), deactivates, uninstalls, and counts
+ * PHP notices. Appends key=value lines to /sp/runtime-<php>.txt.
  *
- * Calls hooks directly instead of firing init again: a second init floods the
- * log with notices that a real request never shows.
+ * Don't edit this file for your plugin; edit plugin.php next to it.
+ *
+ * Hooks are called directly instead of firing init again: a second init floods
+ * the log with notices that a real request never shows.
  *
  * Run by bin/presubmit/run.sh inside WordPress Playground; not part of the plugin.
- *
- * @package WPGenius\CalcWise
  */
-
-// phpcs:disable WordPress.WP.AlternativeFunctions, WordPress.PHP.DevelopmentFunctions, WordPress.WP.GlobalVariablesOverride, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- A test script, not plugin code.
 
 require_once '/wordpress/wp-load.php';
 require_once ABSPATH . 'wp-admin/includes/admin.php';
 
-$calcwise_lines  = array();
-$calcwise_errors = array();
-set_error_handler( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_set_error_handler -- Counts notices.
-	static function ( $number, $message, $file, $line ) use ( &$calcwise_errors ) {
-		$calcwise_errors[] = ( false !== strpos( $file, '/wp-content/plugins/' ) ? 'PLUGIN ' : 'CORE   ' ) . "$number $message @ $file:$line";
-		return false;
+/**
+ * Runs the check and returns its lines.
+ *
+ * @return string[]
+ */
+function presubmit_runtime() {
+	global $wpdb;
+
+	$config = array_merge(
+		array(
+			'prefix'            => str_replace( '-', '_', dirname( PRESUBMIT_PLUGIN ) ),
+			'setup'             => null,
+			'render'            => array(),
+			'check_render'      => null,
+			'settings_page'     => null,
+			'before_deactivate' => null,
+			'before_uninstall'  => null,
+			'after_uninstall'   => null,
+		),
+		(array) require __DIR__ . '/plugin.php'
+	);
+	$prefix = $config['prefix'];
+	$call   = static function ( $callback, ...$args ) {
+		return is_callable( $callback ) ? (string) call_user_func_array( $callback, $args ) : '';
+	};
+
+	$lines  = array();
+	$errors = array();
+	set_error_handler(
+		static function ( $number, $message, $file, $line ) use ( &$errors ) {
+			$errors[] = ( false !== strpos( $file, '/wp-content/plugins/' ) ? 'PLUGIN ' : 'CORE   ' ) . "$number $message @ $file:$line";
+			return false;
+		}
+	);
+	wp_set_current_user( 1 );
+
+	$lines[] = 'active=' . ( is_plugin_active( PRESUBMIT_PLUGIN ) ? 'yes' : 'no' ) . " prefix=$prefix";
+	$call( $config['setup'] );
+
+	// Front end: every block and shortcode plugin.php lists.
+	$html = '';
+	foreach ( (array) $config['render'] as $markup ) {
+		$html .= do_shortcode( do_blocks( $markup ) );
 	}
-);
-wp_set_current_user( 1 );
+	file_put_contents( '/sp/render-' . PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.html', $html );
+	$lines[] = trim(
+		'render_bytes=' . strlen( $html )
+		. ' inline_style_or_script=' . ( preg_match( '/<(style|script)\b/i', $html ) ? 'yes' : 'no' )
+		. ' ' . $call( $config['check_render'], $html )
+	);
 
-$calcwise_lines[] = 'active=' . ( is_plugin_active( PRESUBMIT_PLUGIN ) ? 'yes' : 'no' )
-	. ' settings_option=' . ( is_array( get_option( 'calcwise_settings' ) ) ? 'yes' : 'no' );
+	// Admin: the settings page. Outside a real admin request core's
+	// get_admin_page_title() may raise a deprecation (counted as core_notices).
+	if ( is_callable( $config['settings_page'] ) ) {
+		$GLOBALS['title'] = 'Settings';
+		ob_start();
+		$call( $config['settings_page'] );
+		$lines[] = 'settings_page_bytes=' . strlen( (string) ob_get_clean() );
+	}
 
-// Front end: every calculator as a block and as a shortcode.
-$calcwise_types = array_keys( WPGenius\CalcWise\Calculator\Registry::all() );
-$calcwise_html  = '';
-foreach ( $calcwise_types as $calcwise_type ) {
-	$calcwise_html .= do_blocks( '<!-- wp:calcwise/calculator {"type":"' . $calcwise_type . '","align":"wide"} /-->' )
-		. do_shortcode( '[calcwise type="' . $calcwise_type . '"]' );
-}
-file_put_contents( '/sp/render-' . PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.html', $calcwise_html );
-$calcwise_lines[] = 'render_bytes=' . strlen( $calcwise_html )
-	. ' calculators=' . substr_count( $calcwise_html, 'class="calcwise-calculator ' ) . '/' . ( 2 * count( $calcwise_types ) )
-	. ' scripts=' . implode(
-		',',
-		array_filter(
-			wp_scripts()->queue,
-			static function ( $handle ) {
-				return 0 === strpos( $handle, 'calcwise' ); }
-		)
-	)
-	. ' inline_style_or_script=' . ( preg_match( '/<(style|script)\b/i', $calcwise_html ) ? 'yes' : 'no' );
-
-// Admin: the settings page, then the dashboard (not the plugin's screen).
-// Outside a real admin request core's get_admin_page_title() may raise a
-// deprecation on PHP 8.1+ (counted as core_notices, not the plugin's).
-$GLOBALS['plugin_page'] = 'calcwise_settings'; // Admin\Settings::PAGE.
-$GLOBALS['title']       = 'Settings';
-
-$calcwise_settings = new WPGenius\CalcWise\Admin\Settings();
-$calcwise_settings->register_settings();
-ob_start();
-$calcwise_settings->render_page();
-$calcwise_lines[] = 'settings_page_bytes=' . strlen( (string) ob_get_clean() );
-
-set_current_screen( 'dashboard' );
-$calcwise_queued = array_merge( wp_scripts()->queue, wp_styles()->queue ); // The blocks above queued their styles.
-do_action( 'admin_enqueue_scripts', 'index.php' );
-$calcwise_assets = array();
-foreach ( array( wp_scripts(), wp_styles() ) as $calcwise_deps ) {
-	foreach ( array_diff( $calcwise_deps->queue, $calcwise_queued ) as $calcwise_handle ) {
-		$calcwise_src = isset( $calcwise_deps->registered[ $calcwise_handle ] ) ? (string) $calcwise_deps->registered[ $calcwise_handle ]->src : '';
-		if ( false !== strpos( $calcwise_src, '/plugins/' . dirname( PRESUBMIT_PLUGIN ) . '/' ) ) {
-			$calcwise_assets[] = $calcwise_handle;
+	// The Dashboard is not the plugin's screen: no plugin assets, no notices.
+	set_current_screen( 'dashboard' );
+	$queued = array_merge( wp_scripts()->queue, wp_styles()->queue ); // Blocks above queued their styles.
+	do_action( 'admin_enqueue_scripts', 'index.php' );
+	$assets = array();
+	foreach ( array( wp_scripts(), wp_styles() ) as $deps ) {
+		foreach ( array_diff( $deps->queue, $queued ) as $handle ) {
+			$src = isset( $deps->registered[ $handle ] ) ? (string) $deps->registered[ $handle ]->src : '';
+			if ( false !== strpos( $src, '/plugins/' . dirname( PRESUBMIT_PLUGIN ) . '/' ) ) {
+				$assets[] = $handle;
+			}
 		}
 	}
+	ob_start();
+	do_action( 'admin_notices' );
+	$lines[] = 'dashboard_plugin_assets=' . ( $assets ? implode( ',', $assets ) : 'none' )
+		. ' dashboard_notice_bytes=' . strlen( (string) ob_get_clean() );
+
+	// Deactivation removes every cron event whose hook starts with the prefix.
+	$prefixed_cron = static function () use ( $prefix ) {
+		$hooks = array();
+		foreach ( (array) _get_cron_array() as $events ) {
+			foreach ( array_keys( (array) $events ) as $hook ) {
+				if ( 0 === strpos( $hook, $prefix ) ) {
+					$hooks[] = $hook;
+				}
+			}
+		}
+		return array_unique( $hooks );
+	};
+	$call( $config['before_deactivate'] );
+	$before = $prefixed_cron();
+	deactivate_plugins( PRESUBMIT_PLUGIN );
+	$after   = $prefixed_cron();
+	$lines[] = 'cron_before_deactivate=' . ( $before ? implode( ',', $before ) : 'none' )
+		. ' cron_after_deactivate=' . ( $after ? implode( ',', $after ) : 'none' );
+
+	// Uninstall (plugin.php ticks "delete data") leaves no prefixed options,
+	// transients or tables.
+	$call( $config['before_uninstall'] );
+	ob_start();
+	uninstall_plugin( PRESUBMIT_PLUGIN );
+	$output = (string) ob_get_clean();
+	$like   = $wpdb->esc_like( $prefix ) . '%';
+	$left   = $wpdb->get_col(
+		$wpdb->prepare(
+			"SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s OR option_name LIKE %s OR option_name LIKE %s",
+			$like,
+			'_transient_' . $like,
+			'_transient_timeout_' . $like,
+			'_site_transient_' . $like
+		)
+	);
+	$tables  = $wpdb->get_col( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $wpdb->prefix . $prefix ) . '%' ) );
+	$lines[] = trim(
+		'uninstall_output_bytes=' . strlen( $output )
+		. ' options_left=' . ( $left ? implode( ',', $left ) : 'none' )
+		. ' tables_left=' . ( $tables ? implode( ',', $tables ) : 'none' )
+		. ' ' . $call( $config['after_uninstall'] )
+	);
+
+	restore_error_handler();
+	$plugin_notices = count( preg_grep( '/^PLUGIN /', $errors ) );
+	$lines[]        = 'plugin_notices=' . $plugin_notices . ' core_notices=' . ( count( $errors ) - $plugin_notices );
+	return array_merge( $lines, $errors );
 }
-ob_start();
-do_action( 'admin_notices' );
-$calcwise_lines[] = 'dashboard_plugin_assets=' . ( $calcwise_assets ? implode( ',', $calcwise_assets ) : 'none' )
-	. ' dashboard_notice_bytes=' . strlen( (string) ob_get_clean() );
 
-// Deactivate: CalcWise schedules no events, so there is nothing to clear.
-$calcwise_options = (array) get_option( 'calcwise_settings', array() );
-ob_start();
-deactivate_plugins( PRESUBMIT_PLUGIN );
-$calcwise_lines[] = 'deactivate_output_bytes=' . strlen( (string) ob_get_clean() );
-$calcwise_hooks   = array();
-foreach ( (array) _get_cron_array() as $calcwise_events ) {
-	$calcwise_hooks = array_merge( $calcwise_hooks, array_keys( (array) $calcwise_events ) );
-}
-$calcwise_lines[] = 'calcwise_cron_events=' . count( preg_grep( '/^calcwise/', $calcwise_hooks ) );
-
-// Uninstall with "Delete data on uninstall" ticked.
-$calcwise_options['delete_data'] = 1;
-update_option( 'calcwise_settings', $calcwise_options );
-ob_start();
-uninstall_plugin( PRESUBMIT_PLUGIN );
-$calcwise_uninstall_output = (string) ob_get_clean();
-global $wpdb;
-$calcwise_lines[] = 'uninstall_output_bytes=' . strlen( $calcwise_uninstall_output )
-	. ' option_left=' . ( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name = %s", 'calcwise_settings' ) ) ? 'yes' : 'no' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- get_option() would return the registered default.
-
-$calcwise_plugin_notices = count( preg_grep( '/^PLUGIN /', $calcwise_errors ) );
-$calcwise_lines[]        = 'plugin_notices=' . $calcwise_plugin_notices . ' core_notices=' . ( count( $calcwise_errors ) - $calcwise_plugin_notices );
-$calcwise_lines          = array_merge( $calcwise_lines, $calcwise_errors );
-file_put_contents( '/sp/runtime-' . PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.txt', implode( "\n", $calcwise_lines ) . "\n", FILE_APPEND );
+file_put_contents( '/sp/runtime-' . PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.txt', implode( "\n", presubmit_runtime() ) . "\n", FILE_APPEND );
