@@ -1,6 +1,6 @@
 # CalcWise – Financial Calculators
 
-Financial calculators for SIP, FD interest and more, with animated charts. A visitor
+SIP, lump sum, SWP, goal and EMI calculators with live results and charts. A visitor
 fills in a short form, and the result appears as an animated chart.
 
 **Status:** early development, built from

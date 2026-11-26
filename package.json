@@ -2,7 +2,7 @@
 	"name": "calcwise",
 	"version": "1.0.0",
 	"private": true,
-	"description": "CalcWise – Financial Calculators: SIP, FD interest and more, with animated charts.",
+	"description": "CalcWise – Financial Calculators: SIP, lump sum, SWP, goal and EMI calculators with live results and charts.",
 	"license": "GPL-3.0-or-later",
 	"engines": {
 		"node": "^20.19.0 || >=22.12.0"

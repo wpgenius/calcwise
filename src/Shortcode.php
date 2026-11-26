@@ -63,7 +63,8 @@ class Shortcode extends Api {
 			return self::unknown_type( $type );
 		}
 
-		return Renderer::render( $type, array( 'fields' => self::field_overrides( $definition['fields'], $atts ) ) );
+		$html = Renderer::render( $type, array( 'fields' => self::field_overrides( $definition['fields'], $atts ) ) );
+		return wp_kses( $html, Renderer::allowed_html() );
 	}
 
 	/**

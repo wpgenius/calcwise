@@ -161,6 +161,65 @@ class Renderer {
 	}
 
 	/**
+	 * The tags and attributes calculator markup uses, for wp_kses() where it is
+	 * printed (late escaping). Also covers the block wrapper's attributes.
+	 *
+	 * @return array<string, array<string, bool>>
+	 */
+	public static function allowed_html() {
+		$common  = array(
+			'class'       => true,
+			'id'          => true,
+			'aria-hidden' => true,
+			'data-*'      => true,
+		);
+		$allowed = array(
+			'div'     => $common + array( 'style' => true ),
+			'p'       => $common + array(
+				'role'      => true,
+				'aria-live' => true,
+				'hidden'    => true,
+			),
+			'span'    => $common,
+			'label'   => $common + array( 'for' => true ),
+			'input'   => $common + array(
+				'type'      => true,
+				'value'     => true,
+				'min'       => true,
+				'max'       => true,
+				'step'      => true,
+				'inputmode' => true,
+				'tabindex'  => true,
+			),
+			'dl'      => $common,
+			'dt'      => $common,
+			'dd'      => $common,
+			'figure'  => $common,
+			'canvas'  => $common + array(
+				'role'             => true,
+				'aria-label'       => true,
+				'aria-describedby' => true,
+			),
+			'details' => $common,
+			'summary' => $common,
+			'table'   => $common,
+			'caption' => $common,
+			'thead'   => $common,
+			'tbody'   => $common,
+			'tr'      => $common,
+			'th'      => $common + array( 'scope' => true ),
+			'td'      => $common,
+		);
+
+		/**
+		 * Filters the HTML allowed in calculator output.
+		 *
+		 * @param array $allowed Tags and their attributes, as for wp_kses().
+		 */
+		return (array) apply_filters( 'calcwise_allowed_html', $allowed );
+	}
+
+	/**
 	 * Number format from the settings.
 	 *
 	 * @return array<string, mixed>

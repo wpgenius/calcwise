@@ -40,4 +40,19 @@ class ShortcodeTest extends \WP_UnitTestCase {
 
 		$this->assertSame( '', do_shortcode( '[calcwise type="nope"]' ) );
 	}
+
+	public function test_escaped_output_keeps_the_settings_and_colours() {
+		update_option( 'calcwise_settings', array_merge( get_option( 'calcwise_settings' ), array( 'accent_color' => '#123456' ) ) );
+
+		$html = do_shortcode( '[calcwise type="emi"]' );
+
+		$this->assertStringContainsString( '--calcwise-accent: #123456', $html );
+		$this->assertMatchesRegularExpression( '/data-calcwise-settings="([^"]+)"/', $html );
+		preg_match( '/data-calcwise-settings="([^"]+)"/', $html, $match );
+		$settings = json_decode( html_entity_decode( $match[1], ENT_QUOTES ), true );
+		$this->assertArrayHasKey( 'principal', $settings['fields'] );
+		$this->assertStringContainsString( 'role="img"', $html );
+		$this->assertStringContainsString( 'aria-live="polite"', $html );
+		$this->assertStringContainsString( 'tabindex="-1"', $html );
+	}
 }
