@@ -4,7 +4,7 @@ Tags: calculator, sip calculator, emi calculator, financial calculator, investme
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -102,6 +102,30 @@ Only if "Delete data on uninstall" is ticked in the settings. On a multisite net
 5. Settings: currency, number format, colours, disclaimer and each calculator's limits.
 
 == Changelog ==
+
+= 1.1.0 =
+
+* Formulas, number formatting and amounts in words from the financial-calculators library (#4)
+* Removed leftover example code (#5)
+* Charts and calculations bundled and served from your site, without jQuery (#6)
+* Several calculators can share one page (#7)
+* SIP calculator (#8)
+* Lump-sum calculator (#9)
+* SWP (systematic withdrawal) calculator (#10)
+* Goal calculator: the monthly investment a goal needs, after inflation (#11)
+* EMI calculator with a yearly repayment schedule (#12)
+* Shortcode: [calcwise type="…"] with per-field values and limits (#14)
+* CalcWise Calculator block, with a variation for each calculator (#15)
+* Settings: currency, digit grouping, colours, disclaimer and limits (#16)
+* Accessibility: keyboard, screen readers and WCAG AA colours (#17)
+* Translations, including amounts in words (#18)
+* Optional data removal on uninstall, multisite-aware (#20)
+* Readme, screenshots and Playground demo (#21)
+* Plugin Check clean and guideline review (#22)
+* Development: linked-issue check supports milestone branches (#44)
+* financial-calculators library updated to 1.1.1 (#57)
+* Calculator output escaped where it is printed (#65)
+* Plugin description matches what the plugin does (#66)
 
 = 1.0.0 =
 
