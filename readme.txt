@@ -42,7 +42,7 @@ No. The calculators give estimates based on the values entered. They are not fin
 
 All bundled code is GPL-compatible, loaded from your own site (no CDN), with its readable source in the plugin:
 
-* [financial-calculators](https://github.com/wpgenius/financial-calculators-js) 1.0.0 (GPL-3.0-or-later): formulas, number formatting and amounts in words. Source in `src/vendor/financial-calculators/`.
+* [financial-calculators](https://github.com/wpgenius/financial-calculators-js) 1.1.1 (GPL-3.0-or-later): formulas, number formatting and amounts in words. Source in `src/vendor/financial-calculators/`.
 * [Chart.js](https://www.chartjs.org/) 4.6 (MIT): the charts.
 
 = Is my data deleted when I delete the plugin? =

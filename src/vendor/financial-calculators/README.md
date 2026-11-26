@@ -3,7 +3,7 @@
 Formulas, number formatting and amounts in words for CalcWise.
 
 Source: https://github.com/wpgenius/financial-calculators-js
-Version: 1.0.0
+Version: 1.1.1
 License: GPL-3.0-or-later
 
 `financial-calculators.esm.js` is the unmodified ES module build from that
