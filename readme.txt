@@ -82,7 +82,7 @@ All text, including amounts in words and the short units on the chart (K, L, Cr,
 
 All bundled code is GPL-compatible, loaded from your own site (no CDN), with its readable source in the plugin:
 
-* [financial-calculators](https://github.com/wpgenius/financial-calculators-js) 1.1.1 (GPL-3.0-or-later): formulas, number formatting and amounts in words. Source in `src/vendor/financial-calculators/`.
+* [financial-calculators](https://github.com/wpgenius/financial-calculators-js) 1.2.0 (MIT): formulas, number formatting and amounts in words. Source in `src/vendor/financial-calculators/`.
 * [Chart.js](https://www.chartjs.org/) 4.6 (MIT): the charts.
 
 Their licence notices are in `THIRD-PARTY-NOTICES.txt`.
