@@ -4,7 +4,7 @@ Tags: calculator, sip calculator, emi calculator, financial calculator, investme
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -102,6 +102,12 @@ Only if "Delete data on uninstall" is ticked in the settings. On a multisite net
 5. Settings: currency, number format, colours, disclaimer and each calculator's limits.
 
 == Changelog ==
+
+= 1.1.3 =
+
+* Every PHP file the plugin ships blocks direct access (#79)
+* Removed unused template and email code (#80)
+* Bundled financial-calculators library ships with its licence file (#81)
 
 = 1.1.2 =
 
