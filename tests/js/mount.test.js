@@ -223,6 +223,99 @@ describe( 'mount', () => {
 	} );
 } );
 
+describe( 'robustness', () => {
+	it( 'shows a message, not a half-updated widget, when showing the result fails', () => {
+		const element = markup( 'a' );
+		expect( () =>
+			mount(
+				element,
+				JSON.parse( element.dataset.calcwiseSettings ),
+				{ calc, Chart: FakeChart },
+				{
+					...spec,
+					// e.g. a library result that is not a finite number.
+					results: () => ( { invested: NaN, total: Infinity } ),
+				}
+			)
+		).not.toThrow();
+
+		const message = element.querySelector( '.calcwise-message' );
+		expect( message.hidden ).toBe( false );
+		expect( message.textContent ).toBe(
+			'Please check the values entered.'
+		);
+		expect( text( element, 'total' ) ).toBe( '–' );
+	} );
+
+	it( 'clears the previous results when a later calculation fails', () => {
+		const element = markup( 'a' );
+		let fail = false;
+		const instance = mount(
+			element,
+			JSON.parse( element.dataset.calcwiseSettings ),
+			{ calc, Chart: FakeChart },
+			{
+				...spec,
+				calculate: ( values, lib ) => {
+					if ( fail ) {
+						throw new RangeError( 'years must be at most 1000' );
+					}
+					return lib.sip( values );
+				},
+			}
+		);
+		expect( text( element, 'total' ) ).toBe( '₹58,08,477' );
+
+		fail = true;
+		instance.update();
+
+		expect( text( element, 'total' ) ).toBe( '–' );
+		expect(
+			element.querySelector(
+				'[data-result="total"] .calcwise-result__words'
+			).textContent
+		).toBe( '' );
+		expect( element.querySelector( 'tbody' ).children ).toHaveLength( 0 );
+	} );
+
+	it( 'renames duplicate IDs so labels and the chart table stay linked', () => {
+		const first = markup( 'calcwise-1' );
+		const second = markup( 'calcwise-1' );
+		for ( const element of [ first, second ] ) {
+			element.querySelector( '.calcwise-field__number' ).id =
+				'calcwise-1-monthlyAmount';
+			element.insertAdjacentHTML(
+				'afterbegin',
+				'<label for="calcwise-1-monthlyAmount">Monthly</label>'
+			);
+			element
+				.querySelector( 'canvas' )
+				.setAttribute( 'aria-describedby', 'calcwise-1-table' );
+			element.querySelector( 'table' ).id = 'calcwise-1-table';
+		}
+		start( first );
+		start( second );
+
+		expect( first.id ).toBe( 'calcwise-1' );
+		expect( second.id ).not.toBe( 'calcwise-1' );
+		const label = second.querySelector( 'label' );
+		expect( second.querySelector( `#${ label.htmlFor }` ) ).toBe(
+			second.querySelector( '.calcwise-field__number' )
+		);
+		const described = second
+			.querySelector( 'canvas' )
+			.getAttribute( 'aria-describedby' );
+		expect( second.querySelector( `#${ described }` ) ).toBe(
+			second.querySelector( 'table' )
+		);
+		expect( document.querySelectorAll( '[id]' ).length ).toBe(
+			new Set(
+				[ ...document.querySelectorAll( '[id]' ) ].map( ( e ) => e.id )
+			).size
+		);
+	} );
+} );
+
 describe( 'formatting', () => {
 	it( 'follows the instance format', () => {
 		const international = createFormat( calc, {
