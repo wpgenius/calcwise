@@ -55,7 +55,8 @@ final class Plugin {
 	 * Create every part. Each part registers its own hooks in its constructor.
 	 */
 	private function __construct() {
-		add_action( 'init', array( $this, 'load_textdomain' ) );
+		// Translations load on demand from WP_LANG_DIR/plugins/ (WordPress.org
+		// language packs), so there's no load_plugin_textdomain() call.
 
 		// Everywhere: front end, admin, AJAX, REST, cron.
 		$parts = array(
@@ -84,14 +85,5 @@ final class Plugin {
 	 */
 	public function get( $class_name ) {
 		return isset( $this->parts[ $class_name ] ) ? $this->parts[ $class_name ] : null;
-	}
-
-	/**
-	 * Load translations: WP_LANG_DIR/plugins/ first, then this plugin's languages/ folder.
-	 *
-	 * @return void
-	 */
-	public function load_textdomain() {
-		load_plugin_textdomain( 'calcwise', false, dirname( plugin_basename( CALCWISE_FILE ) ) . '/languages' );
 	}
 }

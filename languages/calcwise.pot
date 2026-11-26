@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-26T08:32:10+00:00\n"
+"POT-Creation-Date: 2026-11-26T09:45:26+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: calcwise\n"
@@ -120,7 +120,7 @@ msgid "Leave empty to show no disclaimer."
 msgstr ""
 
 #: src/Admin/Settings.php:111
-#: src/Calculator/Renderer.php:103
+#: src/Calculator/Renderer.php:111
 msgid "Results are estimates based on the values you enter. They are not financial advice."
 msgstr ""
 
@@ -156,7 +156,7 @@ msgid "You can use:"
 msgstr ""
 
 #: src/Admin/Settings.php:511
-#: blocks/calculator/edit.js:128
+#: build/calculator/index.js:1
 msgid "Starting value"
 msgstr ""
 
@@ -169,7 +169,7 @@ msgid "Highest"
 msgstr ""
 
 #: src/Admin/Settings.php:514
-#: blocks/calculator/edit.js:146
+#: build/calculator/index.js:1
 msgid "Step"
 msgstr ""
 
@@ -191,26 +191,278 @@ msgstr ""
 msgid "Please check the values entered."
 msgstr ""
 
-#: src/Calculator/Renderer.php:198
+#: src/Calculator/Renderer.php:206
 msgctxt "years, short unit after a number"
 msgid "yr"
 msgstr ""
 
-#: src/Calculator/Renderer.php:199
+#: src/Calculator/Renderer.php:207
 msgid "years"
 msgstr ""
 
-#: src/Calculator/Renderer.php:202
+#: src/Calculator/Renderer.php:210
 msgctxt "months, short unit after a number"
 msgid "mo"
 msgstr ""
 
-#: src/Calculator/Renderer.php:203
+#: src/Calculator/Renderer.php:211
 msgid "months"
 msgstr ""
 
-#: src/Calculator/Renderer.php:270
+#: src/Calculator/Renderer.php:278
 msgid "Show the values as a table"
+msgstr ""
+
+#: src/Calculator/Words.php:61
+msgctxt "number in words"
+msgid "One"
+msgstr ""
+
+#: src/Calculator/Words.php:62
+msgctxt "number in words"
+msgid "Two"
+msgstr ""
+
+#: src/Calculator/Words.php:63
+msgctxt "number in words"
+msgid "Three"
+msgstr ""
+
+#: src/Calculator/Words.php:64
+msgctxt "number in words"
+msgid "Four"
+msgstr ""
+
+#: src/Calculator/Words.php:65
+msgctxt "number in words"
+msgid "Five"
+msgstr ""
+
+#: src/Calculator/Words.php:66
+msgctxt "number in words"
+msgid "Six"
+msgstr ""
+
+#: src/Calculator/Words.php:67
+msgctxt "number in words"
+msgid "Seven"
+msgstr ""
+
+#: src/Calculator/Words.php:68
+msgctxt "number in words"
+msgid "Eight"
+msgstr ""
+
+#: src/Calculator/Words.php:69
+msgctxt "number in words"
+msgid "Nine"
+msgstr ""
+
+#: src/Calculator/Words.php:70
+msgctxt "number in words"
+msgid "Ten"
+msgstr ""
+
+#: src/Calculator/Words.php:71
+msgctxt "number in words"
+msgid "Eleven"
+msgstr ""
+
+#: src/Calculator/Words.php:72
+msgctxt "number in words"
+msgid "Twelve"
+msgstr ""
+
+#: src/Calculator/Words.php:73
+msgctxt "number in words"
+msgid "Thirteen"
+msgstr ""
+
+#: src/Calculator/Words.php:74
+msgctxt "number in words"
+msgid "Fourteen"
+msgstr ""
+
+#: src/Calculator/Words.php:75
+msgctxt "number in words"
+msgid "Fifteen"
+msgstr ""
+
+#: src/Calculator/Words.php:76
+msgctxt "number in words"
+msgid "Sixteen"
+msgstr ""
+
+#: src/Calculator/Words.php:77
+msgctxt "number in words"
+msgid "Seventeen"
+msgstr ""
+
+#: src/Calculator/Words.php:78
+msgctxt "number in words"
+msgid "Eighteen"
+msgstr ""
+
+#: src/Calculator/Words.php:79
+msgctxt "number in words"
+msgid "Nineteen"
+msgstr ""
+
+#: src/Calculator/Words.php:84
+msgctxt "number in words"
+msgid "Twenty"
+msgstr ""
+
+#: src/Calculator/Words.php:85
+msgctxt "number in words"
+msgid "Thirty"
+msgstr ""
+
+#: src/Calculator/Words.php:86
+msgctxt "number in words"
+msgid "Forty"
+msgstr ""
+
+#: src/Calculator/Words.php:87
+msgctxt "number in words"
+msgid "Fifty"
+msgstr ""
+
+#: src/Calculator/Words.php:88
+msgctxt "number in words"
+msgid "Sixty"
+msgstr ""
+
+#: src/Calculator/Words.php:89
+msgctxt "number in words"
+msgid "Seventy"
+msgstr ""
+
+#: src/Calculator/Words.php:90
+msgctxt "number in words"
+msgid "Eighty"
+msgstr ""
+
+#: src/Calculator/Words.php:91
+msgctxt "number in words"
+msgid "Ninety"
+msgstr ""
+
+#: src/Calculator/Words.php:93
+msgctxt "number in words"
+msgid "Hundred"
+msgstr ""
+
+#. translators: Joins hundreds and the rest, as in "One Hundred and Five". Translate as a single space if your language has no such word.
+#: src/Calculator/Words.php:95
+msgctxt "number in words"
+msgid "and"
+msgstr ""
+
+#: src/Calculator/Words.php:96
+msgctxt "number in words"
+msgid "Zero"
+msgstr ""
+
+#: src/Calculator/Words.php:97
+msgctxt "number in words"
+msgid "Minus"
+msgstr ""
+
+#: src/Calculator/Words.php:99
+#: src/Calculator/Words.php:105
+msgctxt "number in words"
+msgid "Thousand"
+msgstr ""
+
+#: src/Calculator/Words.php:100
+msgctxt "number in words, 1,00,000"
+msgid "Lakh"
+msgstr ""
+
+#: src/Calculator/Words.php:101
+msgctxt "number in words, 1,00,00,000"
+msgid "Crore"
+msgstr ""
+
+#: src/Calculator/Words.php:106
+msgctxt "number in words"
+msgid "Million"
+msgstr ""
+
+#: src/Calculator/Words.php:107
+msgctxt "number in words"
+msgid "Billion"
+msgstr ""
+
+#: src/Calculator/Words.php:108
+msgctxt "number in words"
+msgid "Trillion"
+msgstr ""
+
+#: src/Calculator/Words.php:109
+msgctxt "number in words"
+msgid "Quadrillion"
+msgstr ""
+
+#: src/Calculator/Words.php:110
+msgctxt "number in words"
+msgid "Quintillion"
+msgstr ""
+
+#: src/Calculator/Words.php:111
+msgctxt "number in words"
+msgid "Sextillion"
+msgstr ""
+
+#: src/Calculator/Words.php:112
+msgctxt "number in words"
+msgid "Septillion"
+msgstr ""
+
+#: src/Calculator/Words.php:113
+msgctxt "number in words"
+msgid "Octillion"
+msgstr ""
+
+#: src/Calculator/Words.php:114
+msgctxt "number in words"
+msgid "Nonillion"
+msgstr ""
+
+#: src/Calculator/Words.php:115
+msgctxt "number in words"
+msgid "Decillion"
+msgstr ""
+
+#: src/Calculator/Words.php:137
+msgctxt "short for thousand, after a number"
+msgid "K"
+msgstr ""
+
+#: src/Calculator/Words.php:138
+msgctxt "short for lakh, after a number"
+msgid "L"
+msgstr ""
+
+#: src/Calculator/Words.php:139
+msgctxt "short for crore, after a number"
+msgid "Cr"
+msgstr ""
+
+#: src/Calculator/Words.php:140
+msgctxt "short for million, after a number"
+msgid "M"
+msgstr ""
+
+#: src/Calculator/Words.php:141
+msgctxt "short for billion, after a number"
+msgid "B"
+msgstr ""
+
+#: src/Calculator/Words.php:142
+msgctxt "short for trillion, after a number"
+msgid "T"
 msgstr ""
 
 #: src/calculators/emi/definition.php:16
@@ -445,72 +697,71 @@ msgstr ""
 msgid "CalcWise: there is no \"%1$s\" calculator. Types: %2$s."
 msgstr ""
 
-#: blocks/calculator/edit.js:59
+#: build/calculator/index.js:1
 msgid "Choose a calculator"
 msgstr ""
 
-#: blocks/calculator/edit.js:74
-#: blocks/calculator/edit.js:103
+#: build/calculator/index.js:1
 msgid "Calculator"
 msgstr ""
 
-#: blocks/calculator/edit.js:120
+#: build/calculator/index.js:1
 msgid "Leave a box empty to use the calculator’s own value."
 msgstr ""
 
-#: blocks/calculator/edit.js:134
+#: build/calculator/index.js:1
 msgid "Lowest value"
 msgstr ""
 
-#: blocks/calculator/edit.js:140
+#: build/calculator/index.js:1
 msgid "Highest value"
 msgstr ""
 
-#: blocks/calculator/edit.js:165
+#: build/calculator/index.js:1
 msgid "CalcWise Calculator"
 msgstr ""
 
 #. translators: %s: calculator type.
-#: blocks/calculator/edit.js:170
+#: build/calculator/index.js:2
 #, js-format
 msgid "The \"%s\" calculator is not available. Choose another one."
 msgstr ""
 
-#: blocks/calculator/edit.js:176
+#: build/calculator/index.js:2
 msgid "Choose which calculator to show."
 msgstr ""
 
-#: blocks/calculator/block.json
+#: build/calculator/block.json
 msgctxt "block title"
 msgid "CalcWise Calculator"
 msgstr ""
 
-#: blocks/calculator/block.json
+#: build/calculator/block.json
 msgctxt "block description"
 msgid "A financial calculator with an animated chart: SIP, lump sum, SWP, goal or EMI."
 msgstr ""
 
-#: blocks/calculator/block.json
+#: build/calculator/block.json
 msgctxt "block keyword"
 msgid "calculator"
 msgstr ""
 
-#: blocks/calculator/block.json
+#: build/calculator/block.json
 msgctxt "block keyword"
 msgid "sip"
 msgstr ""
 
-#: blocks/calculator/block.json
+#: build/calculator/block.json
 msgctxt "block keyword"
 msgid "emi"
 msgstr ""
 
-#: blocks/calculator/block.json
+#: build/calculator/block.json
 msgctxt "block keyword"
 msgid "investment"
 msgstr ""
 
-#: blocks/calculator/block.json
+#: build/calculator/block.json
 msgctxt "block keyword"
 msgid "loan"
 msgstr ""

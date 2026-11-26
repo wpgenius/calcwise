@@ -36,6 +36,12 @@ const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
  */
 export function createFormat( calc, settings ) {
 	const format = settings?.format || {};
+	const i18n = settings?.i18n || {};
+	// Translated words for amountInWords(), when the site isn't in English.
+	const words =
+		i18n.words && typeof i18n.words === 'object' ? i18n.words : undefined;
+	const units =
+		i18n.units && typeof i18n.units === 'object' ? i18n.units : {};
 	const system =
 		format.system === 'international' ? 'international' : 'indian';
 	const currency = {
@@ -48,11 +54,22 @@ export function createFormat( calc, settings ) {
 			calc.formatCurrency( Math.round( value ), currency ),
 		number: ( value ) =>
 			calc.formatNumber( value, { system, decimals: 0 } ),
-		compact: ( value ) => calc.formatCompact( value, { system } ),
-		words: ( value ) =>
-			calc.amountInWords( Math.round( Math.max( 0, value ) ), {
-				system,
-			} ),
+		// The library ends short numbers with an English unit ("2.5L").
+		compact: ( value ) =>
+			calc
+				.formatCompact( value, { system } )
+				.replace( /[A-Za-z]+$/, ( unit ) =>
+					typeof units[ unit ] === 'string' ? units[ unit ] : unit
+				),
+		words: ( value ) => {
+			const amount = Math.round( Math.max( 0, value ) );
+			try {
+				return calc.amountInWords( amount, { system, words } );
+			} catch {
+				// Badly shaped translations: fall back to English.
+				return calc.amountInWords( amount, { system } );
+			}
+		},
 		enabledWords: format.words !== false,
 	};
 }

@@ -247,6 +247,29 @@ describe( 'formatting', () => {
 		).toBe( '1M' );
 	} );
 
+	it( 'uses translated number words and short units', () => {
+		const format = createFormat( calc, {
+			i18n: {
+				words: {
+					ones: [ '', 'Ek', ...Array( 18 ).fill( 'x' ) ],
+					indian: { lakh: 'Laakh' },
+				},
+				units: { L: ' lakh', Cr: ' cr' },
+			},
+		} );
+		expect( format.words( 100000 ) ).toBe( 'Ek Laakh' );
+		expect( format.compact( 250000 ) ).toBe( '2.5 lakh' );
+		expect( format.compact( 12000000 ) ).toBe( '1.2 cr' );
+		expect( format.compact( 5000 ) ).toBe( '5K' );
+	} );
+
+	it( 'falls back to English words when the translations are malformed', () => {
+		const format = createFormat( calc, {
+			i18n: { words: { ones: [ 'too', 'short' ] } },
+		} );
+		expect( format.words( 100000 ) ).toBe( 'One Lakh' );
+	} );
+
 	it( 'labels points with the calendar year they fall in', () => {
 		expect( yearLabel( { month: 0 }, 2026 ) ).toBe( '2026' );
 		expect( yearLabel( { month: 12 }, 2026 ) ).toBe( '2027' );
