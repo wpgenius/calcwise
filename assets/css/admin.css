@@ -2,3 +2,15 @@
 .calcwise-settings .form-table td fieldset label {
 	margin-bottom: 0.25em;
 }
+
+.calcwise-limits {
+	max-width: 760px;
+}
+
+.calcwise-limits th[scope="row"] {
+	width: 30%;
+}
+
+.calcwise-limits input.small-text {
+	width: 8em;
+}

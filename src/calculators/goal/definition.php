@@ -11,6 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 return array(
+	'order'       => 40,
 	'title'       => __( 'Goal calculator', 'calcwise' ),
 	'description' => __( 'The monthly investment needed to reach a goal by a chosen year.', 'calcwise' ),
 	'fields'      => array(

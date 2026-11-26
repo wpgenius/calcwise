@@ -20,6 +20,7 @@ namespace WPGenius\CalcWise\Blocks;
 use WPGenius\CalcWise\Api;
 use WPGenius\CalcWise\Assets;
 use WPGenius\CalcWise\Calculator\Registry;
+use WPGenius\CalcWise\Calculator\Renderer;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -109,7 +110,7 @@ class Blocks extends Api {
 					static function ( $field ) {
 						return array_intersect_key( $field, array_flip( array( 'label', 'unit', 'min', 'max', 'step', 'default' ) ) );
 					},
-					$definition['fields']
+					Renderer::site_fields( $type, $definition )
 				),
 			);
 		}

@@ -12,6 +12,7 @@
 defined( 'ABSPATH' ) || exit;
 
 return array(
+	'order'       => 50,
 	'title'       => __( 'EMI calculator', 'calcwise' ),
 	'description' => __( 'The monthly instalment (EMI) of a loan, and how much of it is interest.', 'calcwise' ),
 	'fields'      => array(

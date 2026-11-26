@@ -145,4 +145,42 @@ class CalculatorRegistryTest extends TestCase {
 		$this->assertSame( array( 'total' => 'Total value' ), $demo['chart']['series'] );
 		$this->assertSame( '', $demo['chart']['label'] );
 	}
+
+	public function test_calculators_are_listed_by_order_then_type() {
+		$this->definitions(
+			array(
+				'zeta'  => array(
+					'fields' => array(
+						'x' => array(
+							'min' => 0,
+							'max' => 1,
+						),
+					),
+				),
+				'beta'  => array(
+					'order'  => 5,
+					'fields' => array(
+						'x' => array(
+							'min' => 0,
+							'max' => 1,
+						),
+					),
+				),
+				'alpha' => array(
+					'fields' => array(
+						'x' => array(
+							'min' => 0,
+							'max' => 1,
+						),
+					),
+				),
+			)
+		);
+
+		$this->assertSame( array( 'beta', 'alpha', 'zeta' ), array_keys( Registry::all() ) );
+	}
+
+	public function test_built_in_calculators_come_in_a_sensible_order() {
+		$this->assertSame( array( 'sip', 'lumpsum', 'swp', 'goal', 'emi' ), array_keys( Registry::all() ) );
+	}
 }
