@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-26T07:51:27+00:00\n"
+"POT-Creation-Date: 2026-11-26T08:11:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: calcwise\n"
@@ -43,37 +43,144 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: src/Admin/Settings.php:51
-msgid "General"
+#: src/Admin/Settings.php:53
+msgid "Numbers and currency"
 msgstr ""
 
-#: src/Admin/Settings.php:52
-msgid "How the calculators look."
+#: src/Admin/Settings.php:54
+msgid "How amounts are written in every calculator."
 msgstr ""
 
-#: src/Admin/Settings.php:56
-msgid "Accent colour"
+#: src/Admin/Settings.php:58
+msgid "Currency symbol"
 msgstr ""
 
-#: src/Admin/Settings.php:62
-msgid "Advanced"
+#: src/Admin/Settings.php:63
+msgid "Symbol position"
 msgstr ""
 
 #: src/Admin/Settings.php:66
-msgid "Delete data on uninstall"
+msgid "Before the amount (₹1,500)"
 msgstr ""
 
 #: src/Admin/Settings.php:67
+msgid "After the amount (1,500 €)"
+msgstr ""
+
+#: src/Admin/Settings.php:72
+msgid "Digit grouping"
+msgstr ""
+
+#: src/Admin/Settings.php:75
+msgid "Indian: 12,34,567 (lakh, crore)"
+msgstr ""
+
+#: src/Admin/Settings.php:76
+msgid "International: 1,234,567 (million, billion)"
+msgstr ""
+
+#: src/Admin/Settings.php:81
+msgid "Amounts in words"
+msgstr ""
+
+#: src/Admin/Settings.php:82
+msgid "Show results in words too, e.g. \"Fifty Eight Lakh\"."
+msgstr ""
+
+#: src/Admin/Settings.php:88
+msgid "Colours"
+msgstr ""
+
+#: src/Admin/Settings.php:92
+msgid "Main colour"
+msgstr ""
+
+#: src/Admin/Settings.php:93
+msgid "Highlighted result, sliders and the first chart series."
+msgstr ""
+
+#: src/Admin/Settings.php:98
+msgid "Second colour"
+msgstr ""
+
+#: src/Admin/Settings.php:99
+msgid "The second chart series."
+msgstr ""
+
+#: src/Admin/Settings.php:105
+msgid "Disclaimer"
+msgstr ""
+
+#: src/Admin/Settings.php:109
+msgid "Text under every calculator"
+msgstr ""
+
+#: src/Admin/Settings.php:110
+msgid "Leave empty to show no disclaimer."
+msgstr ""
+
+#: src/Admin/Settings.php:111
+#: src/Calculator/Renderer.php:103
+msgid "Results are estimates based on the values you enter. They are not financial advice."
+msgstr ""
+
+#. translators: %s: shortcode, e.g. [calcwise type="sip"].
+#: src/Admin/Settings.php:122
+#, php-format
+msgid "Starting values and limits for this calculator everywhere (%s and the block). Leave a box empty to keep the built-in value shown in it. A block or shortcode can still change them."
+msgstr ""
+
+#: src/Admin/Settings.php:128
+msgid "Values"
+msgstr ""
+
+#: src/Admin/Settings.php:137
+msgid "Advanced"
+msgstr ""
+
+#: src/Admin/Settings.php:141
+msgid "Delete data on uninstall"
+msgstr ""
+
+#: src/Admin/Settings.php:142
 msgid "When the plugin is deleted, also delete its settings."
 msgstr ""
 
-#: src/Admin/Settings.php:118
-#: src/Admin/Settings.php:119
+#: src/Admin/Settings.php:192
+#: src/Admin/Settings.php:193
 msgid "CalcWise"
 msgstr ""
 
-#: src/Admin/Settings.php:381
+#: src/Admin/Settings.php:491
 msgid "You can use:"
+msgstr ""
+
+#: src/Admin/Settings.php:511
+#: blocks/calculator/edit.js:128
+msgid "Starting value"
+msgstr ""
+
+#: src/Admin/Settings.php:512
+msgid "Lowest"
+msgstr ""
+
+#: src/Admin/Settings.php:513
+msgid "Highest"
+msgstr ""
+
+#: src/Admin/Settings.php:514
+#: blocks/calculator/edit.js:146
+msgid "Step"
+msgstr ""
+
+#: src/Admin/Settings.php:517
+msgid "Field"
+msgstr ""
+
+#. translators: 1: field name, e.g. "Monthly investment"; 2: column, e.g. "Lowest".
+#: src/Admin/Settings.php:533
+#, php-format
+msgid "%1$s: %2$s"
 msgstr ""
 
 #: src/Calculator/Renderer.php:66
@@ -84,21 +191,17 @@ msgstr ""
 msgid "Please check the values entered."
 msgstr ""
 
-#: src/Calculator/Renderer.php:97
-msgid "Results are estimates based on the values you enter. They are not financial advice."
-msgstr ""
-
-#: src/Calculator/Renderer.php:176
+#: src/Calculator/Renderer.php:195
 msgctxt "years, short unit after a number"
 msgid "yr"
 msgstr ""
 
-#: src/Calculator/Renderer.php:179
+#: src/Calculator/Renderer.php:198
 msgctxt "months, short unit after a number"
 msgid "mo"
 msgstr ""
 
-#: src/Calculator/Renderer.php:242
+#: src/Calculator/Renderer.php:261
 msgid "Show the values as a table"
 msgstr ""
 
@@ -347,20 +450,12 @@ msgstr ""
 msgid "Leave a box empty to use the calculator’s own value."
 msgstr ""
 
-#: blocks/calculator/edit.js:128
-msgid "Starting value"
-msgstr ""
-
 #: blocks/calculator/edit.js:134
 msgid "Lowest value"
 msgstr ""
 
 #: blocks/calculator/edit.js:140
 msgid "Highest value"
-msgstr ""
-
-#: blocks/calculator/edit.js:146
-msgid "Step"
 msgstr ""
 
 #: blocks/calculator/edit.js:165

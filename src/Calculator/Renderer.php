@@ -48,7 +48,7 @@ class Renderer {
 			return '';
 		}
 
-		$fields   = self::fields( $definition['fields'], isset( $args['fields'] ) ? (array) $args['fields'] : array() );
+		$fields   = self::fields( self::site_fields( $type, $definition ), isset( $args['fields'] ) ? (array) $args['fields'] : array() );
 		$format   = self::format();
 		$id       = 'calcwise-' . ( ++self::$count );
 		$settings = array(
@@ -69,10 +69,16 @@ class Renderer {
 		);
 
 		$style = '';
-		$color = sanitize_hex_color( (string) Api::get_setting( 'accent_color', '' ) );
-		if ( $color ) {
-			$style = ' style="--calcwise-accent: ' . esc_attr( $color ) . ';"';
+		foreach ( array(
+			'accent_color'   => '--calcwise-accent',
+			'accent_color_2' => '--calcwise-accent-2',
+		) as $setting => $property ) {
+			$color = sanitize_hex_color( (string) Api::get_setting( $setting, '' ) );
+			if ( $color ) {
+				$style .= $property . ': ' . $color . ';';
+			}
 		}
+		$style = '' === $style ? '' : ' style="' . esc_attr( $style ) . '"';
 
 		$html  = '<div class="calcwise-calculator calcwise-calculator--' . esc_attr( $type ) . '" id="' . esc_attr( $id ) . '"';
 		$html .= ' data-calcwise-type="' . esc_attr( $type ) . '"';
@@ -102,6 +108,19 @@ class Renderer {
 		$html .= '</div>';
 
 		return $html;
+	}
+
+	/**
+	 * A calculator's fields with the site-wide starting values and limits from
+	 * Settings → CalcWise applied (validated like any override).
+	 *
+	 * @param string               $type       Calculator type.
+	 * @param array<string, mixed> $definition Calculator definition.
+	 * @return array<string, array<string, mixed>>
+	 */
+	public static function site_fields( $type, array $definition ) {
+		$site = Api::get_setting( 'limits_' . $type, array() );
+		return self::fields( $definition['fields'], is_array( $site ) ? $site : array() );
 	}
 
 	/**

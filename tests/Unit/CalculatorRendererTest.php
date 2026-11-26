@@ -140,4 +140,18 @@ class CalculatorRendererTest extends TestCase {
 
 		$this->assertNotSame( $first[1], $second[1] );
 	}
+
+	public function test_site_settings_apply_and_instances_can_still_override_them() {
+		$this->demo();
+		Functions\when( 'get_option' )->justReturn(
+			array(
+				'limits_demo'    => array( 'amount' => array( 'default' => 3000 ) ),
+				'accent_color_2' => '#123456',
+			)
+		);
+
+		$this->assertStringContainsString( 'value="3000"', Renderer::render( 'demo' ) );
+		$this->assertStringContainsString( '--calcwise-accent-2: #123456', Renderer::render( 'demo' ) );
+		$this->assertStringContainsString( 'value="7000"', Renderer::render( 'demo', array( 'fields' => array( 'amount' => array( 'default' => 7000 ) ) ) ) );
+	}
 }

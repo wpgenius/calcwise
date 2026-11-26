@@ -75,4 +75,63 @@ class SettingsTest extends TestCase {
 			$this->assertArrayHasKey( 'type', $field, "Field '$key' needs a type." );
 		}
 	}
+
+	public function test_limits_keep_only_numbers_for_the_calculators_own_fields() {
+		$clean = Settings::sanitize_limits(
+			array(
+				'type'       => 'limits',
+				'calculator' => 'sip',
+			),
+			array(
+				'monthlyAmount' => array(
+					'default' => '10000',
+					'min'     => '',
+					'max'     => 'lots',
+				),
+				'years'         => array( 'max' => ' 25 ' ),
+				'principal'     => array( 'default' => '5' ),
+				'annualRate'    => 'not an array',
+			)
+		);
+
+		$this->assertSame(
+			array(
+				'monthlyAmount' => array( 'default' => 10000.0 ),
+				'years'         => array( 'max' => 25.0 ),
+			),
+			$clean
+		);
+	}
+
+	public function test_limits_for_an_unknown_calculator_are_dropped() {
+		$this->assertSame(
+			array(),
+			Settings::sanitize_limits(
+				array(
+					'type'       => 'limits',
+					'calculator' => 'nope',
+				),
+				array( 'x' => array( 'min' => 1 ) )
+			)
+		);
+		$this->assertSame(
+			array(),
+			Settings::sanitize_value(
+				array(
+					'type'       => 'limits',
+					'calculator' => 'sip',
+				),
+				'text'
+			)
+		);
+	}
+
+	public function test_every_calculator_gets_a_limits_section() {
+		Functions\when( 'apply_filters' )->returnArg( 2 );
+
+		$fields = Settings::flat_fields();
+		foreach ( array( 'sip', 'lumpsum', 'swp', 'goal', 'emi' ) as $type ) {
+			$this->assertSame( 'limits', $fields[ 'limits_' . $type ]['type'] );
+		}
+	}
 }
