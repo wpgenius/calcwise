@@ -7,6 +7,7 @@
 
 namespace WPGenius\CalcWise\Tests\Integration;
 
+use WPGenius\CalcWise\Api;
 use WPGenius\CalcWise\Assets;
 
 /**
@@ -42,7 +43,7 @@ class ShortcodeTest extends \WP_UnitTestCase {
 	}
 
 	public function test_escaped_output_keeps_the_settings_and_colours() {
-		update_option( 'calcwise_settings', array_merge( get_option( 'calcwise_settings' ), array( 'accent_color' => '#123456' ) ) );
+		update_option( Api::OPTION, array_merge( Api::get_settings(), array( 'accent_color' => '#123456' ) ) );
 
 		$html = do_shortcode( '[calcwise type="emi"]' );
 
