@@ -17,7 +17,12 @@
 		"env": "wp-env",
 		"test:integration": "wp-env run cli --env-cwd=wp-content/plugins/$(basename \"$PWD\") vendor/bin/phpunit -- -c phpunit-integration.xml.dist",
 		"test:integration:multisite": "wp-env run cli --env-cwd=wp-content/plugins/$(basename \"$PWD\") env WP_MULTISITE=1 vendor/bin/phpunit -- -c phpunit-integration.xml.dist",
-		"test:js": "wp-scripts test-unit-js"
+		"test:js": "wp-scripts test-unit-js",
+		"vendor:financial-calculators": "node bin/vendor-financial-calculators.mjs",
+		"vendor:financial-calculators:check": "node bin/vendor-financial-calculators.mjs --check"
+	},
+	"dependencies": {
+		"@wpgenius/financial-calculators": "^1.1.1"
 	},
 	"devDependencies": {
 		"@wordpress/block-editor": "^20.1.0",

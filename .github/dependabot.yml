@@ -20,8 +20,15 @@ updates:
     schedule:
       interval: monthly
     groups:
+      # The bundled formulas library. To finish its PR: check out the branch,
+      # `bin/update-financial-calculators.sh vX.Y.Z` (or `npm ci &&
+      # npm run vendor:financial-calculators && npm run build`), and commit src/vendor, build/ and the docs (CI fails until then). This one
+      # changes the plugin zip, so it makes a release.
+      financial-calculators:
+        patterns: ['@wpgenius/financial-calculators']
       npm:
         patterns: ['*']
+        exclude-patterns: ['@wpgenius/financial-calculators']
     commit-message:
       prefix: build
     labels:
