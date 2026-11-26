@@ -67,6 +67,14 @@ class Renderer {
 				'error' => __( 'Please check the values entered.', 'calcwise' ),
 			),
 		);
+		$words    = Words::number_words();
+		if ( null !== $words ) {
+			$settings['i18n']['words'] = $words;
+		}
+		$units = Words::units();
+		if ( null !== $units ) {
+			$settings['i18n']['units'] = $units;
+		}
 
 		$style = '';
 		foreach ( array(

@@ -48,4 +48,11 @@ class BlockTest extends \WP_UnitTestCase {
 		$this->assertArrayHasKey( 'principal', $calculators['emi']['fields'] );
 		$this->assertArrayHasKey( 'label', $calculators['emi']['fields']['principal'] );
 	}
+
+	public function test_editor_script_loads_calcwise_translations() {
+		$block  = \WP_Block_Type_Registry::get_instance()->get_registered( Blocks::CALCULATOR );
+		$handle = $block->editor_script_handles[0];
+
+		$this->assertSame( 'calcwise', wp_scripts()->registered[ $handle ]->textdomain );
+	}
 }
